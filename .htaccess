@@ -1,0 +1,7 @@
+AuthType     Basic
+AuthName     "Rinst"
+AuthUserFile /Library/WebServer/Documents/Rinst/.htpasswd
+require valid-user
+<Files ~ "^\.ht">
+   deny from all
+</Files>

@@ -1,0 +1,1519 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="./Rstyle.css" rel="stylesheet">
+<!--<link rel="stylesheet" href="./highlight/styles/default.css">-->
+<link rel="stylesheet" href="./highlight/styles/monokai.css">
+<script src="./highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.4/css/all.css">
+<title>Python-instruction</title>
+</head>
+<body>
+ 
+<div class="lf"></div>
+<div class="main">
+<div class="fil"></div>
+
+<div id="page_top"><a href="#"></a></div> 
+ <a id="top"><h1>&nbsp;Python入門</h1></a>
+ 
+<p>Pythonを使ってグラフを書いたり、データ解析・統計処理をするTipsをまとめます。<br>
+スクリプトで図を描くと、グラフの書き直し、データの差し替え等の手間が省けます。<br>
+また、データに施した処理が見えやすいのでミスが減り、記録に残るので振り返りやすくなります。<br>
+このページの目的は、ひとまず動作する雛形を提供することなので、説明はざっくりです。<br>
+基本的には、スクリプトを.pyファイルに保存してコンソールから実行すれば動きます。
+</p>
+ <h4 align="right" class="td">2020/11/06 Updated</h4>
+
+
+<!-- <h3 class="ty">実践</h3> -->
+<hr>
+<ul>
+<li><a href="#exe">スクリプトの実行</a></li>
+<li><a href="#library">ライブラリ</a></li>
+<li><a href="#graph">グラフを描く</a>
+    <ul>
+    <li><a href="#simple">シンプルなグラフを描く</a></li>
+    <li><a href="#log">片対数グラフを描く</a></li>
+    <li><a href="#csv">csvファイルを読み込んでグラフを描く</a></li>
+    <li><a href="#xlsx">xlsxファイルを読み込んでグラフを描く</a></li>
+    <li><a href="#bar">xlsxファイルを読み込んで棒グラフを描く</a></li>
+    <li><a href="#err">エラーバーをつける</a></li>
+    <li><a href="#fnc">滑らかな関数を描く</a></li>
+    <li><a href="#mlt">複数のグラフを同時に描く</a></li>
+ <!--   <li>２軸のグラフを描く</li>
+    <li>x軸を連結したグラフを描く</li> -->
+    </ul>
+</li>
+<li><a href="#fit">フィッティングする</a>
+    <ul>
+    <li><a href="#peak">ピークをフィッティングする</a></li>
+    <li><a href="#peaksub">データの一部を取り出してフィッティングする</a></li>
+    </ul>
+</li>
+<li><a href="#stat">検定する</a></li>
+<li><a href="#hist">ヒストグラムを作る</a>
+    <ul>
+    <li><a href="#hist1">シンプルなヒストグラムを描く</a></li>
+    <li><a href="#hist2">ヒストグラム化したデータをいじる</a></li>
+    </ul>
+</li>
+<li><a href="#ode">連立微分方程式を解く</a>
+    <ul>
+    <li><a href="#ode1">連立微分方程式を解いて時間発展をプロットする</a></li>
+    <li><a href="#ode2">連立微分方程式を繰り返し解いて10秒後の成分量を俯瞰する</a></li>
+    </ul>
+</li>
+<li><a href="#twod">二次元のカラーマップを描く</a></li>
+</ul>
+ 
+<hr>
+ 
+<ul>
+ <li><a href="#install">インストール</a></li>
+ <li><a href="#rdoc">関数の使い方に困ったら</a></li>
+ <li><a href="#studio">R studioで使う</a></li>
+ <li><a href="#terminal">Terminalで使う</a></li>
+ <li><a href="#colpt">色見本</a></li>
+</ul>
+ 
+  <hr>
+
+ 
+ 
+  <h3><a id="exe" class="tt">スクリプトの実行</a></h3>
+  <p>端末で自分の.pyファイルをコマンドによって呼び出す。そのファイルが存在するフォルダで実行すること。
+  
+<pre>
+<code class="shell ty"> $ python *****.py 
+</code>
+</pre>
+
+<hr>
+
+<h3><a id="library" class="tt">ライブラリ</a></h3>
+<p>
+  Pythonの強みは充実したライブラリ群です。<br>
+  主に使うのは数値計算に便利なNumPy、様々な科学計算が可能なSciPy、プロットに便利なMatplotlib、データ解析に強いPandasあたりです。<br>
+  これらはデフォルトのPythonでは使えないのでpipコマンドで別途インストールする必要があります。
+ </p>
+<code class="shell ty">$ pip install numpy scipy matplotlib pandas </code>
+<p>
+  ライブラリを使うには.pyファイルの冒頭で宣言が必要です。
+</p>
+<code class="python ty">
+  import numpy as np
+  import pandas as pd
+  import matplotlib.pyplot as plt
+  from scipy.optimize import minimize
+</code>
+<p>
+  numpy, pandas, matplotlib.pyplotは省略名としてnp, pd, pltを使うことが慣例になっているので従いましょう。<br>
+  scipyの中のoptimizeモジュールからminimizeというオブジェクトのみを読み込む、といった使い方も可能です。
+</p>
+ <hr>
+ 
+ <h3><a id="graph" class="tt">グラフを書く</a></h3>
+
+ <a id="simple"><h4 class="ty">&#9679;シンプルなグラフを描く</h4></a>
+
+ <img border="0" src="./figs/simpleplot.jpg" width="500"><br>
+
+ <p>上図を描くスクリプトです。
+ <br>
+ ライブラリ(それぞれ様々な機能を持つもの)を導入し、略語を命名します。
+ <br>
+ ここでは、グラフを書くためのmatplotlib.pyplotのみを導入していますが、通常複数を導入します。
+ <br>
+ matplotlib.pyplot(pltと書いてある)を使って、散布図(scatter)を書きます。二つの座標の他、色や形など色々変えられます。
+ <br>
+ ここでは、次に表示するグラフの範囲を指定しています。(xlim,ylimの行)
+ <br>
+ 最後にグラフの出力を要請します。(エラーなく進んでいると、表示されます。)
+ </p>
+ 
+<pre>
+<!-- <code class="ty"> -->
+ <code class="python ty"> 
+  import matplotlib.pyplot as plt
+  #ライブラリ(ここではmatplotlib.pyplot(グラフを書くためのライブラリ))を導入。これをpltと名付けた。
+  
+  
+  plt.scatter(1,2,c="black",marker ="o", s=50,alpha = 0.5)
+  # x座標(必須)、y座標(必須)、カラー、形、大きさ、透明度
+  plt.scatter(2,6,c="red",marker ="^", s=50,alpha = 0.5)
+  
+  plt.scatter(4,8,c="blue",marker ="+", s=50,alpha = 0.5)
+  
+  plt.xlim(0, 5)#表示するグラフのXの最小値、 Xの最大値
+  plt.ylim(0, 10)#表示するグラフのYの最小値、 Yの最大値
+  plt.show()#グラフを表示する。
+</code>
+</pre>
+   
+  
+  
+<a id="log"><h4 class="ty">&#9679;片対数グラフを描く</h4></a>
+   
+    <img border="0" src="./figs/logplot.jpg" width="500"><br>
+   
+   <p><code class="python ty">plt.plot</code>等で点や関数をプロットした後、
+   <code class="python ty">plt.yscale</code>でyスケールを<code class="python ty">"log"</code>にします。
+   </p>
+   
+   <pre><code class="python ty">
+    import matplotlib.pyplot as plt
+　　#ライブラリ(ここではmatplotlib.pyplot(グラフを書くためのライブラリ))を導入.これをpltと名付けた。
+
+　　plt.plot([0,1,2,3],[200,10,3,0.08],marker="o",color="black",linewidth=1)
+　　#x座標の組(必須)、y座標の組(必須)、形、色、外枠の太さ(ここでは、点を結んだ線の太さ)
+
+　　plt.subplots_adjust(top=0.85,bottom=0.25)
+　　#図全体にしめる、グラフの上下左右の端の位置(0が左(下)端、1が右(上)端)。デフォルトでは、left=0.125、right=0.9、bottom=0.1、top=0.9
+
+　　plt.yscale('log')
+
+　　plt.grid(which='major',color='black',linestyle='-')
+　　# グラフに目盛りをつける。
+
+　　plt.show()
+</code></pre>
+
+
+
+ 
+ <a id="csv"><h4 class="ty">&#9679;csvファイルを読み込む</h4></a>
+
+<p>
+ pandasを利用し、csvファイルを読み込む方法を説明する。<br>
+ csvファイル、table1.csvをdfと名前をつけて読み込む。
+</p> 
+ 
+<pre><code class="python ty"> df = pd.read_csv('table1.csv')
+</code></pre>
+
+<p>
+  任意の行だけ抜き出すこともできる。csvファイル内でxという名前の行は
+</p>
+<pre><code class="python ty">a=df["x"]</code></pre>
+<p>
+  で抜き出せる。<br>
+  条件式を使うこともできる。yという行の値が0より大きい場合のみ、xを取り出すとすれば
+</p> 
+<pre><code class="python ty">b=df[df['y']>0]['x']</code></pre>
+
+<p>
+  任意の列を抽出し、グラフを書くことができる。<br>
+</p> 
+<pre><code class="python ty">
+  df = pd.read_csv('table1.csv')
+  x=df['x']
+  y=df['y']
+  plt.scatter(x,y)
+  plt.show()
+</code></pre>
+<img border="0" src="./Python-figs\csvplot1.jpg" width="500"><br>
+
+
+
+
+ <a id="err"><h4 class="ty">&#9679;エラーバーをつける</h4></a>
+ 
+<p>
+  エラーバーは<code class="python ty">plt.errorbar</code>で書く。
+</p>
+
+<pre><code class="python ty">
+ plt.errorbar(3, 6, xerr = 0.5, yerr =0.8 , capsize=3, fmt='.',markersize=10, color="w", markeredgecolor="c", ecolor="b")
+  # プロットする x, y  x, yのエラーバーの大きさ（片方のみでも可)
+  # 以降省略可
+  #　capsize:xのエラーバーが ┣─○─┫ のように表示されるとき、縦線の長さ（yだと横線）
+  #　fmt, markersize: マーカーの形、大きさ
+  #　color, markeredgecolor, ecolor: マーカー、マーカーの縁、エラーバーの色
+</code></pre>
+<img border="0" src="./Python-figs\errorbar.jpg" width="500"><br>
+
+<p>
+  上のcsvファイルからグラフを書いてみる。
+</p>
+<pre><code class="python ty">
+ df = pd.read_csv('table1.csv')
+ x=df['x']
+ y=df['y']
+ x_error=df['x_error']
+ y_error=df['y_error']
+
+ plt.errorbar(x, y, xerr = x_error, yerr = y_error, capsize=3, fmt='.',markersize=10, color="w", markeredgecolor="b", ecolor="b")
+ plt.show()
+</code></pre>
+<img border="0" src="./Python-figs\errorbar2.jpg" width="500"><br>
+
+
+
+ <a id="fnc"><h4 class="ty">&#9679;滑らかな関数を描く</h4></a>
+ 
+  <p><code class="r ty">seq</code>を使ってx座標のベクトルを生成します．これを使って関数をプロットします．
+  <code class="r ty">seq</code>では，指定範囲を<code class="r ty">length</code>（ベクトルの長さ）または<code class="r ty">by</code>（刻み）で分割します．
+ </p>
+
+ <img border="0" src="./figs/plot_function.jpg" width="500"><br>
+ 
+ <pre><code class="r ty">
+ xmin<- 0
+ xmax<- 10
+ ymax<-  2.0
+ ymin<- -2.0
+
+pdf("plot.pdf", width = 16/2.54, height = 10/2.54)
+par(mar = c(3.0, 5.0, 3, 2)) #  余白の広さを行数で指定．下，左，上，右の順．
+par(mgp = c(4, 0.6, 0))        #  余白の使い方．説明，ラベル，軸の位置を行で指定．
+tck = 0.04 # 目盛線の長さ
+cexaxis=1.2
+
+d <- c(1,1)
+plot(d,d,
+      type = 'n',
+      ylim=c(ymin,ymax),
+      xlim=c(xmin,xmax),
+      pch=1,
+      cex=1,
+      xaxt="n",
+      yaxt="n",
+      xaxs="i",
+      yaxs="i",
+      xlab=NA,
+      ylab=NA)
+
+ abline(h=0)
+
+# xminからxmaxまでを500分割する
+ x = seq(xmin,xmax,length=500)
+
+# xに対して関数をプロットする
+ lines (x,sin(x),lwd=2,col="red")
+ lines (x,cos(x)/x,lwd=2,col="blue")
+ lines (x,x**cos(3*x)/10,lwd=2,col="magenta")
+
+#x軸
+  axis(side=1,
+       las=FALSE,
+       tck=tck,
+       cex.axis=cexaxis,
+       family="sans",)
+  
+#y軸
+axis(side=2, 
+     las=TRUE, 
+     tck=tck, 
+     cex.axis=cexaxis,
+     family="sans",
+)
+
+box()
+dev.off()
+ </code></pre>
+
+ 
+ 
+  <a id="mlt"><h4 class="ty">&#9679;複数のグラフを同時に描く</h4></a>
+ 
+ <p><code class="r ty">split.screen</code>で画面を分割できます．同じ大きさのグラフを同時に描くことができます．
+ <code class="r ty">screen(1)</code>のように宣言すると，1番目の画面に図を描くので，これを単純に繰り返します．
+ </p>
+
+ <img border="0" src="./figs/plot_4win.jpg" width="600"><br>
+ 
+<pre><code class="r ty"> 
+ xmin<- 0
+ xmax<- 10
+ ymax<-  2.0
+ ymin<- -2.0
+
+pdf("plot.pdf", width = 25/2.54, height = 16/2.54)
+
+marc = c(3, 4, 2, 3)  #  余白の広さを行数で指定．下，左，上，右の順．
+mgpc = c(3, 0.6, 0)  #  余白の使い方．説明，ラベル，軸の位置を行で指定．
+tck = 0.04 # 目盛線の長さ
+cexaxis=1.2
+
+#画面を2x2に分割する
+split.screen(figs = c(2, 2))
+
+#画面1に以下を描く
+screen(1)
+
+par(mar = marc)
+par(mgp = mgpc)
+
+d <- c(1,1)
+plot(d,d,type = 'n',xlab=NA,ylab=NA,xaxt="n",yaxt="n",
+      ylim=c(ymin,ymax),
+      xlim=c(xmin,xmax),
+      xaxs="i",
+      yaxs="i",
+)
+
+ abline(h=0)
+
+# xminからxmaxまでを500分割する
+ x = seq(xmin,xmax,length=500)
+
+# xに対して関数をプロットする
+ lines (x,sin(x),lwd=2,col="red")
+
+#x軸
+  axis(side=1,
+       las=FALSE,
+       tck=tck,
+       cex.axis=cexaxis,
+       family="sans",)
+  
+#y軸
+axis(side=2, 
+     las=TRUE, 
+     tck=tck, 
+     cex.axis=cexaxis,
+     family="sans",
+)
+
+box()
+
+
+
+#画面2に以下を描く
+screen(2)
+
+par(mar = marc)
+par(mgp = mgpc)
+
+d <- c(1,1)
+plot(d,d,type = 'n',xlab=NA,ylab=NA,xaxt="n",yaxt="n",
+      ylim=c(ymin,ymax),
+      xlim=c(xmin,xmax),
+      xaxs="i",
+      yaxs="i",
+)
+
+ abline(h=0)
+
+# xminからxmaxまでを500分割する
+ x = seq(xmin,xmax,length=500)
+
+# xに対して関数をプロットする
+ lines (x,cos(x)/x,lwd=2,col="blue")
+
+#x軸
+  axis(side=1,
+       las=FALSE,
+       tck=tck,
+       cex.axis=cexaxis,
+       family="sans",)
+  
+#y軸
+axis(side=2, 
+     las=TRUE, 
+     tck=tck, 
+     cex.axis=cexaxis,
+     family="sans",
+)
+
+box()
+
+
+
+#画面3に以下を描く
+screen(3)
+
+par(mar = marc)
+par(mgp = mgpc)
+
+d <- c(1,1)
+plot(d,d,type = 'n',xlab=NA,ylab=NA,xaxt="n",yaxt="n",
+      ylim=c(ymin,ymax),
+      xlim=c(xmin,xmax),
+      xaxs="i",
+      yaxs="i",
+)
+
+ abline(h=0)
+
+# xminからxmaxまでを500分割する
+ x = seq(xmin,xmax,length=500)
+
+# xに対して関数をプロットする
+ lines (x,x**cos(3*x)/10,lwd=2,col="magenta")
+
+#x軸
+  axis(side=1,
+       las=FALSE,
+       tck=tck,
+       cex.axis=cexaxis,
+       family="sans",)
+  
+#y軸
+axis(side=2, 
+     las=TRUE, 
+     tck=tck, 
+     cex.axis=cexaxis,
+     family="sans",
+)
+
+box()
+
+
+
+#画面4に以下を描く
+screen(4)
+
+par(mar = marc)
+par(mgp = mgpc)
+
+d <- c(1,1)
+plot(d,d,type = 'n',xlab=NA,ylab=NA,xaxt="n",yaxt="n",
+      ylim=c(ymin,ymax),
+      xlim=c(xmin,xmax),
+      xaxs="i",
+      yaxs="i",
+)
+
+ abline(h=0)
+
+# xminからxmaxまでを500分割する
+ x = seq(xmin,xmax,length=500)
+
+# xに対して関数をプロットする
+ lines (x,exp(-(x-3)**2)-exp(-(x-7)**2),lwd=2,col="#31E21F")
+
+#x軸
+  axis(side=1,
+       las=FALSE,
+       tck=tck,
+       cex.axis=cexaxis,
+       family="sans",)
+  
+#y軸
+axis(side=2, 
+     las=TRUE, 
+     tck=tck, 
+     cex.axis=cexaxis,
+     family="sans",
+)
+
+box()
+
+dev.off()
+</code></pre>
+
+<!-- 
+ <h4 class="ty">&#9679;２軸のグラフを描く</h4>
+ <h4 class="ty">&#9679;x軸を連結したグラフを描く</h4>
+-->
+
+
+ <br><br><a href="#top">Back to TOP</a>
+  <hr>
+
+
+
+ <h3><a id="fit" class="tt">フィッティングする</a></h3>
+
+ <a id="peak"><h4 class="ty">&#9679;ピークをフィッティングする</h4></a>
+
+ <img border="0" src="./figs/fitting1.jpg" width="600"><br>
+
+ <p>上図を描くスクリプトです．</p>
+ 
+ <p><a href="./figs/testdata_peak.csv" target="_blank">デモデータ（testdata_peak.csv）</a></p>
+
+<pre><code class="r ty"> 
+# 必要に応じて最初に install.packages("nlme")
+library(nlme)
+
+# plot parameters
+xmin<-  0.0
+xmax<-  300.0
+ymax<-  300.0
+ymin<-  0.0
+
+
+pdf("fitting_.pdf", width = 20/2.54, height = 12/2.54)
+par(mar = c(4.5, 4.5, 2.5, 2.5)) #  余白の広さを行数で指定．下，左，上，右の順．
+par(mgp = c(4, 1.2, 0))        #  余白の使い方．説明，ラベル，軸の位置を行で指定．
+tck = -0.03 # 目盛線の長さ
+cexaxis=1.2
+
+d <- c(1,1)
+plot(d,d,
+      type = 'n',
+      ylim=c(ymin,ymax),
+      xlim=c(xmin,xmax), 
+      pch=1,
+      cex=1, 
+      xaxt="n", 
+      yaxt="n", 
+      xaxs="r", 
+      yaxs="r", 
+      xlab=NA, 
+      ylab=NA,)
+
+
+# データを読み込む
+da <- read.csv('testdata_peak.csv',header=F,skip=0)
+
+# エラーバーを描く
+arrows (da$V1,da$V2-sqrt(da$V2)/2,da$V1,da$V2+sqrt(da$V2)/2, col="black",code = 3, lwd = 1, angle = 90, length = 0.03)
+# 点をプロットする
+points (da$V1,da$V2, col="black", cex=1.0,pch= 1,lty=1, lwd=1)
+
+# 回帰曲線（非線形最小二乗法）
+fit = gnls(
+V2 ~ a + b*exp(-c*(V1-d)**2), #フィッティングする式
+data = da, #どのデータをつかうか
+start = list( a=10.0, b=200.0, c=0.01, d=120.0), #初期値
+weights = varPower(fixed=0.5), #おまじない
+control = list(nlsTol=1e-5) #収束の判定
+)
+
+# フィッテイング結果の情報を出力
+print(summary(fit))
+
+
+# フィッテイングした結果の曲線をグラフに書く
+xx <- seq(xmin,xmax,length=300)
+prefit = predict(fit, newdata=data.frame("V1"=xx))
+lines(xx,prefit,col="red",lty=1,lwd=3)
+
+axis(side=1, 
+     las=FALSE,
+     tck=tck, 
+     cex.axis=cexaxis, 
+     family="sans",)
+
+axis(side=2, 
+     las=TRUE, 
+     tck=tck, 
+     cex.axis=cexaxis,
+     family="sans",
+)
+
+box()
+dev.off()
+</pre>
+ </code> 
+
+
+
+<p>Rコンソールでの出力（フィッティング結果の情報）</p>
+<pre><code class="nohighlight ty">
+Generalized nonlinear least squares fit
+  Model: V2 ~ a + b * exp(-c * (V1 - d)^2)
+  Data: da
+       AIC      BIC    logLik
+  1739.886 1758.405 -864.9429
+
+Variance function:
+ Structure: Power of variance covariate
+ Formula: ~fitted(.)
+ Parameter estimates:
+power
+  0.5
+
+Coefficients:
+      Value Std.Error   t-value p-value
+a  30.54003 0.2512761  121.5398       0
+b 204.19678 2.2980325   88.8572       0
+c   0.00256 0.0000472   54.2655       0
+d 150.13128 0.1432365 1048.1359       0
+
+ Correlation:
+  a      b      c
+b -0.031
+c  0.267  0.573
+d -0.001  0.002 -0.007
+
+Standardized residuals:
+        Min          Q1         Med          Q3         Max
+-2.85535739 -0.89278584  0.08398119  0.83289111  1.80946192
+
+Residual standard error: 0.6736835
+Degrees of freedom: 300 total; 296 residual
+</code></pre>
+
+
+
+
+ <a id="peaksub"><h4 class="ty">&#9679;一部のピークのみ抜き出してフィッティングする</h4></a>
+
+ <img border="0" src="./figs/plot_peaksub.jpg" width="600"><br>
+
+ <p><code class="r ty">subset</code>を使って，フィッティング専用のデータフレームを作ればよい．</p>
+ 
+ <p><a href="./figs/testdata_peaksub.csv" target="_blank">デモデータ（testdata_peaksub.csv）</a></p>
+
+<pre>
+ <code class="r ty"> 
+# 必要に応じて最初に install.packages("nlme")
+library(nlme)
+
+# plot parameters
+xmin<-  0.0
+xmax<-  300.0
+ymax<-  120.0
+ymin<-  0.0
+
+pdf("plot_.pdf", width = 20/2.54, height = 12/2.54)
+par(mar = c(4.5, 4.5, 2.5, 2.5)) #  余白の広さを行数で指定．下，左，上，右の順．
+par(mgp = c(4, 1.2, 0))        #  余白の使い方．説明，ラベル，軸の位置を行で指定．
+tck = -0.03 # 目盛線の長さ
+cexaxis=1.2
+
+d <- c(1,1)
+plot(d,d,
+      type = 'n',
+      ylim=c(ymin,ymax),
+      xlim=c(xmin,xmax), 
+      pch=1,
+      cex=1, 
+      xaxt="n", 
+      yaxt="n", 
+      xaxs="r", 
+      yaxs="r", 
+      xlab=NA, 
+      ylab=NA,)
+
+da <- read.csv('testdata_peaksub.csv',header=F,skip=0)
+
+arrows (da$V1,da$V2-sqrt(da$V2)/2,da$V1,da$V2+sqrt(da$V2)/2, col="black",code = 3, lwd = 1, angle = 90, length = 0.03)
+points (da$V1,da$V2, col="black", cex=1.0,pch= 1,lty=1, lwd=1)
+
+#１列目がfxmnからfxmxまでのデータを抜き出す
+fxmn = 90
+fxmx = 150
+sa <- subset(da,da$V1>=fxmn & da$V1 <=fxmx)
+
+#フィッティングする範囲をグラフに描いておく
+abline(v=fxmn,col="#FF922B",lwd=1)
+abline(v=fxmx,col="#FF922B",lwd=1)
+arrows(fxmn,ymax*0.95,fxmx,ymax*0.95,code=3,length = 0.10,col="#FF922B")
+
+
+# 回帰曲線（非線形最小二乗法）
+fit = gnls(
+V2 ~ a + b*exp(-c*(V1-d)**2), #フィッティングする式
+data = sa, #どのデータをつかうか
+start = list( a=10.0, b=200.0, c=0.01, d=120.0), #初期値
+weights = varPower(fixed=0.5), #おまじない
+control = list(nlsTol=1e-5) #収束の判定
+)
+print( "==============================================================" )
+# フィッテイング結果の情報を出力
+print(summary(fit))
+print( "==============================================================" )
+# フィッテイングした結果の曲線をグラフに書く
+xx <- seq(fxmn,fxmx,length=300)
+prefit = predict(fit, newdata=data.frame("V1"=xx))
+lines(xx,prefit,col="red",lty=1,lwd=3)
+
+
+axis(side=1, 
+     las=FALSE,
+     tck=tck, 
+     cex.axis=cexaxis, 
+     family="sans",)
+
+
+axis(side=2, 
+     las=TRUE, 
+     tck=tck, 
+     cex.axis=cexaxis,
+     family="sans",
+)
+
+
+
+box()
+dev.off()
+</pre>
+ </code> 
+
+
+
+
+ <br><br><a href="#top">Back to TOP</a>
+  <hr>
+
+
+ <h3><a id="stat" class="tt">検定する</a></h3>
+<p>
+検定は様々な関数が用意されています．実行すると，結果と付随する情報が出力されます．<br>
+ここでは，親データから何らかの条件でフィルターして検定するスクリプトを紹介します．
+</p>
+ 
+<p><a href="./figs/testdata.csv" target="_blank">デモデータ（testdata.csv）</a></p>
+
+
+<p>スクリプト</p>
+<pre>
+<code class="r ty"> 
+data <- read.csv('testdata.csv',header=F,skip=0)
+
+# dataから１列目が１であるものを抜き出す
+sdata <- subset(data, data$V1 == 1 ,  c(V2,V3,V4,V5))
+
+print( "==============================================================" )
+# 読みこんだデータの概要
+print(summary(data))
+print( "==============================================================" )
+# t検定
+print( t.test(sdata$V2,sdata$V3,var.equal=T) )
+print( "==============================================================" )
+# F検定
+print( var.test(sdata$V2,sdata$V5,var.equal=T) )
+print( "==============================================================" )
+# 無相関検定
+print( cor.test(sdata$V2,sdata$V3,method="pearson") )
+print( "==============================================================" )
+</code>
+</pre>
+
+<p>出力結果</p>
+<pre>
+<code class="nohighlight ty"> 
+> source('rscript.r')
+[1] "=============================================================="
+       V1              V2                  V3                 V4
+ Min.   :0.000   Min.   :0.0000567   Min.   :0.001791   Min.   :-0.03723
+ 1st Qu.:2.000   1st Qu.:0.2374926   1st Qu.:0.245031   1st Qu.: 0.23094
+ Median :4.000   Median :0.4798864   Median :0.479479   Median : 0.47874
+ Mean   :3.925   Mean   :0.4877129   Mean   :0.499339   Mean   : 0.48765
+ 3rd Qu.:6.000   3rd Qu.:0.7497028   3rd Qu.:0.756424   3rd Qu.: 0.74319
+ Max.   :8.000   Max.   :0.9989265   Max.   :0.998886   Max.   : 1.03703
+       V5                  V6               V7
+ Min.   :0.0001928   Min.   :0.0000535   Mode:logical
+ 1st Qu.:0.4642972   1st Qu.:0.1902790   NA's:1000
+ Median :0.8321843   Median :0.3755209
+ Mean   :0.6986144   Mean   :0.3765137
+ 3rd Qu.:0.9751899   3rd Qu.:0.5464797
+ Max.   :0.9999283   Max.   :0.8383903
+[1] "=============================================================="
+
+	Two Sample t-test
+
+data:  sdata$V2 and sdata$V3
+t = -1.8449, df = 234, p-value = 0.06632
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -0.148015188  0.004861086
+sample estimates:
+mean of x mean of y
+0.4536442 0.5252212
+
+[1] "=============================================================="
+
+	F test to compare two variances
+
+data:  sdata$V2 and sdata$V5
+F = 0.79422, num df = 117, denom df = 117, p-value = 0.2142
+alternative hypothesis: true ratio of variances is not equal to 1
+95 percent confidence interval:
+ 0.5518048 1.1431384
+sample estimates:
+ratio of variances
+         0.7942224
+
+[1] "=============================================================="
+
+	Pearson's product-moment correlation
+
+data:  sdata$V2 and sdata$V3
+t = -0.77048, df = 116, p-value = 0.4426
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ -0.2489039  0.1108340
+sample estimates:
+        cor
+-0.07135488
+[1] "=============================================================="
+</code>
+</pre>
+ 
+
+
+ <br><br><a href="#top">Back to TOP</a>
+
+   <hr>
+
+ 
+ 
+ <h3><a id="hist" class="tt">ヒストグラムを作る</a></h3>
+
+ <a id="hist1"><h4 class="ty">&#9679;シンプルなヒストグラムを描く</h4></a>
+
+ <img border="0" src="./figs/hist_a.jpg" width="600"><br>
+
+ <p>上図を描くスクリプトです．
+ <br>
+ hist関数でヒストグラム化すると同時にグラフも書きます．
+ </p>
+ <p><a href="./figs/testdata_hist.csv" target="_blank">デモデータ（testdata_hist.csv）</a></p>
+
+<pre><code class="r ty">
+# plot area
+ xmax<- 300
+ xmin<- 0
+ ymax<- 60
+ ymin<- 0
+
+pdf("hist_.pdf", width = 30/2.54, height = 15/2.54)
+par(mar = c(3.0, 8.0, 2, 2)) #  余白の広さを行数で指定．下，左，上，右の順．
+par(mgp = c(4, 1.2, 0))        #  余白の使い方．説明，ラベル，軸の位置を行で指定．
+tck = -0.04 # 目盛線の長さ
+cexaxis=1.5
+
+d <- c(0,0)
+plot(d,d,
+      type = 'n',
+      ylim=c(ymin,ymax),
+      xlim=c(xmin,xmax),
+      pch=1,
+      cex=1,
+      xaxt="n",
+      yaxt="n",
+      xaxs="r",
+      xlab=NA,
+      ylab=NA)
+
+# データを読み込む
+ data <- read.csv('testdata_hist.csv',header=F,skip=0)
+
+# ２列目をヒストグラム化する．breaksにbinの数を入れる．prob=Tとすると面積が規格化される
+ hist1 <- hist(data$V2, col = "#FFA903", border = "#FFA903", breaks =  100, add=T, lwd=1, prob=F, plot=T)
+
+  yrange <- c(xmin,xmax) # 範囲
+  tickValues <- pretty(yrange) # 自動で区分け
+  tickStrings <- sprintf("%.0f",tickValues) # 小数点以下3桁まで表示
+  axis(side=1,
+       las=FALSE,
+       tck=tck,
+       cex.axis=cexaxis,
+       at=tickValues,
+       labels=tickStrings,
+       family="sans",)
+  
+  yrange <- c(ymin,ymax) # 範囲
+  tickValues <- pretty(yrange) # 自動で区分け
+  tickStrings <- sprintf("%.0f",tickValues) # 小数点以下3桁まで表示
+  axis(side=2,
+       las=TRUE,
+       tck=tck,
+       cex.axis=cexaxis,
+       family="sans",
+       at=tickValues,
+       labels=tickStrings,
+  )
+  
+box()
+dev.off()
+</pre></code>
+
+ <a id="hist2"><h4 class="ty">&#9679;ヒストグラム化したデータをいじる</h4></a>
+
+ <img border="0" src="./figs/hist_b.jpg" width="600"><br>
+
+ <p>上図を描くスクリプトです．
+ <br>
+ hist関数でヒストグラム化し，binごとの点をプロットし，エラーバーをつけます．
+ </p>
+ <p><a href="./figs/testdata_hist.csv" target="_blank">デモデータ（testdata_hist.csv）</a></p>
+
+<pre><code class="r ty">
+# plot area
+ xmax<- 300
+ xmin<- 0
+ ymax<- 60
+ ymin<- 0
+
+pdf("hist_.pdf", width = 30/2.54, height = 15/2.54)
+par(mar = c(3.0, 8.0, 2, 2)) #  余白の広さを行数で指定．下，左，上，右の順．
+par(mgp = c(4, 1.2, 0))        #  余白の使い方．説明，ラベル，軸の位置を行で指定．
+tck = -0.04 # 目盛線の長さ
+cexaxis=1.5
+
+d <- c(0,0)
+plot(d,d,
+      type = 'n',
+      ylim=c(ymin,ymax),
+      xlim=c(xmin,xmax),
+      pch=1,
+      cex=1,
+      xaxt="n",
+      yaxt="n",
+      xaxs="r",
+      xlab=NA,
+      ylab=NA)
+
+#データを読み込む
+ data <- read.csv('testdata_hist.csv',header=F,skip=0)
+#２列目をヒストグラム化，プロットはしない
+ hist1 <- hist(data$V2, breaks =  100, plot=F)
+#binの中央の位置に，集計された数をプロットする
+ points (hist1$mids,hist1$counts, lwd = 1, pch=21, col="black", bg="black",cex=0.5)
+#エラーバーをつける
+ arrows (hist1$mids,hist1$counts-sqrt(hist1$counts),hist1$mids,hist1$counts+sqrt(hist1$counts),code=3,lwd=1,angle=90,length=0.03)
+
+
+  yrange <- c(xmin,xmax) # 範囲
+  tickValues <- pretty(yrange) # 自動で区分け
+  tickStrings <- sprintf("%.0f",tickValues) # 小数点以下3桁まで表示
+  
+  axis(side=1,
+       las=FALSE,
+       tck=tck,
+       cex.axis=cexaxis,
+       at=tickValues,
+       labels=tickStrings,
+       family="sans",)
+  
+  yrange <- c(ymin,ymax) # 範囲
+  tickValues <- pretty(yrange) # 自動で区分け
+  tickStrings <- sprintf("%.0f",tickValues) # 小数点以下3桁まで表示
+  axis(side=2,
+       las=TRUE,
+       tck=tck,
+       cex.axis=cexaxis,
+       family="sans",
+       at=tickValues,
+       labels=tickStrings,
+  )
+
+box()
+dev.off()
+</pre></code>
+
+
+
+
+
+
+<br><br><a href="#top">Back to TOP</a>
+
+   <hr>
+
+ 
+ 
+ <h3><a id="ode" class="tt">連立微分方程式を解く</a></h3>
+ 
+ <a id="ode1"><h4 class="ty">&#9679;連立微分方程式を解いて時間発展をプロットする</h4></a>
+
+<p>下図のように，３つの成分の時間発展を計算して，その変化をグラフに表示するスクリプトを紹介します．
+<br>
+解くべき方程式を自作の関数に書き込み，時間ステップを指定してode関数によって解きます．
+<br>答えは行列に成分の順番に格納されているので，これをlines関数でプロットしています．
+</p>
+
+<img border="1" src="./figs/ode_note.jpg" width="600"><br>
+
+<pre>
+ <code class="r ty"> 
+# 使う前に install.packages("deSolve") 
+
+library(deSolve)
+
+# プロットする範囲
+ xmin<- 0
+ xmax<- 20
+ ymax<- 1.0
+ ymin<-  0
+
+# グラフをpdfで出力
+pdf("ode_eg.pdf", width = 15/2.54, height = 12/2.54)
+
+par(mar = c(5.0, 5.0, 3, 3)) #  余白の広さを行数で指定．下，左，上，右の順．
+par(mgp = c(4, 1.2, 0))        #  余白の使い方．説明，ラベル，軸の位置を行で指定．
+tck = -0.04 # 目盛線の長さ
+cexaxis=1.2
+
+# グラフエリアだけ準備する
+d <- c(0,0)
+plot(d,d,
+      type = 'n',
+      ylim=c(ymin,ymax),
+      xlim=c(xmin,xmax),
+      pch=1,
+      cex=1,
+      xaxt="n",
+      yaxt="n",
+      xaxs="i",
+      yaxs="i",
+      xlab=NA,
+      ylab=NA)
+
+# 速度定数の定義　
+  rab <- 1.0
+  rba <- 0.5
+  rbc <- 0.2
+# ここに解きたい方程式を書く
+  myfunc <- function(t,y,parms){
+   dy1 <- - rab*y[1] + rba*y[2]
+   dy2 <-   rab*y[1] - rba*y[2] - rbc*y[2]
+   dy3 <-   rbc*y[2]
+   list(c(dy1,dy2,dy3))
+ }
+
+# 初期値
+  yini <- c(y1=1, y2=0,y3=0)
+# 時間の刻み（0--20まで，0.01刻み）
+  tgrid <- seq(0, 20, by=0.01)
+# 微分方程式を解いた結果
+  out <- ode (times = tgrid, y=yini, func = myfunc, parms=NULL)
+# 解が得られているか出力
+  print( head(out,n=10) )
+
+# out[,1]に時間が，y1=[,2], y2=[,3], ...と格納されている
+  lines(out[,1], out[,2], col="#F73149", lty=1, lwd=2)
+  lines(out[,1], out[,3], col="#0094F7", lty=2, lwd=2)
+  lines(out[,1], out[,4], col="#F74AE6", lty=3, lwd=2)
+
+# 軸を書く
+  yrange <- c(xmin,xmax) # 範囲
+  tickValues <- pretty(yrange) # 自動で区分け
+  tickStrings <- sprintf("%.0f",tickValues) # 小数点以下0桁まで表示
+  
+# X軸
+  axis(side=1,
+       las=FALSE,
+       tck=tck,
+       cex.axis=cexaxis,
+       at=tickValues,
+       labels=tickStrings,
+       family="sans",)
+  
+
+  yrange <- c(ymin,ymax) # 範囲
+  tickValues <- pretty(yrange) # 自動で区分け
+  tickStrings <- sprintf("%.1f",tickValues) # 小数点以下1桁まで表示
+  
+# Y軸
+  axis(side=2,
+       las=TRUE,
+       tck=tck,
+       cex.axis=cexaxis,
+       family="sans",
+       at=tickValues,
+       labels=tickStrings,
+  )
+  
+
+box()
+dev.off()
+ </code>
+</pre>
+ 
+
+
+
+ <a id="ode2"><h4 class="ty">&#9679;連立微分方程式を繰り返し解いて10秒後の成分量を俯瞰する</h4></a>
+
+
+<p><code class="r ty">for</code>ループを使って速度定数を変えながら繰り返し解き，10秒後の成分量を記録します．
+試行回数に対して各成分量と目標値との差分（の和）をプロットして俯瞰し，条件を満たす速度定数を探します．
+結果は <code class="r ty">write.table</code>で出力します．
+</p>
+
+ <img border="0" src="./figs/ode_find2.jpg" width="600"><br>
+ 
+<pre><code class="r ty"> 
+# 使う前に install.packages("deSolve") 
+
+library(deSolve)
+
+# プロットする範囲
+ xmin<- 0
+ xmax<- 216
+ ymax<- 1.2
+ ymin<-  0
+
+# グラフをpdfで出力
+pdf("ode_eg.pdf", width = 20/2.54, height = 12/2.54)
+
+par(mar = c(5.0, 5.0, 3, 3)) #  余白の広さを行数で指定．下，左，上，右の順．
+par(mgp = c(4, 1.2, 0))        #  余白の使い方．説明，ラベル，軸の位置を行で指定．
+tck = -0.04 # 目盛線の長さ
+cexaxis=1.2
+
+# グラフエリアだけ準備する
+d <- c(0,0)
+plot(d,d,
+      type = 'n',
+      ylim=c(ymin,ymax),
+      xlim=c(xmin,xmax),
+      pch=1,
+      cex=1,
+      xaxt="n",
+      yaxt="n",
+      xaxs="i",
+      yaxs="i",
+      xlab=NA,
+      ylab=NA)
+
+n=8
+df <- data.frame(matrix(rep(NA, n), nrow=1))[numeric(0), ]
+colnames(df) <- c("ic","rab","rba","rbc","t","y1","y2","y3")
+
+nab = 6
+nba = 6
+nbc = 6
+ic = 0
+for (i in 1:nab){
+for (j in 1:nba){
+for (k in 1:nbc){
+ic = ic +1
+print(ic)
+
+# 速度定数の定義　
+  rab <- 0.05 + 0.05*(i-1)
+  rba <- 0.05 + 0.05*(j-1)
+  rbc <- 0.05 + 0.05*(k-1)
+# ここに解きたい方程式を書く
+  myfunc <- function(t,y,parms){
+   dy1 <- - rab*y[1] + rba*y[2]
+   dy2 <-   rab*y[1] - rba*y[2] - rbc*y[2]
+   dy3 <-   rbc*y[2]
+   list(c(dy1,dy2,dy3))
+ }
+
+# 初期値
+  yini <- c(y1=1, y2=0,y3=0)
+# 時間の刻み（0--10まで，0.01刻み）
+  nl =  1000
+  tgrid <- seq(0, 10, length=nl)
+# 微分方程式を解いた結果
+  out <- ode (times = tgrid, y=yini, func = myfunc, parms=NULL)
+# t=10の値をデータフレームに保存する
+  df[ic,] <- c(ic,rab,rba,rbc,out[nl,"time"],out[nl,"y1"],out[nl,"y2"],out[nl,"y3"])
+
+} # k
+} # j
+} # i
+
+# 解が得られているか出力
+  print( head(df,n=10) )
+
+# 試行回数icに対してそれぞれの値をプロットする
+  points (df$ic,df$y1, col="#F73149", lty=1, lwd=2, pch=1)
+  points (df$ic,df$y2, col="#0094F7", lty=1, lwd=2, pch=1)
+  points (df$ic,df$y3, col="#4FE50C", lty=1, lwd=2, pch=1)
+# 目標値との差分の和を折れ線でプロットする
+  y1goal = 0.6
+  y2goal = 0.1
+  y3goal = 0.3
+  lines  (df$ic,(abs(df$y1-y1goal)+abs(df$y2-y2goal)+abs(df$y3-y3goal)), col="#aaaaaa", lty=1, lwd=2)
+  points (df$ic,(abs(df$y1-y1goal)+abs(df$y2-y2goal)+abs(df$y3-y3goal)), col="#aaaaaa",bg="#aaaaaa", lty=1, lwd=2, pch=21, cex=0.6)
+# データフレームをファイルに出力する
+  write.table(df, "df.csv", append = F, sep = ",", row.names = T, quote = F)
+
+# 軸を書く
+  yrange <- c(xmin,xmax) # 範囲
+  tickValues <- pretty(yrange) # 自動で区分け
+  tickStrings <- sprintf("%.0f",tickValues) # 小数点以下3桁まで表示
+  
+# X軸
+  axis(side=1,
+       las=FALSE,
+       tck=tck,
+       cex.axis=cexaxis,
+       at=tickValues,
+       labels=tickStrings,
+       family="sans",)
+  
+  yrange <- c(ymin,ymax) # 範囲
+  tickValues <- pretty(yrange) # 自動で区分け
+  tickStrings <- sprintf("%.1f",tickValues) # 小数点以下3桁まで表示
+  
+# Y軸
+  axis(side=2,
+       las=TRUE,
+       tck=tck,
+       cex.axis=cexaxis,
+       family="sans",
+       at=tickValues,
+       labels=tickStrings,
+  )
+  
+box()
+dev.off()
+</code></pre>
+
+<p>出力ファイルの冒頭（df.csv）</p>
+
+<pre><code class="nohighlight ty">ic,rab,rba,rbc,t,y1,y2,y3
+1,1,0.05,0.05,0.05,10,0.672455090343185,0.24867813151177,0.0788667781450439
+2,2,0.05,0.05,0.1,10,0.663401652541804,0.199655832272703,0.136942515185491
+3,3,0.05,0.05,0.15,10,0.656176660881707,0.163454654312053,0.180368684806239
+4,4,0.05,0.05,0.2,10,0.650341130450326,0.13630446889027,0.213354400659401
+5,5,0.05,0.05,0.25,10,0.645572576632117,0.115617998761016,0.238809424606866
+6,6,0.05,0.05,0.3,10,0.641631993005794,0.0996040841517488,0.258763922842453
+7,7,0.05,0.1,0.05,10,0.722484832732879,0.207809961380856,0.0697052058862633
+8,8,0.05,0.1,0.1,10,0.707676870234675,0.170002265552752,0.122320864212574
+9,9,0.05,0.1,0.15,10,0.695719607366012,0.141624482020769,0.162655910613215
+10,10,0.05,0.1,0.2,10,0.685951713566814,0.119990112379265,0.194058174053917
+</code></pre>
+
+
+<br><br><a href="#top">Back to TOP</a>
+
+   <hr>
+
+
+ <h3><a id="twod" class="tt">二次元のカラーマップを描く</a></h3>
+ <p>三次元の図を色の濃淡で表す図を描くスクリプトです．</p>
+
+ <img border="0" src="./figs/image_a.jpg" width="400"><br>
+
+
+<pre>
+ <code class="r ty"> 
+#必要に応じて　install.packages("akima")
+#必要に応じて　install.packages("fields")
+
+ library(akima)
+ library(fields)
+
+ xmin = 0
+ xmax = 10
+ ymin = 0
+ ymax = 10
+ 
+# x,y座標に対してzの値が指定されたデータフレームを作る．csvから読み込んでも良い．
+# ここではsin(x)*sin(y)*x^3*y^3*exp(-x-y)という形の関数を採用する．
+ x <- seq(xmin,xmax,length=100)
+ y <- seq(ymin,ymax,length=100)
+ xx <- seq(length=100^2)
+ yy <- seq(length=100^2)
+ zz <- seq(length=100^2)
+ k=0
+ for (i in 1:100){
+ for (j in 1:100){
+ k =  k + 1
+ zz[k] = sin(x[i])*sin(y[j])*x[i]**3*y[j]**3*exp(-x[i]-y[j] )
+ xx[k] = x[i]
+ yy[k] = y[j]
+ }
+ }
+
+ data <- data.frame(V1=xx,V2=yy,V3=zz)
+
+# カラーマップを作るための２次元補間を行う．
+ dat.interp <- interp(data$V1,data$V2,data$V3,
+   xo=seq(min(data$V1), max(data$V1), length =200),
+   yo=seq(min(data$V2), max(data$V2), length =200), 
+)
+
+# カラーバーの定義
+ colPal2 <- colorRampPalette(c("#8C36FF","#2CA7FF","#11FFAC","#BAFF27","#FF8E19","#FF0E16"))
+
+ pdf("image_.pdf",  width = 20/2.54, height = 16/2.54)
+ par(mar = c(6.0, 8.0, 4.0,4)) #  余白の広さを行数で指定．下，左，上，右の順．
+ par(mgp = c(4, 1.2, 0))        #  余白の使い方．説明，ラベル，軸の位置を行で指定．
+
+# image.plotはカラーバーをつけたグラフを作成する
+ image.plot(dat.interp$x,dat.interp$y,dat.interp$z,
+       zlim=c(-1.00,1.00),
+       xlim=c(xmin,xmax),ylim=c(ymin,ymax),
+       legend.mar=8,
+       legend.width=1.0,
+       xlab=NA, 
+       ylab=NA,
+       axes=F, #軸は自分で描くのでここではF
+       col = colPal2(40),
+       cex.axis = 1.2, 
+       useRaster=T
+      )
+
+
+# 軸は自分で描く
+tck = -0.02
+cexaxis = 1.2
+
+axis(side=1, 
+     las=F,
+     tck=tck, 
+     cex.axis=cexaxis, 
+     family="sans",)
+
+axis(side=2, 
+     las=T,
+     tck=tck, 
+     cex.axis=cexaxis, 
+     family="sans",)
+
+
+box()
+dev.off()
+ </code>
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<br><br><a href="#top">Back to TOP</a>
+
+
+  <hr>
+  <hr>
+
+ <h3><a id="install" class="tt">インストール</a></h3>
+<p>下記参照のこと．</p>
+
+<ul>
+<li><a href="https://cran.r-project.org/bin/macosx/" target="_blank" class="ty">R for Mac OS X</a></li>
+<li><a href="https://cran.r-project.org/bin/windows/" target="_blank" class="ty">R for Windows</a></li>
+<li><a href="http://www.okadajp.org/RWiki/" target="_blank" class="ty">R wiki</a></li>
+</ul>
+
+<br><br><a href="#top">Back to TOP</a>
+
+  <hr>
+
+ <h3><a id="rdoc" class="tt">関数の使い方に困ったら</a></h3>
+<p>下記サイトなどご参考に．</p>
+
+<a href="https://www.rdocumentation.org/" target="_blank" class="ty">R documentation</a>
+
+<p>あるいはコンソールで
+<pre><code class="r ty">> ?lines
+</code></pre>
+などと入力すればマニュアルが表示される．
+</p>
+
+
+<br><br><a href="#top">Back to TOP</a>
+
+  <hr>
+
+
+
+
+ <h3><a id="studio" class="tt">R studioで使う</a></h3>
+ <p>
+ ターミナルとRコンソール，ファインダー（エクスプローラー）を統合した環境にR studioがあります．コマンドに慣れていない人はこちらをお勧めします．
+ 右下のファイル一覧で自分のデータやスクリプトをおいている作業ディレクトリに移動し，「More」から「Set As Working Dirctory」を
+選択する．その後，<code class="r ty">source('rscript.r')</code>と左側のコンソールに入力し．実行する．
+ </p>
+
+ <img border="0" src="./figs/rstudio.jpg" width="700"><br>
+
+<br><br><a href="#top">Back to TOP</a>
+
+  <hr>
+
+ <h3><a id="terminal" class="tt">Terminalで使う</a></h3>
+ <p>
+ Terminalで自分の作業ディレクトリに移動する．
+ Macではファインダーでoption+command+cでパスコピーし，cdで直接移動すると早い．
+<pre><code class="r ty"> $ r</code></pre>
+ と入力するとRのコンソールが開くので，<code class="r ty">source('rscript.r')</code>と入力し，実行する．
+ 終了するには
+ <pre><code class="r ty"> > q() </code></pre>
+ </p>
+ 保存するか聞かれるが，n (no) で終了して問題ない．
+
+<br><br><a href="#top">Back to TOP</a>
+
+  <hr>
+
+
+
+
+ <h3><a id="colpt" class="tt">色見本</a></h3>
+ 
+ <p>半透過色は，６文字の色指定の後ろに16進数で２文字透明度を付け加える．
+ 例えば，赤の半透過色は<code class="ty">#FF0000aa</code>などになります．</p>
+ 
+ 
+<table >
+<tr>
+<td style="background-color:#000000; color:white" class="ty">#000000</td>
+<td style="background-color:#666666" class="ty">#666666</td>
+<td style="background-color:#c0c0c0" class="ty">#c0c0c0</td>
+<td style="background-color:#FFFFFF" class="ty">#FFFFFF</td>
+</tr><tr>
+<td style="background-color:#8b0000; color:white" class="ty">#8b0000</td>
+<td style="background-color:#F71000" class="ty">#F71000</td>
+<td style="background-color:#F74848" class="ty">#F74848</td>
+<td style="background-color:#fa8072" class="ty">#fa8072</td>
+</tr><tr>
+<td style="background-color:#FF8000" class="ty">#FF8000</td>
+<td style="background-color:#FFC800" class="ty">#FFC800</td>
+<td style="background-color:#F6FF00" class="ty">#F6FF00</td>
+<td style="background-color:#FFF678" class="ty">#FFF678</td>
+</tr><tr>
+<td style="background-color:#008000; color:white" class="ty">#008000</td>
+<td style="background-color:#0AD100" class="ty">#0AD100</td>
+<td style="background-color:#2FF72F" class="ty">#2FF72F</td>
+<td style="background-color:#adff2f" class="ty">#adff2f</td>
+</tr><tr>
+<td style="background-color:#002FBD; color:white" class="ty">#002FBD</td>
+<td style="background-color:#0000FF; color:white" class="ty">#0000FF</td>
+<td style="background-color:#00A2FF" class="ty">#00A2FF</td>
+<td style="background-color:#00F7E3" class="ty">#00F7E3</td>
+</tr><tr>
+<td style="background-color:#800080; color:white" class="ty">#800080</td>
+<td style="background-color:#AD00F7" class="ty">#AD00F7</td>
+<td style="background-color:#F74AE6" class="ty">#F74AE6</td>
+<td style="background-color:#F70099" class="ty">#F70099</td>
+</tr>
+</table>
+ 
+<p>こちらも便利：
+  <a href="https://www.colordic.org/" target="_blank" class="ty">Web色見本</a>
+</p>
+ 
+<br><br><a href="#top">Back to TOP</a>
+
+  <hr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <div class="fil"><small class="ty">Copyright &copy; 2020</small></div>
+ <div class="fil"></div>
+ 
+</div>
+<div class="rg"></div>
+</body>
+</html> 
+
