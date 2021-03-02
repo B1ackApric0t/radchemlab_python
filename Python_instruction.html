@@ -200,7 +200,7 @@
 <pre><code class="python ty">a=df["x"]</code></pre>
 <p>
   で抜き出せる。<br>
-  条件式を使うこともできる。yという行の値が0より大きい場合のみ、xを取り出すとすれば
+  条件式を使うこともできる。yという列の値が0より大きい場合のみ、xを取り出すとすれば
 </p> 
 <pre><code class="python ty">b=df[df['y']>0]['x']</code></pre>
 
@@ -222,14 +222,14 @@
  <a id="err"><h4 class="ty">&#9679;エラーバーをつける</h4></a>
  
 <p>
-  エラーバーは<code class="python ty">plt.errorbar</code>で書く。
+  エラーバー付きのプロットは<code class="python ty">plt.errorbar</code>でできる。
 </p>
 
 <pre><code class="python ty">
  plt.errorbar(3, 6, xerr = 0.5, yerr =0.8 , capsize=3, fmt='.',markersize=10, color="w", markeredgecolor="c", ecolor="b")
   # プロットする x, y  x, yのエラーバーの大きさ（片方のみでも可)
   # 以降省略可
-  #　capsize:xのエラーバーが ┣─○─┫ のように表示されるとき、縦線の長さ（yだと横線）
+  #　capsize:xのエラーバーが ┣─○─┫ のように表示されるとき、縦線部の長さ（yだと横線部）
   #　fmt, markersize: マーカーの形、大きさ
   #　color, markeredgecolor, ecolor: マーカー、マーカーの縁、エラーバーの色
 </code></pre>
@@ -254,65 +254,40 @@
 
  <a id="fnc"><h4 class="ty">&#9679;滑らかな関数を描く</h4></a>
  
-  <p><code class="r ty">seq</code>を使ってx座標のベクトルを生成します．これを使って関数をプロットします．
-  <code class="r ty">seq</code>では，指定範囲を<code class="r ty">length</code>（ベクトルの長さ）または<code class="r ty">by</code>（刻み）で分割します．
+  <p><code class="python ty">np.linspace()</code>を使って定義域を決め、この範囲で関数をプロットします．
+  括弧内は，（最小値、最大値、分割数）で指定できる。分割数は省略可。
  </p>
 
- <img border="0" src="./figs/plot_function.jpg" width="500"><br>
+ <img border="0" src="./Python-figs\sin.jpg" width="500"><br>
  
- <pre><code class="r ty">
- xmin<- 0
- xmax<- 10
- ymax<-  2.0
- ymin<- -2.0
-
-pdf("plot.pdf", width = 16/2.54, height = 10/2.54)
-par(mar = c(3.0, 5.0, 3, 2)) #  余白の広さを行数で指定．下，左，上，右の順．
-par(mgp = c(4, 0.6, 0))        #  余白の使い方．説明，ラベル，軸の位置を行で指定．
-tck = 0.04 # 目盛線の長さ
-cexaxis=1.2
-
-d <- c(1,1)
-plot(d,d,
-      type = 'n',
-      ylim=c(ymin,ymax),
-      xlim=c(xmin,xmax),
-      pch=1,
-      cex=1,
-      xaxt="n",
-      yaxt="n",
-      xaxs="i",
-      yaxs="i",
-      xlab=NA,
-      ylab=NA)
-
- abline(h=0)
-
-# xminからxmaxまでを500分割する
- x = seq(xmin,xmax,length=500)
-
-# xに対して関数をプロットする
- lines (x,sin(x),lwd=2,col="red")
- lines (x,cos(x)/x,lwd=2,col="blue")
- lines (x,x**cos(3*x)/10,lwd=2,col="magenta")
-
-#x軸
-  axis(side=1,
-       las=FALSE,
-       tck=tck,
-       cex.axis=cexaxis,
-       family="sans",)
+ <pre><code class="python ty">
+  import numpy as np
+  import seaborn as sns
+  import matplotlib.pyplot as plt
   
-#y軸
-axis(side=2, 
-     las=TRUE, 
-     tck=tck, 
-     cex.axis=cexaxis,
-     family="sans",
-)
-
-box()
-dev.off()
+  sns.set()
+  
+  
+  #円周率はnp.piで利用できる。
+  x=np.linspace(-np.pi , 4*np.pi , 200)
+  #(-π,4π)の間を200分割
+  y=np.sin(x)
+  plt.plot(x,y)
+  
+  #以下軸の設定
+  #x軸の目盛りをπで表示させたい
+  #["-π","0","π","2π","3π","4π"]のリストを作る
+  xtick1 = ["-π","0","π"]
+  for i in range(3):
+      txt = "{0}π".format(i+2)
+      xtick1.append(txt)
+  
+  #x軸の目盛りを(-π,4π+1)の間をπずつとり、xtick1の要素を置く。上限をぴったりnπにするとうまくいかない。
+  plt.xticks(np.arange(-np.pi, 4*np.pi + 0.1, np.pi),xtick1)
+  #y軸は(-1,1)を0.5刻みに設定
+  plt.yticks(np.arange(-1, 1.1, 0.5))
+  
+  plt.show()
  </code></pre>
 
  
