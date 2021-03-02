@@ -187,25 +187,25 @@
  <a id="csv"><h4 class="ty">&#9679;csvファイルを読み込む</h4></a>
 
 <p>
- pandasを利用し、csvファイルを読み込む方法を説明する。<br>
- csvファイル、table1.csvをdfと名前をつけて読み込む。
+ pandasを利用し、csvファイルを読み込む方法を説明します。<br>
+ csvファイル、table1.csvをdfと名前をつけて読み込みます。
 </p> 
  
 <pre><code class="python ty"> df = pd.read_csv('table1.csv')
 </code></pre>
 
 <p>
-  任意の行だけ抜き出すこともできる。csvファイル内でxという名前の行は
+  任意の行だけ抜き出すこともできます。csvファイル内でxという名前の列は
 </p>
 <pre><code class="python ty">a=df["x"]</code></pre>
 <p>
-  で抜き出せる。<br>
-  条件式を使うこともできる。yという列の値が0より大きい場合のみ、xを取り出すとすれば
+  で抜き出せます。<br>
+  条件式を使うこともできます。yという列の値が0より大きい場合のみxを取り出すとすれば
 </p> 
 <pre><code class="python ty">b=df[df['y']>0]['x']</code></pre>
 
 <p>
-  任意の列を抽出し、グラフを書くことができる。<br>
+  任意の列を抽出し、グラフを書くことができます。<br>
 </p> 
 <pre><code class="python ty">
 import pandas as pd
@@ -225,7 +225,7 @@ import matplotlib.pyplot as plt
  <a id="err"><h4 class="ty">&#9679;エラーバーをつける</h4></a>
  
 <p>
-  エラーバー付きのプロットは<code class="python ty">plt.errorbar</code>でできる。
+  エラーバー付きのプロットは<code class="python ty">plt.errorbar</code>でできます。
 </p>
 
 <pre><code class="python ty">
@@ -260,8 +260,8 @@ import matplotlib.pyplot as plt
 
  <a id="fnc"><h4 class="ty">&#9679;滑らかな関数を描く</h4></a>
  
-  <p><code class="python ty">np.linspace()</code>を使って定義域を決め、この範囲で関数をプロットします．
-  括弧内は，（最小値、最大値、分割数）で指定できる。分割数は省略可。
+  <p><code class="python ty">np.linspace()</code>を使って定義域を決め、この範囲で関数をプロットします。
+  括弧内は，（最小値、最大値、分割数）で指定します。分割数は省略可。
  </p>
 
  <img border="0" src="./Python-figs\sin.jpg" width="500"><br>
@@ -288,7 +288,7 @@ import matplotlib.pyplot as plt
       txt = "{0}π".format(i+2)
       xtick1.append(txt)
   
-  #x軸の目盛りを(-π,4π+1)の間をπずつとり、xtick1の要素を置く。上限をぴったりnπにするとうまくいかない。
+  #x軸の目盛りを(-π,4π+0.1)の間をπずつとり、xtick1の要素を置く。上限をぴったりnπにするとうまくいかない。
   plt.xticks(np.arange(-np.pi, 4*np.pi + 0.1, np.pi),xtick1)
   #y軸は(-1,1)を0.5刻みに設定
   plt.yticks(np.arange(-1, 1.1, 0.5))
