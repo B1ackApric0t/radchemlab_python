@@ -76,7 +76,7 @@
  <li><a href="#rdoc">関数の使い方に困ったら</a></li>
  <li><a href="#studio">R studioで使う</a></li>
  <li><a href="#terminal">Terminalで使う</a></li>
- <li><a href="#colpt">色見本</a></li>
+ <li><a href="#colpt">色の指定</a></li>
 </ul>
  
   <hr>
@@ -278,7 +278,10 @@ import matplotlib.pyplot as plt
   #円周率はnp.piで利用できる。
   x=np.linspace(-np.pi , 4*np.pi , 200)
   #(-π,4π)の間を200分割
+
   y=np.sin(x)
+  #np.sin()でsin関数
+  
   plt.plot(x,y)
   
   #以下軸の設定
@@ -1424,13 +1427,16 @@ dev.off()
 
 
 
- <h3><a id="colpt" class="tt">色見本</a></h3>
+ <h3><a id="colpt" class="tt">色の指定</a></h3>
  
- <p>半透過色は，６文字の色指定の後ろに16進数で２文字透明度を付け加える．
- 例えば，赤の半透過色は<code class="ty">#FF0000aa</code>などになります．</p>
+ <p>グラフを描く際、色を指定する場合が多くある。使える色の名前については
+   <a href="https://matplotlib.org/stable/gallery/color/named_colors.html" target="_blank" class="ty">こちら</a>
+   を参照。
+   色の指定をしない場合、"Tableau Palette" の10色が順に使われる。11色目はtab:blueに戻る。
+ </p>
  
  
-<table >
+<!-- <table >
 <tr>
 <td style="background-color:#000000; color:white" class="ty">#000000</td>
 <td style="background-color:#666666" class="ty">#666666</td>
@@ -1462,11 +1468,11 @@ dev.off()
 <td style="background-color:#F74AE6" class="ty">#F74AE6</td>
 <td style="background-color:#F70099" class="ty">#F70099</td>
 </tr>
-</table>
+</table> -->
  
-<p>こちらも便利：
+<!-- <p>こちらも便利：
   <a href="https://www.colordic.org/" target="_blank" class="ty">Web色見本</a>
-</p>
+</p> -->
  
 <br><br><a href="#top">Back to TOP</a>
 
