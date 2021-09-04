@@ -109,6 +109,7 @@
   import pandas as pd
   import matplotlib.pyplot as plt
   from scipy.optimize import minimize
+
 </code></pre>
 <p>
   numpy, pandas, matplotlib.pyplotは省略名としてnp, pd, pltを使うことが慣例になっているので従いましょう。<br>
@@ -127,7 +128,7 @@
 
  <a id="scatt"><h4 class="ty">&#9679;散布図</h4></a>
 
- <img border="0" src="Python-figs\py_Figure_1.png" width="500"><br>
+ <img border="0" src="Python-figs\py_Figure_1.png" width="700"><br>
 
  <p>上図を描くスクリプトです。
  <br>
@@ -135,7 +136,7 @@
  <br>
  ここでは、グラフを書くためのmatplotlib.pyplotのみを導入していますが、通常複数を導入します。
  <br>
- matplotlib.pyplot(plt)で、散布図(scatter)を書きます。二つの座標の他、マーカーの色や形を変えられます。
+ matplotlib.pyplotで、散布図(scatter)を書きます。二つの座標の他、マーカーの色や形を変えられます。
  <br>
  最後にグラフの出力を要請します。(エラーなく進んでいると、表示されます。)
  </p>
@@ -144,14 +145,13 @@
 <!-- <code class="ty"> -->
  <code class="python ty"> 
   import matplotlib.pyplot as plt
-  #ライブラリ(ここではmatplotlib.pyplot(グラフを書くためのライブラリ))を導入。
-  #pltと名づけ、以下pltで呼び出す。
+  # ライブラリ(ここではmatplotlib.pyplot(グラフを書くためのライブラリ))を導入。
+  # pltと名づけ、以下pltで呼び出す。
   
-  #散布図を書くときはplt.scatter(), ()に変数
-
+  # 散布図を書くときはplt.scatter(), ()内に変数
   plt.scatter(1, 2, c="blue", marker="o", s=20, alpha=0.5)
   # 左からx座標、y座標
-  # 以下は任意で c:色、 marker:形状、s:サイズ、alpha:透明度
+  # 以下は任意で c: 色、 marker: 形状、s: サイズ、alpha: 透明度(0~1)
 
   plt.scatter(2,  4, c="orange",    marker =".")
   plt.scatter(3,  6, c="green",     marker ="v")
@@ -167,13 +167,100 @@
   plt.scatter(3, 12, c="skyblue",   marker ="d")
   plt.scatter(4, 14, c="magenta",   marker ="1")
   plt.scatter(5, 16, c="indianred", marker ="2")
-
-  
+ 
   plt.show()
-  #グラフを表示する。
+  # グラフを表示する。
 </code>
 </pre>
    
+<p>
+  <br>
+  <br>
+  リストを使用して複数点を一度に描くことができる。<br>
+  また、マーカーの縁を別の色にすることも可能。
+</p>
+
+<img border="0" src="Python-figs\py_Figure_1'.png" width="700"><br>
+
+
+<pre>
+<code class="python ty"> 
+  import matplotlib.pyplot as plt
+
+  x_list=[1,  1, 3, 3, 5, 7, 7, 9,  9]
+  y_list=[2, 10, 4, 8, 6, 4, 8, 2, 10]
+  
+  plt.scatter(x_list, y_list, c="red", marker ="o", edgecolors="black")
+  # edgecolorsで縁の色を指定。
+
+  plt.show()
+
+</code>
+</pre>
+
+
+<a id="plot"><h4 class="ty">&#9679;折れ線グラフ</h4></a>
+
+<img border="0" src="Python-figs\py_Figure_2.png" width="700"><br>
+
+<p>
+<br>
+matplotlib.pyplot(plt)で、折れ線グラフ(plot)を書きます。横軸、縦軸の系列をリストで指定してみましょう。
+</p>
+
+<pre>
+<!-- <code class="ty"> -->
+<code class="python ty"> 
+  import matplotlib.pyplot as plt
+
+　# プロットする横軸の座標のリスト
+  x_list=[ 2, 4, 6, 8, 10, 12, 14]
+　# プロットする縦軸の座標のリスト
+  y_list=[10, 1, 7, 4,  6,  2,  9]
+  # 2つのリストの要素数を同じにする必要がある。
+  
+  # 散布図を書くときはplt.plot(), ()に変数
+  plt.plot(x_list, y_list, c="blue", ls="-", lw=2, alpha=0.8)
+  # 左からx座標のリスト、y座標のリスト
+  # 以下は任意で c: 色、ls: 線のスタイル、lw: 線の太さ、alpha: 透明度(0~1)
+
+  plt.show()
+</code>
+</pre>
+  
+<p>
+  <br>
+  <br>
+  折れ線グラフでもmarkerの指定ができます。
+</p>
+
+<img border="0" src="Python-figs\py_Figure_3.png" width="700"><br>
+
+<pre>
+<code class="python ty"> 
+
+  import matplotlib.pyplot as plt
+
+  x_list =[ 1,  4,  7]
+  y1_list=[10, 12, 10]
+  y2_list=[ 7,  9,  7]
+  y3_list=[ 4,  6,  4]
+  y4_list=[ 1,  3,  1]
+  
+  # marker: 形状、ms: マーカーの大きさ、mfc: マーカー内部の色、mec: マーカーの縁の色
+  plt.plot(x_list, y1_list, c="blue",   ls="-",  marker="o", ms=10, mfc="white", mec="cyan")
+
+  #　mfc, mecは省略した場合、それぞれ線と同じ色になる。
+  plt.plot(x_list, y2_list, c="orange", ls="--", marker="^")
+  plt.plot(x_list, y3_list, c="green",  ls=":",  marker="s")
+  plt.plot(x_list, y4_list, c="red",    ls="-.", marker="d")
+  
+  
+  plt.show()  
+
+</code>
+</pre>
+
   
   
 <a id="log"><h4 class="ty">&#9679;片対数グラフを描く</h4></a>
