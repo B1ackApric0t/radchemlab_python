@@ -37,12 +37,21 @@
     <ul>
     <li><a href="#scatt">散布図</a></li>
     <li><a href="#plot">折れ線グラフ</a></li>
+    <li><a href="#fnc">数学関数の使用</a></li>
+    <li><a href="#sett">図の詳細設定</a></li>
+        <ul>
+          <li><a href="#range">範囲</a></li>
+          <li><a href="#axis">軸</a></li>
+          <li><a href="#label">凡例</a></li>
+          <li><a href="#title">タイトル</a></li>
+          <li><a href="#lett">文字列の挿入</a></li>
+          <li><a href="#multi">複数のグラフ</a></li>
+        </ul>
     <li><a href="#log">片対数グラフを描く</a></li>
     <li><a href="#csv">csvファイルを読み込んでグラフを描く</a></li>
     <li><a href="#xlsx">xlsxファイルを読み込んでグラフを描く</a></li>
     <li><a href="#bar">xlsxファイルを読み込んで棒グラフを描く</a></li>
     <li><a href="#err">エラーバーをつける</a></li>
-    <li><a href="#fnc">滑らかな関数を描く</a></li>
     <li><a href="#mlt">複数のグラフを同時に描く</a></li>
  <!--   <li>２軸のグラフを描く</li>
     <li>x軸を連結したグラフを描く</li> -->
@@ -86,7 +95,9 @@
  
   <h3><a id="exe" class="tt">スクリプトの実行</a></h3>
   <p>端末で自分の.pyファイルをコマンドによって呼び出す。そのファイルが存在するフォルダで実行すること。
+  </p>
   
+
 <pre>
 <code class="shell ty"> $ python *****.py 
 </code>
@@ -217,7 +228,7 @@ matplotlib.pyplot(plt)で、折れ線グラフ(plot)を書きます。横軸、�
   x_list=[ 2, 4, 6, 8, 10, 12, 14]
 　# プロットする縦軸の座標のリスト
   y_list=[10, 1, 7, 4,  6,  2,  9]
-  # 2つのリストの要素数を同じにする必要がある。
+  # 2つのリストの要素数を同じにする必要があります。
   
   # 散布図を書くときはplt.plot(), ()に変数
   plt.plot(x_list, y_list, c="blue", ls="-", lw=2, alpha=0.8)
@@ -261,8 +272,76 @@ matplotlib.pyplot(plt)で、折れ線グラフ(plot)を書きます。横軸、�
 </code>
 </pre>
 
+
+<a id="fnc"><h4 class="ty">&#9679;数学関数の使用</h4></a>
+ 
+<p>
+  numpyの数学関数を用いて関数のグラフを書くことができます。<br>
+  <code class="python ty">np.linspace()</code>を使って定義域を決め、この範囲で関数をプロットします。<br>
+  括弧内は，（最小値、最大値、計算点の数）で指定します。計算点の数は省略可。<br>
+</p>
+
+ 
+<pre><code class="python ty">
+  import matplotlib.pyplot as plt
+  import numpy as np
+  # numpyを導入。以下npで呼び出す。
   
+  # 定義域を0から10、この間に101点とる。
+  x=np.linspace(0,10,101)
+
+  # sin関数
+  y1=np.sin(x)
+  plt.plot(x,y1,c="blue")
   
+  # cos関数
+  y2=np.cos(x)
+  plt.plot(x,y2,c="orange")
+  
+  plt.show()
+
+</code></pre>
+
+<img border="0" src="Python-figs\py_Figure_4.png" width="700"><br>
+
+
+<p>
+　上の x, y1 はいずれも numpy.ndarray という型のオブジェクトです。<br>
+  これはリストのようなもので、要素数101個のリストを np.linspace() を作り、<br>
+  その1点ごとにnp.sin()のような数学関数で値を求めてy1に格納しています。<br>
+  これを plt.plot() で折れ線グラフとして描いています。<br>
+  x, y1 の最初の2点の値を以下で見てみると、
+</p>  
+
+<pre><code class="python ty">
+  print(x[0],y1[0],y2[0])
+  print(x[1],y1[1],y2[1])
+</code></pre>
+
+<p>出力は</p>
+
+<pre><code class="python ty">
+  0.0 0.0 1.0
+  0.1 0.09983341664682815 0.9950041652780258
+
+</code></pre>
+  
+
+<a id="sett"><h4 class="ty">&#9679;グラフの詳細設定</h4></a>
+</p>
+<ul>
+<a id="range"><h4 class="ty">&#9679;範囲</h4></a>
+<a id="axis"><h4 class="ty">&#9679;軸</h4></a>
+<a id="label"><h4 class="ty">&#9679;凡例</h4></a>
+<a id="title"><h4 class="ty">&#9679;タイトル</h4></a>
+<a id="lett"><h4 class="ty">&#9679;文字列の挿入</h4></a>
+<a id="multi"><h4 class="ty">&#9679;複数のグラフ</h4></a>
+</ul>
+
+
+
+
+
 <a id="log"><h4 class="ty">&#9679;片対数グラフを描く</h4></a>
    
     <img border="0" src="./figs/logplot.jpg" width="500"><br>
@@ -367,47 +446,7 @@ import matplotlib.pyplot as plt
 
 
 
- <a id="fnc"><h4 class="ty">&#9679;滑らかな関数を描く</h4></a>
  
-  <p><code class="python ty">np.linspace()</code>を使って定義域を決め、この範囲で関数をプロットします。
-  括弧内は，（最小値、最大値、分割数）で指定します。分割数は省略可。
- </p>
-
- <img border="0" src="./Python-figs\sin.jpg" width="500"><br>
- 
- <pre><code class="python ty">
-  import numpy as np
-  import seaborn as sns
-  import matplotlib.pyplot as plt
-  
-  sns.set()
-  
-  
-  #円周率はnp.piで利用できる。
-  x=np.linspace(-np.pi , 4*np.pi , 200)
-  #(-π,4π)の間を200分割
-
-  y=np.sin(x)
-  #np.sin()でsin関数
-  
-  plt.plot(x,y)
-  
-  #以下軸の設定
-  #x軸の目盛りをπで表示させたい
-  #["-π","0","π","2π","3π","4π"]のリストを作る
-  xtick1 = ["-π","0","π"]
-  for i in range(3):
-      txt = "{0}π".format(i+2)
-      xtick1.append(txt)
-  
-  #x軸の目盛りを(-π,4π+0.1)の間をπずつとり、xtick1の要素を置く。上限をぴったりnπにするとうまくいかない。
-  plt.xticks(np.arange(-np.pi, 4*np.pi + 0.1, np.pi),xtick1)
-  #y軸は(-1,1)を0.5刻みに設定
-  plt.yticks(np.arange(-1, 1.1, 0.5))
-  
-  plt.show()
- </code></pre>
-
  
  
   <a id="mlt"><h4 class="ty">&#9679;複数のグラフを同時に描く</h4></a>
