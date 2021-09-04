@@ -104,12 +104,12 @@
 <p>
   ライブラリを使うには.pyファイルの冒頭で宣言が必要です。
 </p>
-<code class="python ty">
+<p><code class="python ty">
   import numpy as np
   import pandas as pd
   import matplotlib.pyplot as plt
   from scipy.optimize import minimize
-</code>
+</code></p>
 <p>
   numpy, pandas, matplotlib.pyplotは省略名としてnp, pd, pltを使うことが慣例になっているので従いましょう。<br>
   scipyの中のoptimizeモジュールからminimizeというオブジェクトのみを読み込む、といった使い方も可能です。
@@ -149,25 +149,24 @@
   
   #散布図を書くときはplt.scatter(), ()に変数
 
-  plt.scatter(1,2,c="blue",marker ="o", s=20, alpha = 0.5)
+  plt.scatter(1, 2, c="blue", marker="o", s=20, alpha=0.5)
   # 左からx座標、y座標
   # 以下は任意で c:色、 marker:形状、s:サイズ、alpha:透明度
 
-
-  plt.scatter(2,4,c="orange",marker =".")
-  plt.scatter(3,6,c="green",marker ="v")
-  plt.scatter(4,8,c="red",marker ="^")
-  plt.scatter(5,10,c="purple",marker ="s")
-  plt.scatter(1,5,c="brown",marker ="p")
-  plt.scatter(2,7,c="pink",marker ="*")
-  plt.scatter(3,9,c="gray",marker ="h")
-  plt.scatter(4,11,c="olive",marker ="+")
-  plt.scatter(5,13,c="cyan",marker ="x")
-  plt.scatter(1,8,c="coral",marker ="X")
-  plt.scatter(2,10,c="gold",marker ="D")
-  plt.scatter(3,12,c="skyblue",marker ="d")
-  plt.scatter(4,14,c="magenta",marker ="1")
-  plt.scatter(5,16,c="indianred",marker ="2")
+  plt.scatter(2,  4, c="orange",    marker =".")
+  plt.scatter(3,  6, c="green",     marker ="v")
+  plt.scatter(4,  8, c="red",       marker ="^")
+  plt.scatter(5, 10, c="purple",    marker ="s")
+  plt.scatter(1,  5, c="brown",     marker ="p")
+  plt.scatter(2,  7, c="pink",      marker ="*")
+  plt.scatter(3,  9, c="gray",      marker ="h")
+  plt.scatter(4, 11, c="olive",     marker ="+")
+  plt.scatter(5, 13, c="cyan",      marker ="x")
+  plt.scatter(1,  8, c="coral",     marker ="X")
+  plt.scatter(2, 10, c="gold",      marker ="D")
+  plt.scatter(3, 12, c="skyblue",   marker ="d")
+  plt.scatter(4, 14, c="magenta",   marker ="1")
+  plt.scatter(5, 16, c="indianred", marker ="2")
 
   
   plt.show()
