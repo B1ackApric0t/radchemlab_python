@@ -33,20 +33,20 @@
 <ul>
 <li><a href="#exe">スクリプトの実行</a></li>
 <li><a href="#library">ライブラリ</a></li>
-<li><a href="#graph">グラフを描く</a>
+<li><a href="#graph">グラフを描く（基礎編）</a>
     <ul>
     <li><a href="#scatt">散布図</a></li>
     <li><a href="#plot">折れ線グラフ</a></li>
     <li><a href="#fnc">数学関数の使用</a></li>
     <li><a href="#sett">図の詳細設定</a></li>
-        <ul>
+        <ol>
           <li><a href="#range">範囲</a></li>
           <li><a href="#axis">軸</a></li>
           <li><a href="#label">凡例</a></li>
           <li><a href="#title">タイトル</a></li>
           <li><a href="#lett">文字列の挿入</a></li>
           <li><a href="#multi">複数のグラフ</a></li>
-        </ul>
+        </ol>
     <li><a href="#log">片対数グラフを描く</a></li>
     <li><a href="#csv">csvファイルを読み込んでグラフを描く</a></li>
     <li><a href="#xlsx">xlsxファイルを読み込んでグラフを描く</a></li>
@@ -57,6 +57,8 @@
     <li>x軸を連結したグラフを描く</li> -->
     </ul>
 </li>
+<li><a href="#grapha">グラフを描く（応用編）</a>
+
 <li><a href="#fit">フィッティングする</a>
     <ul>
     <li><a href="#peak">ピークをフィッティングする</a></li>
@@ -111,7 +113,7 @@
   主に使うのは数値計算に便利なNumPy、様々な科学計算が可能なSciPy、プロットに便利なMatplotlib、データ解析に強いPandasあたりです。<br>
   これらはデフォルトのPythonでは使えないのでpipコマンドで別途インストールする必要があります。
  </p>
-<code class="shell ty">$ pip install numpy scipy matplotlib pandas </code>
+<code class="shell ty">$ pip install numpy scipy matplotlib pandas seaborn</code>
 <p>
   ライブラリを使うには.pyファイルの冒頭で宣言が必要です。
 </p>
@@ -329,20 +331,138 @@ matplotlib.pyplot(plt)で、折れ線グラフ(plot)を書きます。横軸、�
 
 <a id="sett"><h4 class="ty">&#9679;グラフの詳細設定</h4></a>
 </p>
-<ul>
+<ol>
 <a id="range"><h4 class="ty">&#9679;範囲</h4></a>
+  <p>
+    グラフの表示範囲の設定は横軸 plt.xlim(), plt.ylim() で行う。<br>
+  </p>
+
+
+<pre><code class="python ty">
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+x=np.linspace(-10,10,100)
+
+# 指数関数
+y1=np.exp(x)
+y2=np.exp(0.4*x)
+y3=np.exp(0.1*x)
+
+plt.plot(x,y1,c="blue")
+plt.plot(x,y2,c="orange")
+plt.plot(x,y3,c="green")
+
+# x軸の範囲を-2から10
+plt.xlim(-2,10)
+# y軸の範囲を0から15
+plt.ylim(0,15)
+
+plt.show()
+
+</code></pre>
+
+<img border="0" src="Python-figs\py_Figure_5.png" width="700"><br>
+
+
 <a id="axis"><h4 class="ty">&#9679;軸</h4></a>
+
+<p>
+  グラフを書く際に有用なライブラリの一つに seaborn があります。<br>
+  ここではデフォルトスタイルのみ使用することとし、詳細設定は省きます。<br>
+  seaborn によって背景とグリッド線を入れることができます。<br>
+  <br>
+  また、
+</p>
+<pre><code class="python ty">a=df["x"]</code></pre>
+<p>
+  によって、x軸、y軸の長さが等しくなるように設定できる。
+
+</p>
+
+<pre><code class="python ty">
+  import numpy as np
+  import matplotlib.pyplot as plt
+
+  # seaborn を導入。 sns で呼び出す。
+  import seaborn as sns
+  
+  # seaborn をセット。()内で詳細設定ができるが割愛。
+  sns.set()
+  
+  x=np.linspace(-3,3)
+  y1=x
+  plt.plot(x,y1,c="blue")
+  
+  y2=x**2
+  plt.plot(x,y2,c="orange")
+  
+  # x軸、y軸を等間隔にする。
+  plt.axis('scaled')
+
+  plt.xlim(-2,2)
+  plt.ylim(-2,4)
+  
+  plt.show()
+ 
+</code></pre>
+
+<img border="0" src="Python-figs\py_Figure_6.png" width="700"><br>
+
+<p>
+  軸の設定により、片対数グラフを描くことができる。
+</p>
+
+<pre><code class="python ty">
+  import numpy as np
+  import matplotlib.pyplot as plt
+  import seaborn as sns
+  
+  sns.set()
+  
+  x=np.linspace(-3,3)
+  
+  y1=10**x
+  plt.plot(x,y1,c="blue")
+  
+  y2=10**(x**2)
+  plt.plot(x,y2,c="orange")
+  
+  # y軸を対数軸に設定
+  plt.yscale("log")
+  
+  plt.axis('scaled')
+  plt.xlim(-3,3)
+  plt.ylim(10**-3,10**10)
+  
+  plt.show()
+ 
+</code></pre>
+
+<img border="0" src="Python-figs\py_Figure_7.png" width="700"><br>
+
+<p>
+  <br>
+  <br>
+
+
+
+</p>
+
+
+
 <a id="label"><h4 class="ty">&#9679;凡例</h4></a>
 <a id="title"><h4 class="ty">&#9679;タイトル</h4></a>
 <a id="lett"><h4 class="ty">&#9679;文字列の挿入</h4></a>
 <a id="multi"><h4 class="ty">&#9679;複数のグラフ</h4></a>
-</ul>
+</ol>
 
 
 
 
 
-<a id="log"><h4 class="ty">&#9679;片対数グラフを描く</h4></a>
+<!-- <a id="log"><h4 class="ty">&#9679;片対数グラフを描く</h4></a>
    
     <img border="0" src="./figs/logplot.jpg" width="500"><br>
    
@@ -366,7 +486,7 @@ matplotlib.pyplot(plt)で、折れ線グラフ(plot)を書きます。横軸、�
 　　# グラフに目盛りをつける。
 
 　　plt.show()
-</code></pre>
+</code></pre> -->
 
 
 
@@ -647,6 +767,7 @@ dev.off()
  <br><br><a href="#top">Back to TOP</a>
   <hr>
 
+<h3><a id="grapha" class="ty">グラフを描く（応用編）</a></h3>
 
 
  <h3><a id="fit" class="tt">フィッティングする</a></h3>
