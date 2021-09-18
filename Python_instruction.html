@@ -45,7 +45,7 @@
           <li><a href="#label">凡例</a></li>
           <li><a href="#title">タイトル</a></li>
           <li><a href="#lett">文字列の挿入</a></li>
-          <li><a href="#multi">複数のグラフ</a></li>
+          <li><a href="#multi">複数の図</a></li>
         </ol>
     <li><a href="#log">片対数グラフを描く</a></li>
     <li><a href="#csv">csvファイルを読み込んでグラフを描く</a></li>
@@ -308,11 +308,11 @@ matplotlib.pyplot(plt)で、折れ線グラフ(plot)を書きます。横軸、�
 
 
 <p>
-　上の x, y1 はいずれも numpy.ndarray という型のオブジェクトです。<br>
+　上の x, y1, y2 はいずれも numpy.ndarray という型のオブジェクトです。<br>
   これはリストのようなもので、要素数101個のリストを np.linspace() を作り、<br>
   その1点ごとにnp.sin()のような数学関数で値を求めてy1に格納しています。<br>
   これを plt.plot() で折れ線グラフとして描いています。<br>
-  x, y1 の最初の2点の値を以下で見てみると、
+  x, y1, y2 の最初の2点の値を以下で見てみると、
 </p>  
 
 <pre><code class="python ty">
@@ -330,9 +330,9 @@ matplotlib.pyplot(plt)で、折れ線グラフ(plot)を書きます。横軸、�
   
 
 <a id="sett"><h4 class="ty">&#9679;グラフの詳細設定</h4></a>
-</p>
+
 <ol>
-<a id="range"><h4 class="ty">&#9679;範囲</h4></a>
+<a id="range"><h4 class="ty">1. 範囲</h4></a>
   <p>
     グラフの表示範囲の設定は横軸 plt.xlim(), plt.ylim() で行う。<br>
   </p>
@@ -366,7 +366,7 @@ plt.show()
 <img border="0" src="Python-figs\py_Figure_5.png" width="700"><br>
 
 
-<a id="axis"><h4 class="ty">&#9679;軸</h4></a>
+<a id="axis"><h4 class="ty">2. 軸</h4></a>
 
 <p>
   グラフを書く際に有用なライブラリの一つに seaborn があります。<br>
@@ -375,7 +375,7 @@ plt.show()
   <br>
   また、
 </p>
-<pre><code class="python ty">a=df["x"]</code></pre>
+<pre><code class="python ty">  plt.axis("scaled")</code></pre>
 <p>
   によって、x軸、y軸の長さが等しくなるように設定できる。
 
@@ -399,7 +399,7 @@ plt.show()
   plt.plot(x,y2,c="orange")
   
   # x軸、y軸を等間隔にする。
-  plt.axis('scaled')
+  plt.axis("scaled")
 
   plt.xlim(-2,2)
   plt.ylim(-2,4)
@@ -434,7 +434,7 @@ plt.show()
   
   plt.axis('scaled')
   plt.xlim(-3,3)
-  plt.ylim(10**-3,10**10)
+  plt.ylim(10**-4,10**10)
   
   plt.show()
  
@@ -445,17 +445,189 @@ plt.show()
 <p>
   <br>
   <br>
+  軸のラベルは plt.xlabel(), plt.ylabel() で設定できる。
+</p>
+
+<pre><code class="python ty">
+  import matplotlib.pyplot as plt
+  import seaborn as sns
+  
+  sns.set()
+  
+  x_list=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+  y_list=[7.1, 8.3, 10.7, 12.8, 19.5, 23.2, 24.3, 29.1, 24.2, 17.5, 14.0, 7.7]
+  
+  plt.plot(x_list, y_list, c="blue",marker=".")
+  
+  # 横軸のラベル
+  plt.xlabel("month") 
+
+  # 縦軸のラベル
+  plt.ylabel("temperature (°C)")
+  
+  plt.show()
+  
+</code></pre>
+
+<img border="0" src="Python-figs\py_Figure_8.png" width="700"><br>
+
+<p>
+  <br>
+  <br>
+  以下の 3~5 にも共通するが、文字の表示に関して文字の大きさとフォントが指定できる。<br>
+  文字の大きさは fontsize , フォントは fontname で指定できる。<br>
+  日本語に対応しているフォントを指定すれば日本語も表示できる。
+</p>
+
+<pre><code class="python ty">
+  # 横軸のラベル
+  plt.xlabel("月", fontsize=16, fontname="MS Gothic")
+
+  # 縦軸のラベル
+  plt.ylabel("気温 (℃)", fontsize=16, fontname="MS Gothic")
+
+</code></pre>
+
+<img border="0" src="Python-figs\py_Figure_8'.png" width="700"><br>
 
 
+
+<a id="label"><h4 class="ty">3. 凡例</h4></a>
+
+<p>
+  1つの図に複数のグラフを描く場合、凡例を表示した方が分かりやすい。<br>
+  plt.scatter(), plt.plot() の括弧内に凡例名を label で指定し、<br>
+  最後に plt.legend() で表示する。
 
 </p>
 
+<pre><code class="python ty">
+  import numpy as np
+  import matplotlib.pyplot as plt
+  import seaborn as sns
+  
+  sns.set()
+  
+  x=np.linspace(-1.5,1.5,100)
+  
+  y1=np.tan(x)
+  # 凡例を y = tan (x) に指定
+  plt.plot(x,y1,c="blue",label=" y = tan (x)")
+  
+  y2=np.arctan(x)
+  # 凡例を y = arctan (x) に指定
+  plt.plot(x,y2,c="orange",label=" y = arctan (x)")
+  
+  y3=x
+  # 凡例を y = x に指定
+  plt.plot(x,y3,c="gray",label=" y = x ")
+  
+  plt.axis('scaled')
+  plt.xlim(-1.5,1.5)
+  plt.ylim(-1.5,1.5)
+  
+  # 凡例の表示
+  plt.legend()
+  plt.show()  
+
+</code></pre>
+
+<img border="0" src="Python-figs\py_Figure_9.png" width="700"><br>
+
+<p>
+  <br>
+  <br>
+ plt.legend() 内で凡例ボックスの詳細設定ができる。
+</p>
+
+<pre><code class="python ty">
+plt.legend(bbox_to_anchor=(1.02, 1.0), framealpha=0.5, facecolor="lightblue", edgecolor="blue", fontsize=12)
+  # bbox_to_anchor で凡例ボックスの位置 (x,y) を設定。数字はグラフの左下を (0,0), 右上を (1,1) としたときの数字。
+  # framealpha はボックスの透過度。グラフとボックスが重なる際に有用かもしれない
+  # facecolor はボックスの背景色。edgecolor は縁の色。
+
+</code></pre>
+
+<img border="0" src="Python-figs\py_Figure_9'.png" width="700"><br>
+
+<p>
+  <br>
+  <br>
+ 凡例のフォント変更はやや毛色が異なり、fontname による指定はできない。<br>
+ 代わりに prop = {"family" : "フォント名"} を指定する。<br>
+ （prop では他にも設定ができるが、ここではフォント変更のみに留める。）
+</p>
+
+<pre><code class="python ty">
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+sns.set()
+
+x_list=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+y_list1=[7.1, 8.3, 10.7, 12.8, 19.5, 23.2, 24.3, 29.1, 24.2, 17.5, 14.0, 7.7]
+y_list2=[4.0, 4.4, 7.5, 10.1 ,16.8, 21.2, 21.3, 26.6, 22.5, 15.6, 10.8, 3.9]
+y_list3=[18.7, 18.7, 20.1, 19.8, 24.8, 28.1, 29.3, 29.4, 27.7, 25.8, 23.4, 19.2]
 
 
-<a id="label"><h4 class="ty">&#9679;凡例</h4></a>
-<a id="title"><h4 class="ty">&#9679;タイトル</h4></a>
-<a id="lett"><h4 class="ty">&#9679;文字列の挿入</h4></a>
-<a id="multi"><h4 class="ty">&#9679;複数のグラフ</h4></a>
+plt.plot(x_list, y_list1, c="green",marker=".",label="東京")
+plt.plot(x_list, y_list2, c="blue",marker=".",label="仙台")
+plt.plot(x_list, y_list3, c="orange",marker=".",label="那覇")
+
+plt.xlabel("月", fontsize=12, fontname="MS Gothic")
+plt.ylabel("気温 (℃)", fontsize=12, fontname="MS Gothic")
+
+# フォントの設定
+plt.legend(fontsize=10,  prop = {"family" : "MS Gothic"})
+plt.show()
+
+</code></pre>
+
+<img border="0" src="Python-figs\py_Figure_8''.png" width="700"><br>
+
+
+<a id="title"><h4 class="ty">4. タイトル</h4></a>
+
+<p>
+  plt.title() でタイトルを表示できる。
+</p>
+
+<pre><code class="python ty">
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+sns.set()
+
+x_list=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+y_list1=[7.1, 8.3, 10.7, 12.8, 19.5, 23.2, 24.3, 29.1, 24.2, 17.5, 14.0, 7.7]
+y_list2=[4.0, 4.4, 7.5, 10.1 ,16.8, 21.2, 21.3, 26.6, 22.5, 15.6, 10.8, 3.9]
+y_list3=[18.7, 18.7, 20.1, 19.8, 24.8, 28.1, 29.3, 29.4, 27.7, 25.8, 23.4, 19.2]
+
+plt.plot(x_list, y_list1, c="green",marker=".",label="東京")
+plt.plot(x_list, y_list2, c="blue",marker=".",label="仙台")
+plt.plot(x_list, y_list3, c="orange",marker=".",label="那覇")
+
+plt.xlabel("月", fontsize=12, fontname="MS Gothic")
+plt.ylabel("気温 (℃)", fontsize=12, fontname="MS Gothic")
+
+plt.subplots_adjust(left=0.125, right=0.9, bottom=0.2, top=0.9)
+# 余白の設定。x 軸のラベルとタイトルで下が窮屈になるため。
+# bottom 以外はデフォルト値。bottom は 0.1 がデフォルト。
+
+plt.title("図.1 2020 年の月別平均気温", x=0.5, y=-0.25, fontsize=16, fontname="MS Gothic")
+# x, y で位置を設定。数字はグラフの左下を (0,0), 右上を (1,1) としたときの数字。
+
+plt.legend(fontsize=10,  prop = {"family" : "MS Gothic"})
+plt.show()
+
+</code></pre>
+
+<img border="0" src="Python-figs\py_Figure_8'''.png" width="700"><br>
+
+<a id="lett"><h4 class="ty">5. 文字列の挿入</h4></a>
+<a id="multi"><h4 class="ty">6. 複数の図</h4></a>
 </ol>
 
 
