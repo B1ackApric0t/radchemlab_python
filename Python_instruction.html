@@ -143,15 +143,15 @@
 
  <img border="0" src="Python-figs\py_Figure_1.png" width="700"><br>
 
- <p>上図を描くスクリプトです。
+ <p>上図を描くスクリプトを示す。
  <br>
- ライブラリ(それぞれ様々な機能を持つもの)を導入し、略語を命名します。
+ ライブラリ(それぞれ様々な機能を持つもの)を導入し、略語を命名する。
  <br>
- ここでは、グラフを書くためのmatplotlib.pyplotのみを導入していますが、通常複数を導入します。
+ ここでは、グラフを書くためのmatplotlib.pyplotのみを導入している。
  <br>
- matplotlib.pyplotで、散布図(scatter)を書きます。二つの座標の他、マーカーの色や形を変えられます。
+ matplotlib.pyplotで、散布図(scatter)を描く。二つの座標の他、マーカーの色や形を変えられる。
  <br>
- 最後にグラフの出力を要請します。(エラーなく進んでいると、表示されます。)
+ 最後に plt.show() でグラフを表示させる。
  </p>
  
 <pre>
@@ -218,7 +218,7 @@
 
 <p>
 <br>
-matplotlib.pyplot(plt)で、折れ線グラフ(plot)を書きます。横軸、縦軸の系列をリストで指定してみましょう。
+matplotlib.pyplot(plt)で、折れ線グラフ(plot)を描く。横軸、縦軸の系列をリストで指定してみる。
 </p>
 
 <pre>
@@ -230,7 +230,7 @@ matplotlib.pyplot(plt)で、折れ線グラフ(plot)を書きます。横軸、�
   x_list=[ 2, 4, 6, 8, 10, 12, 14]
 　# プロットする縦軸の座標のリスト
   y_list=[10, 1, 7, 4,  6,  2,  9]
-  # 2つのリストの要素数を同じにする必要があります。
+  # 2つのリストの要素数を同じにする必要がある
   
   # 散布図を書くときはplt.plot(), ()に変数
   plt.plot(x_list, y_list, c="blue", ls="-", lw=2, alpha=0.8)
@@ -244,7 +244,7 @@ matplotlib.pyplot(plt)で、折れ線グラフ(plot)を書きます。横軸、�
 <p>
   <br>
   <br>
-  折れ線グラフでもmarkerの指定ができます。
+  折れ線グラフでもmarkerの指定ができる。
 </p>
 
 <img border="0" src="Python-figs\py_Figure_3.png" width="700"><br>
@@ -278,9 +278,9 @@ matplotlib.pyplot(plt)で、折れ線グラフ(plot)を書きます。横軸、�
 <a id="fnc"><h4 class="ty">&#9679;数学関数の使用</h4></a>
  
 <p>
-  numpyの数学関数を用いて関数のグラフを書くことができます。<br>
-  <code class="python ty">np.linspace()</code>を使って定義域を決め、この範囲で関数をプロットします。<br>
-  括弧内は，（最小値、最大値、計算点の数）で指定します。計算点の数は省略可。<br>
+  numpyの数学関数を用いて関数のグラフを書くことができる。<br>
+  <code class="python ty">np.linspace()</code>を使って定義域を決め、この範囲で関数をプロットする。<br>
+  括弧内は，（最小値、最大値、計算点の数）で指定する。計算点の数は省略可。<br>
 </p>
 
  
@@ -308,10 +308,10 @@ matplotlib.pyplot(plt)で、折れ線グラフ(plot)を書きます。横軸、�
 
 
 <p>
-　上の x, y1, y2 はいずれも numpy.ndarray という型のオブジェクトです。<br>
+　上の x, y1, y2 はいずれも numpy.ndarray という型のオブジェクトである。<br>
   これはリストのようなもので、要素数101個のリストを np.linspace() を作り、<br>
-  その1点ごとにnp.sin()のような数学関数で値を求めてy1に格納しています。<br>
-  これを plt.plot() で折れ線グラフとして描いています。<br>
+  その1点ごとにnp.sin()のような数学関数で値を求めてy1に格納している。<br>
+  これを plt.plot() で折れ線グラフとして描いてみる。<br>
   x, y1, y2 の最初の2点の値を以下で見てみると、
 </p>  
 
@@ -369,9 +369,9 @@ plt.show()
 <a id="axis"><h4 class="ty">2. 軸</h4></a>
 
 <p>
-  グラフを書く際に有用なライブラリの一つに seaborn があります。<br>
-  ここではデフォルトスタイルのみ使用することとし、詳細設定は省きます。<br>
-  seaborn によって背景とグリッド線を入れることができます。<br>
+  グラフを書く際に有用なライブラリの一つに seaborn がある。<br>
+  ここではデフォルトスタイルのみ使用することとし、詳細設定は省く。<br>
+  seaborn によって背景とグリッド線を入れることができる。<br>
   <br>
   また、
 </p>
@@ -543,7 +543,7 @@ plt.show()
 <pre><code class="python ty">
 plt.legend(bbox_to_anchor=(1.02, 1.0), framealpha=0.5, facecolor="lightblue", edgecolor="blue", fontsize=12)
   # bbox_to_anchor で凡例ボックスの位置 (x,y) を設定。数字はグラフの左下を (0,0), 右上を (1,1) としたときの数字。
-  # framealpha はボックスの透過度。グラフとボックスが重なる際に有用かもしれない
+  # framealpha はボックスの透過度。グラフとボックスが重なる際に有用かもしれない。
   # facecolor はボックスの背景色。edgecolor は縁の色。
 
 </code></pre>
@@ -668,6 +668,141 @@ plt.show()
 
 
 <a id="multi"><h4 class="ty">6. 複数の図</h4></a>
+
+<p>
+  plt.subplot() を使うことで1つの台紙に複数の図を描画することができる。
+</p>
+
+<pre><code class="python ty">
+  plt.subplot(2,3,1)
+
+</code></pre>
+
+<p>
+  としたとき、2行3列で計6個の図が準備される。1行目左から1,2,3, 2行目左から4,5,6と通し番号が付けられ、<br>
+  最後に1を指定することで図.1に書きこみがされる。
+</p>
+
+<pre><code class="python ty">
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+sns.set()
+
+# 図.1
+plt.subplot(2,3,1)
+x1=np.linspace(0,3)
+y1=x1
+y2=x1**2
+y3=x1**(0.5)
+plt.plot(x1,y1,c="gray")
+plt.plot(x1,y2,c="orange")
+plt.plot(x1,y3,c="blue")
+plt.axis('scaled')
+plt.xlim(0,3)
+plt.ylim(0,3)
+plt.title("図.1", x=0.5, y=-0.35, fontname="MS Gothic")
+
+
+# 図.2
+plt.subplot(2,3,2)
+x1=np.linspace(0,3)
+y1=x1
+y2=x1**2-1
+y3=(x1+1)**(0.5)
+plt.plot(x1,y1,c="gray")
+plt.plot(x1,y2,c="orange")
+plt.plot(x1,y3,c="blue")
+plt.axis('scaled')
+plt.xlim(0,3)
+plt.ylim(0,3)
+plt.title("図.2", x=0.5, y=-0.35, fontname="MS Gothic")
+
+
+# 図.3
+plt.subplot(2,3,3)
+x1=np.linspace(1e-5,3)
+y1=x1
+y2=np.exp(x1)
+y3=np.log(x1)
+plt.plot(x1,y1,c="gray")
+plt.plot(x1,y2,c="orange")
+plt.plot(x1,y3,c="blue")
+plt.axis('scaled')
+plt.xlim(0,3)
+plt.ylim(0,3)
+plt.title("図.3", x=0.5, y=-0.35, fontname="MS Gothic")
+
+
+# 図.4
+plt.subplot(2,3,4)
+x1=np.linspace(-1,3)
+y1=x1
+y2=np.sin(x1)
+p1=np.linspace(-1,1)
+q1=np.arcsin(p1)
+q2=np.pi-np.arcsin(p1)
+plt.plot(x1,y1,c="gray")
+plt.plot(x1,y2,c="orange")
+plt.plot(p1,q1,c="blue")
+plt.plot(p1,q2,c="blue")
+plt.axis('scaled')
+plt.xlim(-1,3)
+plt.ylim(-1,3)
+plt.title("図.4", x=0.5, y=-0.35, fontname="MS Gothic")
+
+
+# 図.5
+plt.subplot(2,3,5)
+x1=np.linspace(-1,3)
+y1=x1
+y2=np.cos(x1)
+p1=np.linspace(-1,1)
+q1=np.arccos(p1)
+q2=-np.arccos(p1)
+plt.plot(x1,y1,c="gray")
+plt.plot(x1,y2,c="orange")
+plt.plot(p1,q1,c="blue")
+plt.plot(p1,q2,c="blue")
+plt.axis('scaled')
+plt.xlim(-1,3)
+plt.ylim(-1,3)
+plt.title("図.5", x=0.5, y=-0.35, fontname="MS Gothic")
+
+
+# 図.6
+plt.subplot(2,3,6)
+x1=np.linspace(-1,1.5)
+y1=np.tan(x1)
+p1=np.linspace(-1,3)
+q1=np.arctan(p1)
+q2=p1
+plt.plot(p1,q2,c="gray")
+plt.plot(x1,y1,c="orange")
+plt.plot(p1,q1,c="blue")
+plt.axis('scaled')
+plt.xlim(-1,3)
+plt.ylim(-1,3)
+plt.title("図.6", x=0.5, y=-0.35, fontname="MS Gothic")
+
+
+
+plt.tight_layout()
+# 図と図の間隔を自動で調整してくれる。
+
+plt.show()
+
+</code></pre>
+
+<img border="0" src="Python-figs\py_Figure_11.png" width="700"><br>
+
+
+
+
+
+
+
 </ol>
 
 
@@ -706,25 +841,25 @@ plt.show()
  <a id="csv"><h4 class="ty">&#9679;csvファイルを読み込む</h4></a>
 
 <p>
- pandasを利用し、csvファイルを読み込む方法を説明します。<br>
- csvファイル、table1.csvをdfと名前をつけて読み込みます。
+ pandasを利用し、csvファイルを読み込む方法を説明する。<br>
+ csvファイル、table1.csvをdfと名前をつけて読み込む。
 </p> 
  
 <pre><code class="python ty"> df = pd.read_csv('table1.csv')
 </code></pre>
 
 <p>
-  任意の行だけ抜き出すこともできます。csvファイル内でxという名前の列は
+  グラフを描くために任意の列だけ抜き出そう。csvファイル内で x という名前の列は
 </p>
 <pre><code class="python ty">a=df["x"]</code></pre>
 <p>
-  で抜き出せます。<br>
-  条件式を使うこともできます。yという列の値が0より大きい場合のみxを取り出すとすれば
+  で抜き出せる。<br>
+  条件式を使うこともできる。yという列の値が0より大きい場合のみxを取り出すとすれば
 </p> 
-<pre><code class="python ty">b=df[df['y']>0]['x']</code></pre>
+<pre><code class="python ty">b=df[df["y"]>0]["x"]</code></pre>
 
 <p>
-  任意の列を抽出し、グラフを書くことができます。<br>
+  任意の列を抽出し、グラフを描く。<br>
 </p> 
 <pre><code class="python ty">
 import pandas as pd
