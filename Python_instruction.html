@@ -47,7 +47,7 @@
           <li><a href="#lett">文字列の挿入</a></li>
           <li><a href="#multi">複数の図</a></li>
         </ol>
-    <li><a href="#log">片対数グラフを描く</a></li>
+    <!-- <li><a href="#log">片対数グラフを描く</a></li> -->
     <li><a href="#csv">csvファイルを読み込んでグラフを描く</a></li>
     <!-- <li><a href="#xlsx">xlsxファイルを読み込んでグラフを描く</a></li>
     <li><a href="#bar">xlsxファイルを読み込んで棒グラフを描く</a></li> -->
@@ -798,46 +798,10 @@ plt.show()
 <img border="0" src="Python-figs\py_Figure_11.png" width="700"><br>
 
 
-
-
-
-
-
 </ol>
 
 
 
-
-
-<!-- <a id="log"><h4 class="ty">&#9679;片対数グラフを描く</h4></a>
-   
-    <img border="0" src="./figs/logplot.jpg" width="500"><br>
-   
-   <p><code class="python ty">plt.plot</code>等で点や関数をプロットした後、
-   <code class="python ty">plt.yscale</code>でyスケールを<code class="python ty">"log"</code>にします。
-   </p>
-   
-   <pre><code class="python ty">
-    import matplotlib.pyplot as plt
-　　#ライブラリ(ここではmatplotlib.pyplot(グラフを書くためのライブラリ))を導入.これをpltと名付けた。
-
-　　plt.plot([0,1,2,3],[200,10,3,0.08],marker="o",color="black",linewidth=1)
-　　#x座標の組(必須)、y座標の組(必須)、形、色、外枠の太さ(ここでは、点を結んだ線の太さ)
-
-　　plt.subplots_adjust(top=0.85,bottom=0.25)
-　　#図全体にしめる、グラフの上下左右の端の位置(0が左(下)端、1が右(上)端)。デフォルトでは、left=0.125、right=0.9、bottom=0.1、top=0.9
-
-　　plt.yscale('log')
-
-　　plt.grid(which='major',color='black',linestyle='-')
-　　# グラフに目盛りをつける。
-
-　　plt.show()
-</code></pre> -->
-
-
-
- 
  <a id="csv"><h4 class="ty">&#9679;csvファイルを読み込む</h4></a>
 
 <p>
@@ -974,203 +938,6 @@ plt.show()
 
 
 
-
- 
-<!--  
- 
-  <a id="mlt"><h4 class="ty">&#9679;複数のグラフを同時に描く</h4></a>
- 
- <p><code class="r ty">split.screen</code>で画面を分割できます．同じ大きさのグラフを同時に描くことができます．
- <code class="r ty">screen(1)</code>のように宣言すると，1番目の画面に図を描くので，これを単純に繰り返します．
- </p>
-
- <img border="0" src="./figs/plot_4win.jpg" width="600"><br>
- 
-<pre><code class="r ty"> 
- xmin<- 0
- xmax<- 10
- ymax<-  2.0
- ymin<- -2.0
-
-pdf("plot.pdf", width = 25/2.54, height = 16/2.54)
-
-marc = c(3, 4, 2, 3)  #  余白の広さを行数で指定．下，左，上，右の順．
-mgpc = c(3, 0.6, 0)  #  余白の使い方．説明，ラベル，軸の位置を行で指定．
-tck = 0.04 # 目盛線の長さ
-cexaxis=1.2
-
-#画面を2x2に分割する
-split.screen(figs = c(2, 2))
-
-#画面1に以下を描く
-screen(1)
-
-par(mar = marc)
-par(mgp = mgpc)
-
-d <- c(1,1)
-plot(d,d,type = 'n',xlab=NA,ylab=NA,xaxt="n",yaxt="n",
-      ylim=c(ymin,ymax),
-      xlim=c(xmin,xmax),
-      xaxs="i",
-      yaxs="i",
-)
-
- abline(h=0)
-
-# xminからxmaxまでを500分割する
- x = seq(xmin,xmax,length=500)
-
-# xに対して関数をプロットする
- lines (x,sin(x),lwd=2,col="red")
-
-#x軸
-  axis(side=1,
-       las=FALSE,
-       tck=tck,
-       cex.axis=cexaxis,
-       family="sans",)
-  
-#y軸
-axis(side=2, 
-     las=TRUE, 
-     tck=tck, 
-     cex.axis=cexaxis,
-     family="sans",
-)
-
-box()
-
-
-
-#画面2に以下を描く
-screen(2)
-
-par(mar = marc)
-par(mgp = mgpc)
-
-d <- c(1,1)
-plot(d,d,type = 'n',xlab=NA,ylab=NA,xaxt="n",yaxt="n",
-      ylim=c(ymin,ymax),
-      xlim=c(xmin,xmax),
-      xaxs="i",
-      yaxs="i",
-)
-
- abline(h=0)
-
-# xminからxmaxまでを500分割する
- x = seq(xmin,xmax,length=500)
-
-# xに対して関数をプロットする
- lines (x,cos(x)/x,lwd=2,col="blue")
-
-#x軸
-  axis(side=1,
-       las=FALSE,
-       tck=tck,
-       cex.axis=cexaxis,
-       family="sans",)
-  
-#y軸
-axis(side=2, 
-     las=TRUE, 
-     tck=tck, 
-     cex.axis=cexaxis,
-     family="sans",
-)
-
-box()
-
-
-
-#画面3に以下を描く
-screen(3)
-
-par(mar = marc)
-par(mgp = mgpc)
-
-d <- c(1,1)
-plot(d,d,type = 'n',xlab=NA,ylab=NA,xaxt="n",yaxt="n",
-      ylim=c(ymin,ymax),
-      xlim=c(xmin,xmax),
-      xaxs="i",
-      yaxs="i",
-)
-
- abline(h=0)
-
-# xminからxmaxまでを500分割する
- x = seq(xmin,xmax,length=500)
-
-# xに対して関数をプロットする
- lines (x,x**cos(3*x)/10,lwd=2,col="magenta")
-
-#x軸
-  axis(side=1,
-       las=FALSE,
-       tck=tck,
-       cex.axis=cexaxis,
-       family="sans",)
-  
-#y軸
-axis(side=2, 
-     las=TRUE, 
-     tck=tck, 
-     cex.axis=cexaxis,
-     family="sans",
-)
-
-box()
-
-
-
-#画面4に以下を描く
-screen(4)
-
-par(mar = marc)
-par(mgp = mgpc)
-
-d <- c(1,1)
-plot(d,d,type = 'n',xlab=NA,ylab=NA,xaxt="n",yaxt="n",
-      ylim=c(ymin,ymax),
-      xlim=c(xmin,xmax),
-      xaxs="i",
-      yaxs="i",
-)
-
- abline(h=0)
-
-# xminからxmaxまでを500分割する
- x = seq(xmin,xmax,length=500)
-
-# xに対して関数をプロットする
- lines (x,exp(-(x-3)**2)-exp(-(x-7)**2),lwd=2,col="#31E21F")
-
-#x軸
-  axis(side=1,
-       las=FALSE,
-       tck=tck,
-       cex.axis=cexaxis,
-       family="sans",)
-  
-#y軸
-axis(side=2, 
-     las=TRUE, 
-     tck=tck, 
-     cex.axis=cexaxis,
-     family="sans",
-)
-
-box()
-
-dev.off()
-</code></pre> -->
-
-<!-- 
- <h4 class="ty">&#9679;２軸のグラフを描く</h4>
- <h4 class="ty">&#9679;x軸を連結したグラフを描く</h4>
--->
 
 
  <br><br><a href="#top">Back to TOP</a>
