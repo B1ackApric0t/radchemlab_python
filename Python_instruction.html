@@ -49,10 +49,10 @@
         </ol>
     <li><a href="#log">片対数グラフを描く</a></li>
     <li><a href="#csv">csvファイルを読み込んでグラフを描く</a></li>
-    <li><a href="#xlsx">xlsxファイルを読み込んでグラフを描く</a></li>
-    <li><a href="#bar">xlsxファイルを読み込んで棒グラフを描く</a></li>
+    <!-- <li><a href="#xlsx">xlsxファイルを読み込んでグラフを描く</a></li>
+    <li><a href="#bar">xlsxファイルを読み込んで棒グラフを描く</a></li> -->
     <li><a href="#err">エラーバーをつける</a></li>
-    <li><a href="#mlt">複数のグラフを同時に描く</a></li>
+    <!-- <li><a href="#mlt">複数のグラフを同時に描く</a></li> -->
  <!--   <li>２軸のグラフを描く</li>
     <li>x軸を連結したグラフを描く</li> -->
     </ul>
@@ -842,7 +842,16 @@ plt.show()
 
 <p>
  pandasを利用し、csvファイルを読み込む方法を説明する。<br>
- csvファイル、table1.csvをdfと名前をつけて読み込む。
+ csvファイル、table1.csvをdfと名前をつけて読み込む。<br><br>
+ 
+ <a href="table1.csv" download="table1.csv">table1.csv</a><br>
+
+
+
+
+
+
+
 </p> 
  
 <pre><code class="python ty"> df = pd.read_csv('table1.csv')
@@ -851,27 +860,61 @@ plt.show()
 <p>
   グラフを描くために任意の列だけ抜き出そう。csvファイル内で x という名前の列は
 </p>
-<pre><code class="python ty">a=df["x"]</code></pre>
+<pre><code class="python ty">x=df["x"]</code></pre>
 <p>
   で抜き出せる。<br>
   条件式を使うこともできる。yという列の値が0より大きい場合のみxを取り出すとすれば
 </p> 
-<pre><code class="python ty">b=df[df["y"]>0]["x"]</code></pre>
+<pre><code class="python ty">x=df[df["y"]>0]["x"]</code></pre>
 
 <p>
   任意の列を抽出し、グラフを描く。<br>
 </p> 
 <pre><code class="python ty">
-import pandas as pd
-import matplotlib.pyplot as plt
+  import matplotlib.pyplot as plt
+  import seaborn as sns
+  
+  # pandas を導入。 pd で呼び出す。
+  import pandas as pd
+    
+  sns.set()
+    
+  # table1.csv を読み込み、df と名前を付ける。
+  df = pd.read_csv("table1.csv")
+  
+  plt.subplot(1,3,1)
+  # x の列を抜き出す。
+  x=df["x"]
+  # y の列を抜き出す。
+  y=df["y"]
+  plt.scatter(x,y,c="blue",marker=".",s=20)
+  plt.xlim(0,6)
+  plt.ylim(-100,200)
+    
 
-  df = pd.read_csv('table1.csv')
-  x=df['x']
-  y=df['y']
-  plt.scatter(x,y)
+  plt.subplot(1,3,2)
+  # 条件付きで抜き出す。
+  x=df[df["y"]>0]["x"]
+  y=df[df["y"]>0]["y"]
+  plt.scatter(x,y,c="orange",marker="d",s=20)
+  plt.xlim(0,6)
+  plt.ylim(-100,200)
+    
+  
+  plt.subplot(1,3,3)
+  # 複数の条件は () & () のように & でつなげる。
+  x=df[(df["y"]>0)&(df["x"]>2.5)]["x"]
+  y=df[(df["y"]>0)&(df["x"]>2.5)]["y"]
+  plt.scatter(x,y,c="red",marker="^",s=20)
+  plt.xlim(0,6)
+  plt.ylim(-100,200)
+  
+  plt.tight_layout()
   plt.show()
+    
 </code></pre>
-<img border="0" src="./Python-figs\csvplot1.jpg" width="500"><br>
+<img border="0" src="Python-figs\py_Figure_12.png" width="700"><br>
+
 
 
 
@@ -914,7 +957,7 @@ import matplotlib.pyplot as plt
 
 
  
- 
+<!--  
  
   <a id="mlt"><h4 class="ty">&#9679;複数のグラフを同時に描く</h4></a>
  
@@ -1103,7 +1146,7 @@ axis(side=2,
 box()
 
 dev.off()
-</code></pre>
+</code></pre> -->
 
 <!-- 
  <h4 class="ty">&#9679;２軸のグラフを描く</h4>
