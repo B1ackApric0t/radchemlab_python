@@ -844,13 +844,8 @@ plt.show()
  pandasを利用し、csvファイルを読み込む方法を説明する。<br>
  csvファイル、table1.csvをdfと名前をつけて読み込む。<br><br>
  
- <a href="table1.csv" download="table1.csv">table1.csv</a><br>
-
-
-
-
-
-
+ <a href="table1.csv" download="table1.csv">table1.csv</a>　　
+ (環境によっては .xls でダウンロードされるらしい？)
 
 </p> 
  
@@ -926,33 +921,57 @@ plt.show()
 </p>
 
 <pre><code class="python ty">
- plt.errorbar(3, 6, xerr = 0.5, yerr =0.8 , capsize=3, fmt='.', markersize=10, color="w", markeredgecolor="c", ecolor="b")
-  # この例では変数を10個指定していますが、左から
-  # プロットする x, yの位置、  x, yのエラーバーの大きさ（片方のみでも可、要らない方を0にすればよい)
-  # 以降省略可
+  import matplotlib.pyplot as plt
+  import seaborn as sns
+  
+  sns.set()
+  
+  plt.errorbar(3, 6, xerr = 1, yerr =2 , capsize=3, fmt='.', markersize=20, color="white", markeredgecolor="cyan", ecolor="blue")
+  # (x,y)=(3,6)　にプロット。xerr, yerr でエラーバーの長さ。x = 3 ± 1, y = 6 ± 2　の形になる。
+  #  以降は省略可能で、
   #　capsize:xのエラーバーが ┣─○─┫ のように表示されるとき、縦線部の長さ（yだと横線部）
   #　fmt, markersize: マーカーの形、大きさ
   #　color, markeredgecolor, ecolor: マーカー、マーカーの縁、エラーバーの色
+
+
+  plt.axis('scaled')
+  plt.xlim(0,10)
+  plt.ylim(0,10)
+  
+  plt.show()
+  
 </code></pre>
-<img border="0" src="./Python-figs\errorbar.jpg" width="500"><br>
+<img border="0" src="Python-figs\py_Figure_13.png" width="700"><br>
+
 
 <p>
+  <br><br>
   上のcsvファイルからグラフを書いてみる。
 </p>
 <pre><code class="python ty">
-import pandas as pd
-import matplotlib.pyplot as plt
-
- df = pd.read_csv('table1.csv')
- x=df['x']
- y=df['y']
- x_error=df['x_error']
- y_error=df['y_error']
-
- plt.errorbar(x, y, xerr = x_error, yerr = y_error, capsize=3, fmt='.',markersize=10, color="w", markeredgecolor="b", ecolor="b")
- plt.show()
+  import matplotlib.pyplot as plt
+  import seaborn as sns
+  import pandas as pd
+    
+  sns.set()
+    
+  df = pd.read_csv("table1.csv")
+  
+  x=df["x"]
+  y=df["y"]
+  x_error=df["x_error"]
+  y_error=df["y_error"]
+  
+  plt.errorbar(x, y, xerr = x_error, yerr = y_error, capsize=3, fmt='.',markersize=10, color="white", markeredgecolor="cyan", ecolor="blue")
+  
+  plt.xlim(0,6)
+  plt.ylim(-100,200)
+  
+  plt.show()
+  
 </code></pre>
-<img border="0" src="./Python-figs\errorbar2.jpg" width="500"><br>
+<img border="0" src="Python-figs\py_Figure_14.png" width="700"><br>
+
 
 
 
