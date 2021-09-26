@@ -37,6 +37,7 @@
     <ul>
     <li><a href="#scatt">散布図</a></li>
     <li><a href="#plot">折れ線グラフ</a></li>
+    <li><a href="#bar">棒グラフ</a></li>
     <li><a href="#fnc">数学関数の使用</a></li>
     <li><a href="#sett">図の詳細設定</a></li>
         <ol>
@@ -57,7 +58,11 @@
     <li>x軸を連結したグラフを描く</li> -->
     </ul>
 </li>
-<li><a href="#grapha">グラフを描く（応用編）</a>
+<li><a href="#ograph">グラフを描く（応用編）</a>
+  　<ul>
+    <li><a href="#obasic">オブジェクト指向インターフェースの基本</a></li>
+    <li><a href="#otwin"> 2 軸のグラフ</a></li>
+  　</ul>
 
 <li><a href="#fit">フィッティングする</a>
     <ul>
@@ -193,8 +198,6 @@
   また、マーカーの縁を別の色にすることも可能。
 </p>
 
-<img border="0" src="Python-figs\py_Figure_1'.png" width="700"><br>
-
 
 <pre>
 <code class="python ty"> 
@@ -210,6 +213,9 @@
 
 </code>
 </pre>
+
+<img border="0" src="Python-figs\py_Figure_1'.png" width="700"><br>
+
 
 
 <a id="plot"><h4 class="ty">&#9679;折れ線グラフ</h4></a>
@@ -247,7 +253,6 @@ matplotlib.pyplot(plt)で、折れ線グラフ(plot)を描く。横軸、縦軸�
   折れ線グラフでもmarkerの指定ができる。
 </p>
 
-<img border="0" src="Python-figs\py_Figure_3.png" width="700"><br>
 
 <pre>
 <code class="python ty"> 
@@ -273,6 +278,69 @@ matplotlib.pyplot(plt)で、折れ線グラフ(plot)を描く。横軸、縦軸�
 
 </code>
 </pre>
+
+<img border="0" src="Python-figs\py_Figure_3.png" width="700"><br>
+
+
+
+<a id="bar"><h4 class="ty">&#9679;棒グラフ</h4></a>
+
+<img border="0" src="Python-figs\py_Figure_15.png" width="700"><br>
+
+<p>
+<br>
+matplotlib.pyplot(plt)で、棒グラフ(plot)を描く。横軸の位置、縦軸の高さの系列をリストで指定してみる。<br>
+</p>
+
+<pre>
+<!-- <code class="ty"> -->
+<code class="python ty"> 
+  import matplotlib.pyplot as plt
+
+  # 横軸位置のリスト
+  x_list=[ 1, 2, 3, 4, 5, 6]
+  # 縦軸高さのリスト
+  height=[ 2, 3, 7, 9, 6, 3]
+  
+  plt.bar(x_list, height, width=1.0, align="center", color="blue", edgecolor="cyan", lw=2, alpha=0.8)
+  # 左から x 座標、y 座標
+  # 以下は任意で 棒グラフの幅, x座標の指定する位置 ("edge" にすると棒グラフの左端が指定した数字に来る)
+  # 棒グラフの色、縁の色と幅、棒グラフの透明度
+
+  plt.show()
+  
+</code>
+</pre>
+  
+<p>
+  <br>
+  <br>
+  bottom を指定すれば棒グラフの下端を指定でき、積み上げ棒グラフを描くことができる。
+</p>
+
+<pre>
+<code class="python ty"> 
+
+  import matplotlib.pyplot as plt
+
+  x_list=[ 1, 2, 3, 4, 5, 6]
+  height1=[ 2, 3, 7, 9, 6, 3]
+  height2=[ 8, 7, 3, 1, 4, 7]
+  
+  
+  plt.bar(x_list, height1, width=0.6, align="center", color="blue")
+  plt.bar(x_list, height2, width=0.6, align="center", color="orange",bottom=height1)
+  # bottom = height1 にしたことで 1段目の上端が 2段目の下端になる
+  
+  
+  plt.show()
+  
+
+</code>
+</pre>
+
+<img border="0" src="Python-figs\py_Figure_16.png" width="700"><br>
+
 
 
 <a id="fnc"><h4 class="ty">&#9679;数学関数の使用</h4></a>
@@ -1018,19 +1086,58 @@ plt.show()
  <br><br><a href="#top">Back to TOP</a>
   <hr>
 
-<h3><a id="grapha" class="ty">グラフを描く（応用編）</a></h3>
+<h3><a id="ograph" class="ty">グラフを描く（応用編）</a></h3>
 <p>
-matplotlib でグラフを作る際には2つの流儀がある。<br>
+matplotlib でグラフを作る際には2つの方式がある。<br>
 1つは「Pyplotインターフェース」と呼ばれるもので、ここまで説明してきたものはすべてPyplotインターフェースである。<br>
 もう1つは「オブジェクト指向インターフェース」であり、Pyplotインターフェースより詳細な設定ができる。<br>
 ここでは基礎的な説明にとどめ、有用でかつPyplotインターフェースでは実装できないものがあった際に追記することにする。<br>
 また、両者を混同させて記述することも可能であるため、Pyplotインターフェースをベースとしその箇所のみオブジェクト指向インターフェースで記述することにする。<br>
 インターネット上ではオブジェクト指向インターフェースで書かれた解説ページも多いため様式を理解しておくとよい。<br>
 <br><br>
+</p>
 
+<a id="obasic"><h4 class="ty">&#9679;オブジェクト指向インターフェースの基本</h4></a>
 
+<p>
 
 </p>
+
+
+<pre>
+
+<code class="python ty"> 
+
+</code>
+</pre>
+  
+
+
+<img border="0" src="Python-figs\py_Figure_1'.png" width="700"><br>
+
+<a id="otwin"><h4 class="ty">&#9679;2軸グラフ</h4></a>
+
+
+<p>
+
+</p>
+
+
+<pre>
+
+<code class="python ty"> 
+
+</code>
+</pre>
+  
+
+
+<img border="0" src="Python-figs\py_Figure_1'.png" width="700"><br>
+
+
+
+
+
 
 
  <h3><a id="fit" class="tt">フィッティングする</a></h3>
