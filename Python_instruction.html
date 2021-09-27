@@ -1092,28 +1092,298 @@ matplotlib でグラフを作る際には2つの方式がある。<br>
 1つは「Pyplotインターフェース」と呼ばれるもので、ここまで説明してきたものはすべてPyplotインターフェースである。<br>
 もう1つは「オブジェクト指向インターフェース」であり、Pyplotインターフェースより詳細な設定ができる。<br>
 ここでは基礎的な説明にとどめ、有用でかつPyplotインターフェースでは実装できないものがあった際に追記することにする。<br>
-また、両者を混同させて記述することも可能であるため、Pyplotインターフェースをベースとしその箇所のみオブジェクト指向インターフェースで記述することにする。<br>
-インターネット上ではオブジェクト指向インターフェースで書かれた解説ページも多いため様式を理解しておくとよい。<br>
+また、両者を混同させて記述することも可能であるため、Pyplotインターフェースをベースとし必要箇所のみオブジェクト指向インターフェースで記述することにする。<br>
+インターネット上ではオブジェクト指向インターフェースで書かれた解説ページも多いため様式を理解しておくと良いかもしれない。<br>
 <br><br>
 </p>
 
 <a id="obasic"><h4 class="ty">&#9679;オブジェクト指向インターフェースの基本</h4></a>
 
 <p>
+オブジェクト指向インタフェースでは最初に台紙となる Figure, その上にグラフ領域となる Axes を作り、さらにその上にグラフ要素を追加する。<br>
+オブジェクト指向で<a href="#multi">複数の図</a>を描く場合には複数の Axes を作ることになる。<br><br>
+<ol>
+  <li><a href="#ob1">1つの Axes</a></li>
+  <li><a href="#ob2">複数の Axes</a></li>
 
+</ol>  
+<br>
+の順に説明する。
+<br><br>
 </p>
 
+<h4><a id="ob1" class="ty">1. 1つの Axes</a></h4>
+
+<p>
+　グラフ領域を1つのみ作る場合には
+  <pre>
+  <code class="python ty"> 
+  fig = plt.figure()
+  ax = fig.add_subplot(111)
+  </code>
+  </pre>
+  とすればよい。台紙を fig, グラフ領域を ax としている。<br>
+  グラフ要素を ax.~ で加えていく。<br>
+  基本的には Pyplotインターフェースにおける plt が ax に置き換わるだけだが、一部例外がある。<br>
+  (plt.xlim() →　ax.set_xlim(),  plt.title() →　ax.set_title() など)<br>
+</p>
 
 <pre>
 
 <code class="python ty"> 
-
+  import numpy as np
+  import matplotlib.pyplot as plt
+  import seaborn as sns
+  
+  sns.set()
+  
+  # Figure のセット
+  fig = plt.figure()
+  # Axes のセット、括弧内は1×1の1番目の意。複数描くときに重要。
+  ax = fig.add_subplot(111)
+  
+  x=np.linspace(-5,5,101)
+  
+  y1=np.sin(x)*3
+  ax.plot(x,y1,c="blue",label="y = 3sin(x)")
+  
+  y2=(x-2)**2-2
+  ax.plot(x,y2,c="orange",label="y = (x-2)$^2$-2")
+  ax.annotate("min (2, -2)", xy=(1.4,-2.5), c="black")
+  
+  ax.axis('scaled')
+  ax.set_xlim(-5,5)
+  ax.set_ylim(-4,6)
+  
+  ax.legend(framealpha=1.0)
+  ax.set_title("Title", x=0.5, y=-0.2)
+  
+  plt.tight_layout()
+  plt.show()
+    
 </code>
 </pre>
   
+<img border="0" src="Python-figs\py_Figure_17.png" width="700"><br>
+
+<p>
+  <br><br>
+  plt.figure() の段階で図の大きさ、背景色が決定できる。<br>
+  また、上では
+  <pre>
+  <code class="python ty"> 
+  plt.tight_layout()
+　</code>
+  </pre>
+  <br>
+  で配置の調整をさせたが、この設定もこの中でできる。<br>
+  （fig.add_subplot(111) の段階であらかじめタイトル等の設定もできるが使い勝手が悪いので省略）
+</p>
+  
+  <pre>
+  
+  <code class="python ty"> 
+    import numpy as np
+    import matplotlib.pyplot as plt
+    import seaborn as sns
+    
+    sns.set()
+    
+    fig = plt.figure(figsize=(8,6),facecolor="pink",edgecolor="red",linewidth=10,tight_layout=True)
+    # 左から図の大きさ、「台紙」の色、縁の色・幅、配置の自動調整を on
+    ax = fig.add_subplot(111,facecolor="mistyrose")
+    # Axes の色
+    
+    x=np.linspace(-5,5,101)
+    
+    y1=np.sin(x)*3
+    ax.plot(x,y1,c="blue",label="y = 3sin(x)")
+    
+    y2=(x-2)**2-2
+    ax.plot(x,y2,c="orange",label="y = (x-2)$^2$-2")
+    ax.annotate("min (2, -2)", xy=(1.4,-2.5), c="black")
+    
+    ax.axis('scaled')
+    ax.set_xlim(-5,5)
+    ax.set_ylim(-4,6)
+    
+    ax.legend(framealpha=1.0)
+    ax.set_title("Title", x=0.5, y=-0.2)
+    
+    plt.show()
+          
+  </code>
+  </pre>
+    
+  <img border="0" src="Python-figs\py_Figure_18.png" width="700"><br>
+
+  <p>
+  <br><br>
+  上述の通り、Pyplotインターフェースとオブジェクト指向インターフェースは混在しても問題ない。<br>
+  Figure, Axes のセットだけしておいて、基本的には Pyplotインターフェースで記述、<br>
+  必要な時のみオブジェクト指向インターフェースを持ち込めばよい。
+  </p>
+   
+  <pre>
+  <code class="python ty"> 
+    import numpy as np
+    import matplotlib.pyplot as plt
+    import seaborn as sns
+    
+    sns.set()
+    
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    
+    x=np.linspace(-5,5,101)
+    
+    y1=np.sin(x)*3
+    plt.plot(x,y1,c="blue",label="y = 3sin(x)")
+    
+    y2=(x-2)**2-2
+    plt.plot(x,y2,c="orange",label="y = (x-2)$^2$-2")
+    plt.annotate("min (2, -2)", xy=(1.4,-2.5), c="black")
+    
+    plt.axis('scaled')
+    plt.xlim(-5,5)
+    plt.ylim(-4,6)
+    
+    plt.legend(framealpha=1.0)
+    plt.title("Title", x=0.5, y=-0.2)
+    
+    plt.tight_layout()
+    plt.show()
+    
+  </code>
+  </pre>
+    
+  <img border="0" src="Python-figs\py_Figure_19.png" width="700"><br>
 
 
-<img border="0" src="Python-figs\py_Figure_1'.png" width="700"><br>
+  
+<h4><a id="ob2" class="ty">2. 複数の Axes</a></h4>
+
+<p>
+  最初の方法は1つの Axes における、
+  <pre>
+    <code class="python ty"> 
+    ax = fig.add_subplot(111)
+    </code>
+    </pre>
+　の括弧内の数字を変えることである。<br>
+  この数字はi段、j列のうち左上からk番目を(ijk)で表している。<br>
+  （コンマで区切って(i,j,k)としても良い。かえってその方が正確である。）<br>
+  また、i×j 個の Axes を用意する必要はなく、虫食いでも良い。<br>
+</p>
+
+<pre>
+<code class="python ty"> 
+  import numpy as np
+  import matplotlib.pyplot as plt
+  import seaborn as sns
+  
+  sns.set()
+  
+  fig = plt.figure(edgecolor="black",linewidth=1)
+
+  ax1 = fig.add_subplot(2,3,1)
+  # 2段3列の1番目
+
+  ax2 = fig.add_subplot(2,3,3)
+  # 2段3列の3番目
+
+  ax3 = fig.add_subplot(2,3,5)
+  # 2段3列の5番目
+  
+  x=np.linspace(-5,5,101)
+  
+  y1=x
+  ax1.plot(x,y1,c="blue")
+  ax1.axis('scaled')
+  ax1.set_xlim(-5,5)
+  ax1.set_ylim(-5,5)
+  
+  y2=x**2
+  ax2.plot(x,y2,c="orange")
+  ax2.axis('scaled')
+  ax2.set_xlim(-5,5)
+  ax2.set_ylim(-1,9)
+  
+  y3=x**3
+  ax3.plot(x,y3,c="red")
+  ax3.axis('scaled')
+  ax3.set_xlim(-5,5)
+  ax3.set_ylim(-5,5)
+  
+  plt.tight_layout()
+  plt.show()  
+    
+</code>
+</pre>
+  
+<img border="0" src="Python-figs\py_Figure_20.png" width="700"><br>
+
+<p>
+  <br><br>
+  また、全ての Axes が同じ i×j ブロックの1つである必要はなく、2×3 と 1×3 が混在しても良い。<br>
+  （(2,3,3)と(1,3,3)のように重なる Axes を設定した場合には勝手にずらされるらしい？）
+　
+</p>
+
+<pre>
+<code class="python ty"> 
+  import numpy as np
+  import matplotlib.pyplot as plt
+  import seaborn as sns
+  
+  sns.set()
+  
+  fig = plt.figure(edgecolor="black",linewidth=1)
+  ax1 = fig.add_subplot(231)
+  ax2 = fig.add_subplot(235)
+  ax3 = fig.add_subplot(133)
+  
+  x=np.linspace(-5,5,101)
+  
+  y1=x
+  ax1.plot(x,y1,c="blue")
+  ax1.axis('scaled')
+  ax1.set_xlim(-5,5)
+  ax1.set_ylim(-5,5)
+  
+  y2=x**2
+  ax2.plot(x,y2,c="orange")
+  ax2.axis('scaled')
+  ax2.set_xlim(-5,5)
+  ax2.set_ylim(-1,9)
+  
+  y3=x**3
+  ax3.plot(x,y3,c="red")
+  ax3.axis('scaled')
+  ax3.set_xlim(-5,5)
+  ax3.set_ylim(-15,15)
+  
+  plt.tight_layout()
+  plt.show()
+      
+</code>
+</pre>
+  
+<img border="0" src="Python-figs\py_Figure_21.png" width="700"><br>
+
+<p>
+
+</p>
+
+<pre>
+<code class="python ty"> 
+
+    
+</code>
+</pre>
+  
+<img border="0" src="Python-figs\py_Figure_17.png" width="700"><br>
+
 
 <a id="otwin"><h4 class="ty">&#9679;2軸グラフ</h4></a>
 
