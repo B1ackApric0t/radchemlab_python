@@ -1372,26 +1372,141 @@ matplotlib でグラフを作る際には2つの方式がある。<br>
 <img border="0" src="Python-figs\py_Figure_21.png" width="700"><br>
 
 <p>
-
+  <br><br>
+Axes の大きさを決める上で最も自由度が高いのは fig.add_axes() を使う方法だろう。<br>
+括弧内に (left,bottom,width,height) を渡せばよい。<br>
+left, bottom について、この数字は Figure の左端、下端をそれぞれ0、右端、上端をそれぞれ1とする値である。<br>
+width, height についてこの数字は Figure の幅、高さを1とする値である。<br>
+(0,0,1,1) なら Figure 全体に余白なしで Axes を置くことを意味する。<br>
 </p>
 
 <pre>
 <code class="python ty"> 
+  import numpy as np
+  import matplotlib.pyplot as plt
+  import seaborn as sns
+  
+  sns.set()
+  
+  fig = plt.figure(edgecolor="black",linewidth=1)
 
+  ax1 = fig.add_axes((0.1,0.6,0.8,0.3),facecolor="lavender")
+  # 横:0.1から0.9、縦:0.6から0.9
+
+  ax2 = fig.add_axes((0.1,0.1,0.4,0.3),facecolor="antiquewhite")
+  # 横:0.1から0.5、縦:0.1から0.4
+
+  ax3 = fig.add_axes((0.6,0.1,0.3,0.3),facecolor="mistyrose")
+  # 横:0.6から0.9、縦:0.1から0.4
+  
+  x=np.linspace(-5,5,101)
+  
+  y1=x
+  ax1.plot(x,y1,c="blue")
+  ax1.set_xlim(-5,5)
+  ax1.set_ylim(-5,5)
+  
+  y2=x**2
+  ax2.plot(x,y2,c="orange")
+  ax2.set_xlim(-5,5)
+  ax2.set_ylim(-1,9)
+  
+  y3=x**3
+  ax3.plot(x,y3,c="red")
+  ax3.set_xlim(-5,5)
+  ax3.set_ylim(-15,15)
+  
+  plt.show()  
     
 </code>
 </pre>
   
-<img border="0" src="Python-figs\py_Figure_17.png" width="700"><br>
+<img border="0" src="Python-figs\py_Figure_22.png" width="700"><br>
+
 
 
 <a id="otwin"><h4 class="ty">&#9679;2軸グラフ</h4></a>
 
-
 <p>
-
+  Pyplot インターフェースでは（多分）実装できないものとして2軸グラフを挙げる。<br>
+　以下のように、図の上下に横軸が2つあるような図を作る場合には、グラフ領域 ax1 を作ったあと、<br>
+　ax2 = ax1.twiny() で ax1 と同期された ax2 を作るのが良い。<br>
 </p>
 
+<img border="0" src="Python-figs\py_Figure_23.png" width="700"><br>
+
+<p>
+ この図は横軸の上下ともにエネルギーであり、上下軸で正確に対応してほしい。
+ （1 a.u. = 27.211 eV であってほしい。）
+ しかし、twiny() しただけでは ax1 と ax2 の目盛は適当で、思ったようには対応してくれない。
+ これについては ax1, ax2 両方で xlim() を与えて、2点対応させてしまえばよい。
+</p>
+
+<pre>
+<code class="python ty"> 
+  import numpy as np
+  import matplotlib.pyplot as plt
+  import seaborn as sns
+  
+  sns.set()
+  
+  fig = plt.figure()
+  ax1 = fig.add_subplot(111)
+  
+  p=np.linspace(2,5)
+  q1=p*0-0.5
+  q2=p*0-0.125
+  plt.plot(q1,p,c="blue")
+  plt.plot(q2,p,c="orange")
+  plt.annotate("$n = 1$ ($-0.5$ a.u.)",xy=(-0.5, 1.8),fontsize=10,c="k")
+  plt.annotate("$n = 2$ ($-0.125$ a.u.)",xy=(-0.125, 1.8),fontsize=10,c="k")
+  plt.xlim(-1,0.2)
+  plt.ylim(1,6)
+  plt.xlabel("Energy (a.u)",fontsize=16,fontname="Times New Roman")
+
+  # この図ではy軸は意味を持たないので空リストを渡して目盛りを消してしまおう。
+  plt.yticks([])
+  
+  # ax2 を定義するまでの plt は ax1 の軸で行われる（混乱を避けるため ax1.~ で書いても良い）。
+  # ax2 を定義した後の plt は ax2 の軸で行われる。
+
+  # ax2 の定義
+  ax2 = ax1.twiny()
+
+  # エネルギーの換算係数を定義しておく。
+  hartree=27.211
+
+  # xlim指定を用いた上下両軸の対応
+  plt.xlim(-1*hartree,0.2*hartree)
+
+  # ax2 軸での記述のため xy に与える数字は ax2 の軸に応じた値である
+  plt.annotate("$n = 1$ ($-13.6$ eV)",xy=(-13.6, 5.2),fontsize=10,c="k")
+  plt.annotate("$n = 2$ ($-3.4$ eV)",xy=(-3.4, 5.2),fontsize=10,c="k")
+
+  plt.xlabel("Energy (eV)",fontsize=16,fontname="Times New Roman")
+
+  # True にする or そもそも書かなければ ax2 軸でキリのいいところにグリッド線が入る
+  plt.grid(False)
+  
+  
+  plt.tight_layout()
+  plt.show()
+    
+</code>
+</pre>
+  
+
+
+
+
+
+
+<!-- <a id="otwin"><h4 class="ty">&#9679;2軸グラフ</h4></a>
+
+<p>
+  Pyplot インターフェースでは（多分）実装できないものとして2軸グラフを挙げる。<br>
+
+</p>
 
 <pre>
 
@@ -1400,11 +1515,7 @@ matplotlib でグラフを作る際には2つの方式がある。<br>
 </code>
 </pre>
   
-
-
-<img border="0" src="Python-figs\py_Figure_1'.png" width="700"><br>
-
-
+<img border="0" src="Python-figs\py_Figure_.png" width="700"><br> -->
 
 
 
