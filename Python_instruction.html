@@ -1175,7 +1175,6 @@ matplotlib でグラフを作る際には2つの方式がある。<br>
   plt.tight_layout()
 　</code>
   </pre>
-  <br>
   で配置の調整をさせたが、この設定もこの中でできる。<br>
   （fig.add_subplot(111) の段階であらかじめタイトル等の設定もできるが使い勝手が悪いので省略）
 </p>
@@ -1429,17 +1428,19 @@ width, height についてこの数字は Figure の幅、高さを1とする値
 
 <p>
   Pyplot インターフェースでは（多分）実装できないものとして2軸グラフを挙げる。<br>
-　以下のように、図の上下に横軸が2つあるような図を作る場合には、グラフ領域 ax1 を作ったあと、<br>
-　ax2 = ax1.twiny() で ax1 と同期された ax2 を作るのが良い。<br>
+以下のように、図の上下に横軸が2つあるような図を作る場合には、グラフ領域 ax1 を作ったあと、<br>
+ax2 = ax1.twiny() で ax1 の横軸と同期された ax2 を作るのが良い。<br>
+twiny()はy軸を共有する上下の横軸、という意味になる。縦軸が2つならtwinx()を使い、新たな縦軸を定義する。<br>
 </p>
 
 <img border="0" src="Python-figs\py_Figure_23.png" width="700"><br>
 
 <p>
- この図は横軸の上下ともにエネルギーであり、上下軸で正確に対応してほしい。
- （1 a.u. = 27.211 eV であってほしい。）
- しかし、twiny() しただけでは ax1 と ax2 の目盛は適当で、思ったようには対応してくれない。
- これについては ax1, ax2 両方で xlim() を与えて、2点対応させてしまえばよい。
+  <br><br>
+ この図は横軸の上下ともにエネルギーであり、上下軸で正確に対応してほしい。<br>
+ （1 a.u. = 27.211 eV であってほしい。）<br>
+ しかし、twiny() しただけでは ax1 と ax2 の目盛は適当で、思ったようには対応してくれない。<br>
+ これについては ax1, ax2 両方で xlim() を与えて、2点対応させてしまえばよい。<br>
 </p>
 
 <pre>
@@ -1480,12 +1481,14 @@ width, height についてこの数字は Figure の幅、高さを1とする値
   plt.xlim(-1*hartree,0.2*hartree)
 
   # ax2 軸での記述のため xy に与える数字は ax2 の軸に応じた値である
+  # -13.6 = 0.5*hartree, -3.4 = 0.125*hartree である。
   plt.annotate("$n = 1$ ($-13.6$ eV)",xy=(-13.6, 5.2),fontsize=10,c="k")
   plt.annotate("$n = 2$ ($-3.4$ eV)",xy=(-3.4, 5.2),fontsize=10,c="k")
 
   plt.xlabel("Energy (eV)",fontsize=16,fontname="Times New Roman")
 
-  # True にする or そもそも書かなければ ax2 軸でキリのいいところにグリッド線が入る
+  # True にすると ax2 軸でキリのいいところにグリッド線が入る。
+  # 何も書かないと ax1 と ax2 で両方グリッド線が入るため片方はFalseにするとよい。
   plt.grid(False)
   
   
@@ -1495,10 +1498,77 @@ width, height についてこの数字は Figure の幅、高さを1とする値
 </code>
 </pre>
   
+<p>
+  <br><br>
+  縦軸も2軸ある例を挙げておく。<br>
+</p>
 
+<pre>
 
+<code class="python ty"> 
+  import matplotlib.pyplot as plt
 
+  fig = plt.figure()
+  ax1 = fig.add_subplot(111)
+  
+  x_list=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+  y_list1=[7.1, 8.3, 10.7, 12.8, 19.5, 23.2, 24.3, 29.1, 24.2, 17.5, 14.0, 7.7]
+  y_list2=[135.0,15.0,131.0,296.5,118.0,212.5,270.5,61.5,117.5,205.0,14.5,13.0]
+  
+  month1=[1,2,3,4,5,6,7,8,9,10,11,12]
+  month2=["Jan.","Feb.","Mar.","Apr.","May.","Jun.","Jul.","Aug.","Sep.","Oct.","Nov.","dec."]
+  
+  # --ここからax1--
+  plt.plot(x_list, y_list1, c="orange",marker=".",label="気温")
+  plt.xlim(0,13)
+  plt.ylim(0,35)
+  plt.xlabel("月", fontsize=12, fontname="MS Gothic")
+  plt.ylabel("気温 (℃)", fontsize=12, fontname="MS Gothic")
+  plt.xticks(month1)
+  plt.grid(False)
+  # --ここまでax1--
+  
+  # --ここからax2--
+  ax2 = ax1.twiny()
+  plt.xlim(0,13)
+  plt.xlabel("Month", fontsize=12, fontname="Times New Roman")
+  plt.xticks(month1,month2)
+  # --ここまでax2--
+  
+  
+  # --ここからax3--
+  ax3 = ax1.twinx()
+  plt.ylim(0,350)
+  plt.bar(x_list, y_list2, color="skyblue",width=1.0,label="降水量",alpha=0.8)
+  plt.ylabel("降水量 (mm)", fontsize=12, fontname="MS Gothic")
+  # --ここまでax3--
 
+  # --ここからややこしい設定の皆さん--
+
+  # デフォルトでは後から描いたものが上に来る。折れ線グラフの上に棒グラフだと隠れてしまう。
+  # zorder の数字が大きい方が上に来る。
+  ax1.set_zorder(2)
+  ax3.set_zorder(1)
+
+  # ax1 の背景を透明にするコマンド
+  # ax1 を上に持ってきた以上、背景があると ax3 が消える。
+  ax1.patch.set_alpha(0)
+
+  # 凡例周りの設定
+  # ただの plt.legend() だと ax3 の方しか表示されない。
+  h1, l1 = ax1.get_legend_handles_labels()
+  h2, l2 = ax3.get_legend_handles_labels()
+  plt.legend(h1 + h2, l1 + l2,prop = {"family" : "MS Gothic","size" : 12})
+  
+  
+  plt.title("図1 2020 年の月別平均気温と降水量", x=0.5, y=-0.25, fontsize=16, fontname="MS Gothic")
+  plt.subplots_adjust(left=0.125, right=0.9, bottom=0.2, top=0.9)
+  plt.show()
+  
+</code>
+</pre>
+  
+<img border="0" src="Python-figs\py_Figure_24.png" width="700"><br> 
 
 
 <!-- <a id="otwin"><h4 class="ty">&#9679;2軸グラフ</h4></a>
@@ -1516,6 +1586,16 @@ width, height についてこの数字は Figure の幅、高さを1とする値
 </pre>
   
 <img border="0" src="Python-figs\py_Figure_.png" width="700"><br> -->
+
+
+
+<br><br><a href="#top">Back to TOP</a>
+
+<hr>
+
+
+
+
 
 
 
