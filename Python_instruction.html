@@ -2,7 +2,7 @@
 <html>
 <head>
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link href="./Rstyle.css" rel="stylesheet">
+<link href="./Pythonstyle.css" rel="stylesheet">
 <!--<link rel="stylesheet" href="./highlight/styles/default.css">-->
 <link rel="stylesheet" href="./highlight/styles/monokai.css">
 <script src="./highlight/highlight.pack.js"></script>
@@ -87,7 +87,7 @@
 <li><a href="#twod">二次元のカラーマップを描く</a></li> -->
 </ul>
  
-<hr>
+<!-- <hr> -->
  
 <ul>
  <!-- <li><a href="#install">インストール</a></li>
@@ -143,7 +143,12 @@
 
  <h3><a id="graph" class="tt">グラフを書く</a></h3>
 
-
+ <p>
+　グラフを書くためのスクリプトと実際に出力されるグラフを示す。<br>
+　そのままコピペして実行すれば動くはず。<br>
+　また、Python において # から始まる行はコメント行として扱われ、実行の際には無視される。<br>
+　これを使用してスクリプト中にも解説を記しておく。<br>
+</p>
 
  <a id="scatt"><h4 class="ty">&#9679;散布図</h4></a>
 
@@ -155,7 +160,7 @@
  <br>
  ここでは、グラフを書くためのmatplotlib.pyplotのみを導入している。
  <br>
- matplotlib.pyplotで、散布図(scatter)を描く。二つの座標の他、マーカーの色や形を変えられる。
+ matplotlib.pyplotで、散布図(scatter)を描く。二つの座標の他、マーカーの<a href="#colpt">色</a>や形を変えられる。
  <br>
  最後に plt.show() でグラフを表示させる。
  </p>
@@ -164,7 +169,7 @@
 <!-- <code class="ty"> -->
  <code class="python ty"> 
   import matplotlib.pyplot as plt
-  # ライブラリ(ここではmatplotlib.pyplot(グラフを書くためのライブラリ))を導入。
+  # ここではmatplotlib.pyplot(グラフを書くためのライブラリ)を導入。
   # pltと名づけ、以下pltで呼び出す。
   
   # 散布図を書くときはplt.scatter(), ()内に変数
@@ -331,7 +336,7 @@ matplotlib.pyplot(plt)で、棒グラフ(plot)を描く。横軸の位置、縦�
   
   plt.bar(x_list, height1, width=0.6, align="center", color="blue")
   plt.bar(x_list, height2, width=0.6, align="center", color="orange",bottom=height1)
-  # bottom = height1 にしたことで 1段目の上端が 2段目の下端になる
+  # bottom = height1 にしたことで 1段目の上端の値が 2段目の下端になる
   
   
   plt.show()
@@ -348,8 +353,139 @@ matplotlib.pyplot(plt)で、棒グラフ(plot)を描く。横軸の位置、縦�
  
 <p>
   numpyの数学関数を用いて関数のグラフを書くことができる。<br>
-  <code class="python ty">np.linspace()</code>を使って定義域を決め、この範囲で関数をプロットする。<br>
-  括弧内は，（最小値、最大値、計算点の数）で指定する。計算点の数は省略可。<br>
+  np.linspace() を使って定義域を決め、この範囲で関数をプロットする。<br>
+  括弧内は，（最小値、最大値、計算点の数）で指定する。<br>
+  計算点の数は省略可（グラフを描いてみて滑らかでないときに指定すればよい）。<br>
+  まずは数学関数を使用しない多項式関数を書いてみる。<br>
+</p>
+
+
+<pre><code class="python ty">
+import numpy as np
+import matplotlib.pyplot as plt
+# numpyを導入。以下npで呼び出す。
+  
+# 定義域を0から5、この間に51点とる。
+x=np.linspace(0,5,51)
+
+y1=x
+plt.plot(x,y1,c="blue")
+
+# 累乗は**で表す。 例：2**3 = 8 
+y2=x**2
+plt.plot(x,y2,c="orange")
+
+plt.show()
+</code></pre>
+
+<img border="0" src="Python-figs\py_Figure_4'.png" width="700"><br>
+
+
+<p>
+  　上の x, y1, y2 はいずれも numpy.ndarray という型のオブジェクトである。<br>
+  これはリストのようなもので、要素数51個のリストを np.linspace() で作り、その1点ごとに値を求めてy1に格納している。<br>
+  これを plt.plot() で折れ線グラフとして描いている。<br>
+  上の例で x, y1, y2 に格納されている最初の2点の値を見てみると、
+
+  <table>
+    <tr>
+      <th>x</th>
+      <th>y1</th>
+      <th>y2</th>
+    </tr>
+    <tr>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <td>0.1</td>
+      <td>0.1</td>
+      <td>0.01</td>
+    </tr>
+  </table>
+  <br><br><br>
+
+
+
+</p>
+
+<p>
+  numpy の数学関数を使ってみる。
+  使用できる数学関数については <br>
+  <a href="https://numpy.org/doc/stable/reference/routines.math.html" target="_blank" class="ty">こちら</a>
+  を参照。<br>
+  主要な関数および呼び出せる定数を表にしておく。<br>
+
+  <table>
+    <tr>
+      <th>関数</th>
+      <th>意味</th>
+    </tr>
+
+    <tr>
+      <td>np.sin()</td>
+      <td rowspan="3">三角関数</td>
+    </tr>
+    <tr>
+      <td>np.cos()</td>
+    </tr>
+    <tr>
+      <td>np.tan()</td>
+    </tr>
+
+    <tr>
+      <td>np.arcsin()</td>
+      <td rowspan="3">逆三角関数</td>
+    </tr>
+    <tr>
+      <td>np.arccos()</td>
+    </tr>
+    <tr>
+      <td>np.arctan()</td>
+    </tr>
+
+    <tr>
+      <td>np.exp()</td>
+      <td>底がeの指数関数</td>
+    </tr>
+    <tr>
+      <td>np.log()</td>
+      <td>底がeの対数関数</td>
+    </tr>
+    <tr>
+      <td>np.log10()</td>
+      <td>底が10の対数関数</td>
+    </tr>
+
+    <tr>
+      <td>np.sqrt()</td>
+      <td>平方根</td>
+    </tr>
+
+    <tr>
+      <td>np.abs()</td>
+      <td>絶対値</td>
+    </tr>
+
+    <tr>
+      <th>定数</th>
+      <th>意味</th>
+    </tr>
+
+    <tr>
+      <td>np.pi</td>
+      <td>円周率</td>
+    </tr>
+
+    <tr>
+      <td>np.e</td>
+      <td>ネイピア数</td>
+    </tr>
+  </table>
+
+  <br><br>
+
 </p>
 
  
@@ -377,26 +513,31 @@ matplotlib.pyplot(plt)で、棒グラフ(plot)を描く。横軸の位置、縦�
 
 
 <p>
-　上の x, y1, y2 はいずれも numpy.ndarray という型のオブジェクトである。<br>
-  これはリストのようなもので、要素数101個のリストを np.linspace() を作り、<br>
-  その1点ごとにnp.sin()のような数学関数で値を求めてy1に格納している。<br>
-  これを plt.plot() で折れ線グラフとして描いてみる。<br>
-  x, y1, y2 の最初の2点の値を以下で見てみると、
+  上の例で x, y1, y2 の最初の2点の値を見てみると、
+
+  <table>
+    <tr>
+      <th>x</th>
+      <th>y1</th>
+      <th>y2</th>
+    </tr>
+    <tr>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <td>0.1</td>
+      <td>0.09983341664682815</td>
+      <td>0.9950041652780258</td>
+    </tr>
+  </table>
+  <br><br><br>
 </p>  
 
-<pre><code class="python ty">
-  print(x[0],y1[0],y2[0])
-  print(x[1],y1[1],y2[1])
-</code></pre>
 
-<p>出力は</p>
-
-<pre><code class="python ty">
-  0.0 0.0 1.0
-  0.1 0.09983341664682815 0.9950041652780258
-
-</code></pre>
   
+
 
 <a id="sett"><h4 class="ty">&#9679;グラフの詳細設定</h4></a>
 
@@ -1462,15 +1603,20 @@ twiny()はy軸を共有する上下の横軸、という意味になる。縦軸
   plt.plot(q2,p,c="orange")
   plt.annotate("$n = 1$ ($-0.5$ a.u.)",xy=(-0.5, 1.8),fontsize=10,c="k")
   plt.annotate("$n = 2$ ($-0.125$ a.u.)",xy=(-0.125, 1.8),fontsize=10,c="k")
+
+  # ax1 横軸の範囲指定
   plt.xlim(-1,0.2)
+
   plt.ylim(1,6)
   plt.xlabel("Energy (a.u)",fontsize=16,fontname="Times New Roman")
 
   # この図ではy軸は意味を持たないので空リストを渡して目盛りを消してしまおう。
   plt.yticks([])
   
+
   # ax2 を定義するまでの plt は ax1 の軸で行われる（混乱を避けるため ax1.~ で書いても良い）。
   # ax2 を定義した後の plt は ax2 の軸で行われる。
+
 
   # ax2 の定義
   ax2 = ax1.twiny()
@@ -1478,7 +1624,7 @@ twiny()はy軸を共有する上下の横軸、という意味になる。縦軸
   # エネルギーの換算係数を定義しておく。
   hartree=27.211
 
-  # xlim指定を用いた上下両軸の対応
+  # ax2 横軸を ax1横軸と対応させる
   plt.xlim(-1*hartree,0.2*hartree)
 
   # ax2 軸での記述のため xy に与える数字は ax2 の軸に応じた値である
@@ -1501,7 +1647,7 @@ twiny()はy軸を共有する上下の横軸、という意味になる。縦軸
   
 <p>
   <br><br>
-  縦軸も2軸ある例を挙げておく。<br>
+  縦軸も2軸ある例を挙げておく。ax2 を ax1 の横軸、ax3 を縦軸に対応させている。<br>
 </p>
 
 <pre>
@@ -1546,7 +1692,7 @@ twiny()はy軸を共有する上下の横軸、という意味になる。縦軸
 
   # --ここからややこしい設定の皆さん--
 
-  # デフォルトでは後から描いたものが上に来る。折れ線グラフの上に棒グラフだと隠れてしまう。
+  # デフォルトでは後から描いたものが上に来る。折れ線グラフの上に棒グラフだと隠れるので逆にする。
   # zorder の数字が大きい方が上に来る。
   ax1.set_zorder(2)
   ax3.set_zorder(1)
@@ -1556,7 +1702,7 @@ twiny()はy軸を共有する上下の横軸、という意味になる。縦軸
   ax1.patch.set_alpha(0)
 
   # 凡例周りの設定
-  # ただの plt.legend() だと ax3 の方しか表示されない。
+  # ただの plt.legend() だと ax3 の方しか表示されないらしい。
   h1, l1 = ax1.get_legend_handles_labels()
   h2, l2 = ax3.get_legend_handles_labels()
   plt.legend(h1 + h2, l1 + l2,prop = {"family" : "MS Gothic","size" : 12})
