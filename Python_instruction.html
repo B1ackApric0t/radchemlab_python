@@ -1839,6 +1839,113 @@ Python でフィッティングを行う方法の1つに Scipy の optimize.curv
 
 
 <br><br><a href="#top">Back to TOP</a>
+ <hr>
+
+ <a id="for"><h4 class="ty">&#9679;型 </h4></a>
+
+
+ <p>
+   <br>
+ 
+ </p>
+ 
+ <pre>
+ 
+ <code class="python ty"> 
+ 
+ </code>
+ </pre>
+   
+ <img border="0" src="Python-figs\py_Figure_.png" width="700"><br>
+
+
+  <a id="for"><h4 class="ty">&#9679; for 文と range 関数</h4></a>
+  
+
+  <p>
+    for 文を使って反復処理を行う。<br>
+    このとき、反復する範囲（回数）を指定するときによく使われるのが range() 関数である。<br>
+    range() 自体は range 型のオブジェクトを作る関数で、中身は等差数列だと考えてよい。<br>
+    range(start,stop,step) の形で最大 3 個の引数が渡せる。<br>
+    1つ省略して2つ引数を与えると range(start,stop,1)、2つ省略して1つ引数を与えると range(0,stop,1)と認識される。<br>
+    以下に例を示す。（range 型の性質上、ただprint()しても中身が表示されないため、リスト化している。）<br>
+  　
+  </p>
+  
+  <pre><code class="python ty"> 
+    r1=range(2,11,3)
+    print(list(r1))
+  </code></pre>
+
+  <p>出力。stop は含まれない（start ≤ i &lt; stop である）</p>
+  <pre><code class> 
+    [2, 5, 8]
+  </code></pre>
+  <br><br><br>
+    
+  <pre><code class="python ty"> 
+    r2=range(2,11)
+    print(list(r2))
+  </code></pre>
+
+  <p>出力</p>
+  <pre><code class> 
+    [2, 3, 4, 5, 6, 7, 8, 9, 10]
+  </code></pre>
+
+  <br><br><br>
+
+  <pre><code class="python ty"> 
+    r3=range(11)
+    print(list(r3))
+  </code></pre>
+  <p>出力</p>
+  <pre><code class> 
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  </code></pre>
+
+  <br><br><br>
+
+  <p>
+　　　range 関数を使った for 文で反復処理をする。 <br>
+      Python では字下げをしている範囲内が for 文の範囲内として扱われる。<br>
+  </p>
+
+  <pre><code class="python ty"> 
+    for i in range(11):
+        y=2**i
+        print(y)
+
+　　print("finish")
+  </code></pre>
+
+  <p>出力</p>
+  <pre><code class> 
+    1
+    2
+    4
+    8
+    16
+    32
+    64
+    128
+    256
+    512
+    1024
+    finish
+  </code></pre>
+
+  <p>
+    <br><br>
+    range 関数でなく、リストを使っても for 文の記述ができる。
+
+  </p>
+
+
+
+
+
+
 
 
   <hr>
