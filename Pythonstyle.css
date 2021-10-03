@@ -37,8 +37,10 @@ font-family:"ヒラギノ角ゴ Pro","ヒラギノ丸ゴ ProN","メイリオ",Me
              height:auto;
              width:80%;
              text-valign:top;
+             
    /*          border:solid;   */
 }
+
 
 
   td.ty{padding:20px;border:1px solid black;font-family:"Inconsolata","Consolas","Courier New","Osaka",monospace;font-size:120%}

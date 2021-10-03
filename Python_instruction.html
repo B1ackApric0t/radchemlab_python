@@ -49,14 +49,9 @@
           <li><a href="#multi">複数の図</a></li>
         </ol>
     </li>
-    <!-- <li><a href="#log">片対数グラフを描く</a></li> -->
     <li><a href="#csv">csvファイルを読み込んでグラフを描く</a></li>
-    <!-- <li><a href="#xlsx">xlsxファイルを読み込んでグラフを描く</a></li>
-    <li><a href="#bar">xlsxファイルを読み込んで棒グラフを描く</a></li> -->
     <li><a href="#err">エラーバーをつける</a></li>
-    <!-- <li><a href="#mlt">複数のグラフを同時に描く</a></li> -->
- <!--   <li>２軸のグラフを描く</li>
-    <li>x軸を連結したグラフを描く</li> -->
+
     </ul>
 </li>
 <li><a href="#ograph">グラフを描く（応用編）</a>
@@ -65,45 +60,31 @@
     <li><a href="#otwin"> 2 軸のグラフ</a></li>
   　</ul>
 </li>
-<li><a href="#fit">フィッティングする</a>
-    <!-- <ul>
-    <li><a href="#peak">ピークをフィッティングする</a></li>
-    <li><a href="#peaksub">データの一部を取り出してフィッティングする</a></li>
-    </ul> -->
-</li>
-<!-- <li><a href="#stat">検定する</a></li>
-<li><a href="#hist">ヒストグラムを作る</a>
-    <ul>
-    <li><a href="#hist1">シンプルなヒストグラムを描く</a></li>
-    <li><a href="#hist2">ヒストグラム化したデータをいじる</a></li>
-    </ul>
-</li>
-<li><a href="#ode">連立微分方程式を解く</a>
-    <ul>
-    <li><a href="#ode1">連立微分方程式を解いて時間発展をプロットする</a></li>
-    <li><a href="#ode2">連立微分方程式を繰り返し解いて10秒後の成分量を俯瞰する</a></li>
-    </ul>
-</li>
-<li><a href="#twod">二次元のカラーマップを描く</a></li> -->
+<li><a href="#fit">フィッティングする</a></li>
 </ul>
- 
+
 <hr>
-<li><a href="#prog"> Python プログラミングの基礎 </a>
+<ul>
+<li><a href="#program"> Python プログラミングの基礎 </a>
   　<ul>
+    <li><a href="#type">データ型</a></li>
     <li><a href="#for">for 文</a></li>
-    <li><a href="#otwin">IF 文</a></li>
+    <li><a href="#if">if 文</a></li>
+    <li><a href="#format">format による組み込み</a></li>
   　</ul>
 </li>
+</ul>
 <hr>
  
 <ul>
- <!-- <li><a href="#install">インストール</a></li>
- <li><a href="#rdoc">関数の使い方に困ったら</a></li>
+
+ <li><a href="#install">インストール</a></li>
+ <!-- <li><a href="#rdoc">関数の使い方に困ったら</a></li>
  <li><a href="#studio">R studioで使う</a></li>
- <li><a href="#terminal">Terminalで使う</a></li> -->
+ <li><a href="#terminal">Terminalで使う</a></li> --> 
  <li><a href="#colpt">色の指定</a></li>
+
 </ul>
- 
   <hr>
 
  
@@ -1841,22 +1822,162 @@ Python でフィッティングを行う方法の1つに Scipy の optimize.curv
 <br><br><a href="#top">Back to TOP</a>
  <hr>
 
- <a id="for"><h4 class="ty">&#9679;型 </h4></a>
+
+
+<h3><a id="program" class="tt">Python プログラミングの基礎 </a></h3>
+
+
+
+ <a id="type"><h4 class="ty">&#9679;データ型 </h4></a>
 
 
  <p>
-   <br>
+  Python における主なデータ型を表に示す。<br>
+  他にもタプル、辞書などがあるがあまり使われない。<br>
  
+  <table>
+    <tr>
+      <th>データ型</th>
+      <th>名称</th>
+      <th>説明</th>
+      <th>変換</th>
+    </tr>
+
+    <tr>
+      <td>str</td>
+      <td>文字列</td>
+      <td>'シングルクォーテーション'または"ダブルクォーテーション"で囲んだオブジェクト</td>
+      <td>str()</td>
+    </tr>
+
+    <tr>
+      <td>int</td>
+      <td>整数</td>
+      <td>小数点を含まない数値</td>
+      <td>int()</td>
+    </tr>
+
+    <tr>
+      <td>float</td>
+      <td>浮動小数点</td>
+      <td>小数点を含む数値</td>
+      <td>float()</td>
+    </tr>
+
+    <tr>
+      <td>list</td>
+      <td>リスト</td>
+      <td>[]で囲まれたオブジェクト。複数の要素を,で区切って含む。</td>
+      <td>list()</td>
+    </tr>
+
+  </table>
+  <br><br><br>
+
+  type()を使用してデータ型を取得できる。
  </p>
  
  <pre>
- 
  <code class="python ty"> 
- 
+  a="3.14"
+  print(a,type(a))
+  
+  b=3
+  print(b,type(b))
+  
+  c=3.14
+  print(c,type(c))
+  
+  d=[3,1,4]
+  print(d,type(d))  
  </code>
  </pre>
+
+  <p>出力</p>
+  <pre>
+  <code class="shell ty"> 
+  3.14 &lt;class &#39;str&#39;&gt;
+  3 &lt;class &#39;int&#39;&gt;
+  3.14 &lt;class &#39;float&#39;&gt;
+  [3, 1, 4] &lt;class &#39;list&#39;&gt; 
+  </code>
+  </pre>
+
+<p>
+  <br>
+  型変換も可能。<br>
+  <br>
+</p>
+ <pre>
+  <code class="python ty"> 
+
+    a=3.14
+    print(a,type(a))
+    
+    b=str(a)
+    print(b,type(b))
+    
+    c=int(a)
+    print(c,type(c))
+    
+    
+    d="2.71"
+    print(d,type(d))
+    
+    e=float(d)
+    print(e,type(e))
+    
+    # 一発で int にはできないらしい。
+    f=int(float(d))
+    print(f,type(f))
+
+
+  </code>
+  </pre>
+ 
+   <p>出力</p>
+   <pre>
+   <code class="shell ty"> 
+    3.14 &lt;class &#39;float&#39;&gt;
+    3.14 &lt;class &#39;str&#39;&gt;
+    3 &lt;class &#39;int&#39;&gt;
+    2.71 &lt;class &#39;str&#39;&gt;
+    2.71 &lt;class &#39;float&#39;&gt;
+    2 &lt;class &#39;int&#39;&gt;
+      
+   </code>
+   </pre>
+
+
+   <p>
+    <br>
+    インデックスを用いて、リストの要素を取り出すことができる。<br>
+    番号は左から 0, 1, 2 ...<br>
+    右から -1, -2, -3 ...<br>
+    <br>
+  </p>
+
+   <pre>
+    <code class="python ty"> 
+      color=["red","orange","yellow","green","blue","indigo","purple"]
+
+      print(color[0],color[2])
+      print(color[-1],color[-3])
+      print(color[3],color[-4])
+    </code>
+    </pre>
    
- <img border="0" src="Python-figs\py_Figure_.png" width="700"><br>
+     <p>出力</p>
+     <pre>
+     <code class="shell ty"> 
+      red yellow
+      purple blue
+      green green
+        
+     </code>
+     </pre>
+
+
 
 
   <a id="for"><h4 class="ty">&#9679; for 文と range 関数</h4></a>
@@ -1878,7 +1999,7 @@ Python でフィッティングを行う方法の1つに Scipy の optimize.curv
   </code></pre>
 
   <p>出力。stop は含まれない（start ≤ i &lt; stop である）</p>
-  <pre><code class> 
+  <pre><code class="shell ty"> 
     [2, 5, 8]
   </code></pre>
   <br><br><br>
@@ -1889,7 +2010,7 @@ Python でフィッティングを行う方法の1つに Scipy の optimize.curv
   </code></pre>
 
   <p>出力</p>
-  <pre><code class> 
+  <pre><code class="shell ty"> 
     [2, 3, 4, 5, 6, 7, 8, 9, 10]
   </code></pre>
 
@@ -1900,15 +2021,15 @@ Python でフィッティングを行う方法の1つに Scipy の optimize.curv
     print(list(r3))
   </code></pre>
   <p>出力</p>
-  <pre><code class> 
+  <pre><code class="shell ty"> 
     [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   </code></pre>
 
   <br><br><br>
 
   <p>
-　　　range 関数を使った for 文で反復処理をする。 <br>
-      Python では字下げをしている範囲内が for 文の範囲内として扱われる。<br>
+range 関数を使った for 文で反復処理をする。 <br>
+    Python では字下げをしている範囲内が for 文の範囲内として扱われる。<br>
   </p>
 
   <pre><code class="python ty"> 
@@ -1920,7 +2041,7 @@ Python でフィッティングを行う方法の1つに Scipy の optimize.curv
   </code></pre>
 
   <p>出力</p>
-  <pre><code class> 
+  <pre><code class="shell ty"> 
     1
     2
     4
@@ -1937,10 +2058,265 @@ Python でフィッティングを行う方法の1つに Scipy の optimize.curv
 
   <p>
     <br><br>
-    range 関数でなく、リストを使っても for 文の記述ができる。
+    range 関数でなく、リストを使っても for 文の記述ができる。<br>
 
   </p>
 
+  <pre><code class="python ty"> 
+  letters=["How","I","want","a","drink","alcoholic","of","course","after", \
+  "the","heavy","chapters","involving","quamtum","mechanics"]
+
+  pi=[]
+
+  # リスト:letters の要素で反復
+  for let in letters:
+    print(let,len(let))
+
+    # append で既に定義したリスト pi に要素を追加
+    pi.append(len(let))
+
+  print(pi)
+
+  </code></pre>
+
+  
+  <p>出力</p>
+  <pre><code class="shell ty"> 
+    How 3
+    I 1
+    want 4
+    a 1
+    drink 5
+    alcoholic 9
+    of 2
+    course 6
+    after 5
+    the 3
+    heavy 5
+    chapters 8
+    involving 9
+    quamtum 7
+    mechanics 9
+    [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8, 9, 7, 9]
+  </code></pre>
+
+
+
+
+  <a id="if"><h4 class="ty">&#9679; if 文</h4></a>
+
+  <p>
+    if 文で条件分岐ができる。<br>
+    使用できる比較演算子を表に示す。<br>
+    
+  <table>
+    <tr>
+      <th>比較演算子</th>
+      <th>意味</th>
+
+    </tr>
+
+    <tr>
+      <td>x &lt; y</td>
+      <td>x が y より小さい</td>
+    </tr>
+
+    <tr>
+      <td>x &lt;= y</td>
+      <td>x が y 以下</td>
+    </tr>
+
+    <tr>
+      <td>x &gt; y</td>
+      <td>x が y より大きい</td>
+    </tr>
+
+    <tr>
+      <td>x &gt;= y</td>
+      <td>x が y 以上</td>
+    </tr>
+
+    <tr>
+      <td>x == y</td>
+      <td>x が y と等しい</td>
+    </tr>
+
+    <tr>
+      <td>x != y</td>
+      <td>x が y と異なる</td>
+    </tr>
+ 
+
+  </table>
+  <br><br>
+  
+  </p>
+  <pre>
+    <code class="python ty"> 
+      list=[]
+
+      for i in range(1,31):
+          # 複数の条件式は and で並列。or も使える。
+          if((i &gt;= 10)and(i &lt; 20)):
+              list.append(i)
+      
+      print(list)
+           
+    </code>
+    </pre>
+   
+     <p>出力</p>
+     <pre>
+     <code class="shell ty"> 
+      [10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+     </code>
+     </pre>
+
+  <p>
+    <br><br>
+    条件式が偽であるものに対して処理を行う際、else を使う。<br>
+
+  </p>
+
+   <pre>
+    <code class="python ty"> 
+      even=[]
+      odd=[]
+      
+      for i in range(1,13):
+          # % で余りを返す。例: 8%3=2
+          if(i%2==0):
+              even.append(i)
+          else:
+              odd.append(i)
+      
+      print(even)
+      print(odd)
+    </code>
+    </pre>
+   
+     <p>出力</p>
+     <pre>
+     <code class="shell ty"> 
+      [2, 4, 6, 8, 10, 12]
+      [1, 3, 5, 7, 9, 11]
+        
+     </code>
+     </pre>
+
+     
+  <p>
+    <br><br>
+    複数回条件分けする際、elif を使う。<br>
+  </p>
+
+   <pre>
+    <code class="python ty"> 
+      series1=[]
+      series2=[]
+      series3=[]
+      series4=[]
+      
+      
+      for i in range(1,25):
+          if(i%4==1):
+              series1.append(i)
+          elif(i%4==2):
+              series2.append(i)
+          elif(i%4==3):
+              series3.append(i)
+          else:
+              series4.append(i)
+      
+      print(series1)
+      print(series2)
+      print(series3)
+      print(series4)
+    </code>
+    </pre>
+   
+     <p>出力</p>
+     <pre>
+     <code class="shell ty"> 
+      [1, 5, 9, 13, 17, 21]
+      [2, 6, 10, 14, 18, 22]
+      [3, 7, 11, 15, 19, 23]
+      [4, 8, 12, 16, 20, 24]
+     </code>
+     </pre>
+
+
+
+  <a id="format"><h4 class="ty">&#9679; format による組み込み</h4></a>
+
+  <p>
+    format() を使って数値を文字列に組み込むことができる。<br>
+    "文字列、挿入させたいところに{}".format(挿入させる数値) の形で使う<br>
+    {} 内で表示させる桁数を指定できる。例えば {:.3f} で小数以下3桁。<br>
+    for 文でグラフを複数描くときのラベル指定、フィッティングで決定したパラメータを図中で表示させる際</a> などに有用である。<br>
+    <a href="#fit">フィッティングでの使用例</a> 1つの文字列に2ヵ所挿入もできる。<br>
+  </p>
+
+   <pre>
+    <code class="python ty"> 
+      import numpy as np
+      import matplotlib.pyplot as plt
+      import seaborn as sns
+      
+      sns.set()
+      
+      # for 文中のグラフの色指定用。10 色以内なら自動で異なる色になるので色は指定しなくても良い。
+      color_list=["blue","orange","red","green","purple"]
+      
+      x=np.linspace(0,33,1000)
+
+      # for 文でグラフを一気に複数描く
+      for i in range(5):
+          alpha=0.2*(i+1)
+          y=np.sin(alpha*x)
+
+          # ラベルの指定。{:.1f} で小数点以下1桁。
+          text="$y = $sin $ ({:.1f}  x)$".format(alpha)
+          plt.plot(x,y,c=color_list[i],label=text)
+      
+      
+      plt.xlim(-0.5,32)
+      plt.ylim(-1.5,1.5)
+      
+      # 横軸ラベルをπの倍数 0 ~ 10π の範囲で指定させる。
+      # for 文を使って用意する。
+      # pi で呼び出す。
+      pi=np.pi
+
+      # ラベルの位置
+      xpos=[]
+
+      # 表示させる文字列。2π ~ 10πはformat()を使って準備。0, πはあらかじめ入れておく。
+      xtick1 = ["0","π"]
+
+      for i in range(11):
+      　　# 0,πの点は文字列は準備済み。位置だけ追加。
+          if(i&lt;2):
+              xpos.append(pi*i)
+          
+          # 2π以降は位置、文字列とも追加。
+          else:
+              xpos.append(pi*i)
+              text2 = "{:.0f}π".format(i)
+              xtick1.append(text2)
+      
+      
+      plt.xticks(xpos,xtick1)
+      
+      plt.legend(bbox_to_anchor=(1.02, 1.0))
+      plt.subplots_adjust(right=0.75)
+      plt.show()
+      
+    </code>
+    </pre>
+   
+
+    <img border="0" src="Python-figs\py_Figure_26.png" width="700"><br> 
 
 
 
