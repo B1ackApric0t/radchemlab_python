@@ -19,13 +19,13 @@
 <div id="page_top"><a href="#"></a></div> 
  <a id="top"><h1>&nbsp;Python入門</h1></a>
  
-<p>Pythonを使ってグラフを書いたり、データ解析・統計処理をするTipsをまとめます。<br>
+<p>Python を使ってグラフを書いたり、データ解析・統計処理をする Tips をまとめます。<br>
 スクリプトで図を描くと、グラフの書き直し、データの差し替え等の手間が省けます。<br>
 また、データに施した処理が見えやすいのでミスが減り、記録に残るので振り返りやすくなります。<br>
 このページの目的は、ひとまず動作する雛形を提供することなので、説明はざっくりです。<br>
-基本的には、スクリプトを.pyファイルに保存してコンソールから実行すれば動きます。
+基本的には、スクリプトを .py ファイルに保存してコンソールから実行すれば動きます。
 </p>
- <h4 align="right" class="td">2020/11/06 Updated</h4>
+ <h4 align="right" class="td">2021/10/03 Updated</h4>
 
 
 <!-- <h3 class="ty">実践</h3> -->
@@ -49,7 +49,7 @@
           <li><a href="#multi">複数の図</a></li>
         </ol>
     </li>
-    <li><a href="#csv">csvファイルを読み込んでグラフを描く</a></li>
+    <li><a href="#csv">csv ファイルを読み込んでグラフを描く</a></li>
     <li><a href="#err">エラーバーをつける</a></li>
 
     </ul>
@@ -57,7 +57,7 @@
 <li><a href="#ograph">グラフを描く（応用編）</a>
   　<ul>
     <li><a href="#obasic">オブジェクト指向インターフェースの基本</a></li>
-    <li><a href="#otwin"> 2 軸のグラフ</a></li>
+    <li><a href="#otwin"> 2軸のグラフ</a></li>
   　</ul>
 </li>
 <li><a href="#fit">フィッティングする</a></li>
@@ -90,7 +90,7 @@
  
  
   <h3><a id="exe" class="tt">スクリプトの実行</a></h3>
-  <p>端末で自分の.pyファイルをコマンドによって呼び出す。そのファイルが存在するフォルダで実行すること。
+  <p>端末で自分の .py ファイルをコマンドによって呼び出す。そのファイルが存在するフォルダで実行すること。
   </p>
   
 
@@ -103,24 +103,27 @@
 
 <h3><a id="library" class="tt">ライブラリ</a></h3>
 <p>
-  Pythonの強みは充実したライブラリ群です。<br>
-  主に使うのは数値計算に便利なNumPy、様々な科学計算が可能なSciPy、プロットに便利なMatplotlib、データ解析に強いPandasあたりです。<br>
-  これらはデフォルトのPythonでは使えないのでpipコマンドで別途インストールする必要があります。
+  Python の強みは充実したライブラリ群である。<br>
+  主に使うのは数値計算に便利な NumPy、様々な科学計算が可能な SciPy、プロットに便利な Matplotlib、データ解析に強いPandasなど。<br>
+  これらはデフォルトの Python では使えないので pip コマンドで別途インストールする必要がある。
  </p>
-<code class="shell ty">$ pip install numpy scipy matplotlib pandas seaborn</code>
+ <pre>
+   <code class="shell ty">$ pip install numpy scipy matplotlib pandas seaborn</code>
+  </pre>
 <p>
-  ライブラリを使うには.pyファイルの冒頭で宣言が必要です。
+  ライブラリを使うには.pyファイルの冒頭で宣言が必要。
 </p>
 <pre><code class="python ty">
   import numpy as np
   import pandas as pd
   import matplotlib.pyplot as plt
+  import seaborn as sns
   from scipy.optimize import minimize
 
 </code></pre>
 <p>
-  numpy, pandas, matplotlib.pyplotは省略名としてnp, pd, pltを使うことが慣例になっているので従いましょう。<br>
-  scipyの中のoptimizeモジュールからminimizeというオブジェクトのみを読み込む、といった使い方も可能です。
+  numpy, pandas, matplotlib.pyplot, seaborn は省略名として np, pd, plt, sns を使うことが慣例になっている。<br>
+  scipy の中の optimize モジュールから minimize というオブジェクトのみを読み込む、といった使い方も可能。
 </p>
  <hr>
  
@@ -133,7 +136,7 @@
 
  <p>
 　グラフを書くためのスクリプトと実際に出力されるグラフを示す。<br>
-　そのままコピペして実行すれば動くはず。<br>
+　そのままコピペ（行頭にスペースが入らないように注意）して保存、実行すれば動くはず。<br>
 　また、Python において # から始まる行はコメント行として扱われ、実行の際には無視される。<br>
 　これを使用してスクリプト中にも解説を記しておく。<br>
 </p>
@@ -142,15 +145,12 @@
 
  <img border="0" src="Python-figs\py_Figure_1.png" width="700"><br>
 
- <p>上図を描くスクリプトを示す。
- <br>
- ライブラリ(それぞれ様々な機能を持つもの)を導入し、略語を命名する。
- <br>
- ここでは、グラフを書くためのmatplotlib.pyplotのみを導入している。
- <br>
- matplotlib.pyplotで、散布図(scatter)を描く。二つの座標の他、マーカーの<a href="#colpt">色</a>や形を変えられる。
- <br>
- 最後に plt.show() でグラフを表示させる。
+ <p>上図を描くスクリプトを示す。<br>
+ ライブラリ(それぞれ様々な機能を持つもの)を導入し、省略名をつける。<br>
+ ここでは、グラフを書くための matplotlib.pyplot を plt として導入している。<br>
+ plt.scatter() で、散布図を描く。二つの座標の他、マーカーのや形を変えられる。<br>
+ 色の指定については<a href="#colpt">こちら</a><br>
+ 最後に plt.show() でグラフを表示させる。<br>
  </p>
  
 <pre>
@@ -189,7 +189,7 @@
   <br>
   <br>
   リストを使用して複数点を一度に描くことができる。<br>
-  また、マーカーの縁を別の色にすることも可能。
+  また、マーカーの縁を別の色にすることも可能。<br>
 </p>
 
 
@@ -218,7 +218,7 @@
 
 <p>
 <br>
-matplotlib.pyplot(plt)で、折れ線グラフ(plot)を描く。横軸、縦軸の系列をリストで指定してみる。
+plt.plot() で、折れ線グラフを描く。横軸、縦軸の系列をリストで指定してみる。
 </p>
 
 <pre>
@@ -232,7 +232,7 @@ matplotlib.pyplot(plt)で、折れ線グラフ(plot)を描く。横軸、縦軸�
   y_list=[10, 1, 7, 4,  6,  2,  9]
   # 2つのリストの要素数を同じにする必要がある
   
-  # 散布図を書くときはplt.plot(), ()に変数
+  # 折れ線グラフを書くときはplt.plot(), ()に変数
   plt.plot(x_list, y_list, c="blue", ls="-", lw=2, alpha=0.8)
   # 左からx座標のリスト、y座標のリスト
   # 以下は任意で c: 色、ls: 線のスタイル、lw: 線の太さ、alpha: 透明度(0~1)
@@ -283,7 +283,7 @@ matplotlib.pyplot(plt)で、折れ線グラフ(plot)を描く。横軸、縦軸�
 
 <p>
 <br>
-matplotlib.pyplot(plt)で、棒グラフ(plot)を描く。横軸の位置、縦軸の高さの系列をリストで指定してみる。<br>
+ply.bar() で、棒グラフを描く。横軸の位置、縦軸の高さの系列をリストで指定してみる。<br>
 </p>
 
 <pre>
@@ -340,7 +340,7 @@ matplotlib.pyplot(plt)で、棒グラフ(plot)を描く。横軸の位置、縦�
 <a id="fnc"><h4 class="ty">&#9679;数学関数の使用</h4></a>
  
 <p>
-  numpyの数学関数を用いて関数のグラフを書くことができる。<br>
+  numpy の数学関数を用いて関数のグラフを書くことができる。<br>
   np.linspace() を使って定義域を決め、この範囲で関数をプロットする。<br>
   括弧内は，（最小値、最大値、計算点の数）で指定する。<br>
   計算点の数は省略可（グラフを描いてみて滑らかでないときに指定すればよい）。<br>
@@ -1080,7 +1080,7 @@ plt.show()
 
 
 
- <a id="csv"><h4 class="ty">&#9679;csvファイルを読み込む</h4></a>
+ <a id="csv"><h4 class="ty">&#9679;csv ファイルを読み込む</h4></a>
 
 <p>
  pandasを利用し、csvファイルを読み込む方法を説明する。<br>
@@ -2107,6 +2107,7 @@ range 関数を使った for 文で反復処理をする。 <br>
 
   <p>
     if 文で条件分岐ができる。<br>
+    if 文でも字下げをしている行がその範囲内として扱われる。
     使用できる比較演算子を表に示す。<br>
     
   <table>
