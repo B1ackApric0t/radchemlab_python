@@ -148,7 +148,7 @@
  <p>上図を描くスクリプトを示す。<br>
  ライブラリ(それぞれ様々な機能を持つもの)を導入し、省略名をつける。<br>
  ここでは、グラフを書くための matplotlib.pyplot を plt として導入している。<br>
- plt.scatter() で、散布図を描く。二つの座標の他、マーカーのや形を変えられる。<br>
+ plt.scatter() で、散布図を描く。二つの座標の他、マーカーの色や形を変えられる。<br>
  色の指定については<a href="#colpt">こちら</a><br>
  最後に plt.show() でグラフを表示させる。<br>
  </p>
@@ -157,10 +157,10 @@
 <!-- <code class="ty"> -->
  <code class="python ty"> 
   import matplotlib.pyplot as plt
-  # ここではmatplotlib.pyplot(グラフを書くためのライブラリ)を導入。
-  # pltと名づけ、以下pltで呼び出す。
+  # ここで matplotlib.pyplot を導入。
+  # plt と名づけ、以下 plt で呼び出す。
   
-  # 散布図を書くときはplt.scatter(), ()内に変数
+  # 散布図を書くときは plt.scatter(), ()内に変数
   plt.scatter(1, 2, c="blue", marker="o", s=20, alpha=0.5)
   # 左からx座標、y座標
   # 以下は任意で c: 色、 marker: 形状、s: サイズ、alpha: 透明度(0~1)
@@ -201,7 +201,7 @@
   y_list=[2, 10, 4, 8, 6, 4, 8, 2, 10]
   
   plt.scatter(x_list, y_list, c="red", marker ="o", edgecolors="black")
-  # edgecolorsで縁の色を指定。
+  # edgecolors で縁の色を指定。
 
   plt.show()
 
@@ -232,9 +232,9 @@ plt.plot() で、折れ線グラフを描く。横軸、縦軸の系列をリス
   y_list=[10, 1, 7, 4,  6,  2,  9]
   # 2つのリストの要素数を同じにする必要がある
   
-  # 折れ線グラフを書くときはplt.plot(), ()に変数
+  # 折れ線グラフを書くときは plt.plot(), ()に変数
   plt.plot(x_list, y_list, c="blue", ls="-", lw=2, alpha=0.8)
-  # 左からx座標のリスト、y座標のリスト
+  # 左から x 座標のリスト、y 座標のリスト
   # 以下は任意で c: 色、ls: 線のスタイル、lw: 線の太さ、alpha: 透明度(0~1)
 
   plt.show()
@@ -244,7 +244,7 @@ plt.plot() で、折れ線グラフを描く。横軸、縦軸の系列をリス
 <p>
   <br>
   <br>
-  折れ線グラフでもmarkerの指定ができる。
+  折れ線グラフでも marker の指定ができる。
 </p>
 
 
@@ -298,7 +298,7 @@ ply.bar() で、棒グラフを描く。横軸の位置、縦軸の高さの系�
   
   plt.bar(x_list, height, width=1.0, align="center", color="blue", edgecolor="cyan", lw=2, alpha=0.8)
   # 左から x 座標、y 座標
-  # 以下は任意で 棒グラフの幅, x座標の指定する位置 ("edge" にすると棒グラフの左端が指定した数字に来る)
+  # 以下は任意で 棒グラフの幅, x 座標の指定する位置 ("edge" にすると棒グラフの左端が指定した数字に来る)
   # 棒グラフの色、縁の色と幅、棒グラフの透明度
 
   plt.show()
@@ -351,7 +351,7 @@ ply.bar() で、棒グラフを描く。横軸の位置、縦軸の高さの系�
 <pre><code class="python ty">
 import numpy as np
 import matplotlib.pyplot as plt
-# numpyを導入。以下npで呼び出す。
+# numpy を導入。以下 np で呼び出す。
   
 # 定義域を0から5、この間に51点とる。
 x=np.linspace(0,5,51)
@@ -371,7 +371,7 @@ plt.show()
 
 <p>
   　上の x, y1, y2 はいずれも numpy.ndarray という型のオブジェクトである。<br>
-  これはリストのようなもので、要素数51個のリストを np.linspace() で作り、その1点ごとに値を求めてy1に格納している。<br>
+  これはリストのようなもので、要素数51個のリストを np.linspace() で作り、その1点ごとに値を求めて y1 に格納している。<br>
   これを plt.plot() で折れ線グラフとして描いている。<br>
   上の例で x, y1, y2 に格納されている最初の2点の値を見てみると、
 
@@ -400,8 +400,7 @@ plt.show()
 
 <p>
   numpy の数学関数を使ってみる。
-  使用できる数学関数については <br>
-  <a href="https://numpy.org/doc/stable/reference/routines.math.html" target="_blank" class="ty">こちら</a>
+  使用できる数学関数については <a href="https://numpy.org/doc/stable/reference/routines.math.html" target="_blank" class="ty">こちら</a>
   を参照。<br>
   主要な関数および呼び出せる定数を表にしておく。<br>
 
@@ -449,11 +448,6 @@ plt.show()
     <tr>
       <td>np.sqrt()</td>
       <td>平方根</td>
-    </tr>
-
-    <tr>
-      <td>np.abs()</td>
-      <td>絶対値</td>
     </tr>
 
     <tr>
@@ -832,7 +826,7 @@ plt.legend(bbox_to_anchor=(1.02, 1.0), framealpha=0.5, facecolor="lightblue", ed
   <br>
  凡例のフォント変更はやや毛色が異なり、fontname による指定はできない。<br>
  代わりに prop = {"family" : "フォント名"} を指定する。<br>
- prop = {"family" : "フォント名","size" : 数字 } とすればフォントサイズも指定できる。<br>
+ prop = {"family" : "フォント名",  "size" : 数字 } とすればフォントサイズも指定できる。<br>
  （prop でフォント名を指定しつつ、 fontsize で大きさを指定、のような併用はできないらしい？）
 </p>
 
@@ -1067,7 +1061,8 @@ plt.title("図.6", x=0.5, y=-0.35, fontname="MS Gothic")
 
 
 plt.tight_layout()
-# 図と図の間隔を自動で調整してくれる。
+# オブジェクトの間隔を自動で調整してくれる。
+# 無いと重なって見にくいかも
 
 plt.show()
 
@@ -1083,8 +1078,8 @@ plt.show()
  <a id="csv"><h4 class="ty">&#9679;csv ファイルを読み込む</h4></a>
 
 <p>
- pandasを利用し、csvファイルを読み込む方法を説明する。<br>
- csvファイル、table1.csvをdfと名前をつけて読み込む。<br><br>
+ pandas を利用し、csv ファイルを読み込む方法を説明する。<br>
+ csv ファイル、table1.csv を df と名前をつけて読み込む。<br><br>
  
  <a href="table1.csv" download="table1.csv">table1.csv</a>　　
  (環境によっては .xls でダウンロードされるらしい？)
@@ -1095,12 +1090,13 @@ plt.show()
 </code></pre>
 
 <p>
-  グラフを描くために任意の列だけ抜き出そう。csvファイル内で x という名前の列は
+  グラフを描くために任意の列だけ抜き出そう。csv ファイル内で x という名前の列は
 </p>
 <pre><code class="python ty">x=df["x"]</code></pre>
 <p>
   で抜き出せる。<br>
-  条件式を使うこともできる。yという列の値が0より大きい場合のみxを取り出すとすれば
+  条件式を使うこともできる。条件式については<a href="#if">こちら</a><br>
+  y という列の値が 0 より大きい場合のみxを取り出すとすれば
 </p> 
 <pre><code class="python ty">x=df[df["y"]>0]["x"]</code></pre>
 
@@ -1159,7 +1155,7 @@ plt.show()
  <a id="err"><h4 class="ty">&#9679;エラーバーをつける</h4></a>
  
 <p>
-  エラーバー付きのプロットは<code class="python ty">plt.errorbar</code>でできます。
+  エラーバー付きのプロットは plt.errorbar() でできる。
 </p>
 
 <pre><code class="python ty">
@@ -1188,7 +1184,7 @@ plt.show()
 
 <p>
   <br><br>
-  上のcsvファイルからグラフを書いてみる。
+  上の csv ファイルからグラフを書いてみる。
 </p>
 <pre><code class="python ty">
   import matplotlib.pyplot as plt
@@ -1224,10 +1220,10 @@ plt.show()
 <h3><a id="ograph" class="ty">グラフを描く（応用編）</a></h3>
 <p>
 matplotlib でグラフを作る際には2つの方式がある。<br>
-1つは「Pyplotインターフェース」と呼ばれるもので、ここまで説明してきたものはすべてPyplotインターフェースである。<br>
-もう1つは「オブジェクト指向インターフェース」であり、Pyplotインターフェースより詳細な設定ができる。<br>
-ここでは基礎的な説明にとどめ、有用でかつPyplotインターフェースでは実装できないものがあった際に追記することにする。<br>
-また、両者を混同させて記述することも可能であるため、Pyplotインターフェースをベースとし必要箇所のみオブジェクト指向インターフェースで記述することにする。<br>
+1つは「Pyplot インターフェース」と呼ばれるもので、ここまで説明してきたものはすべて Pyplot インターフェースである。<br>
+もう1つは「オブジェクト指向インターフェース」であり、Pyplot インターフェースより詳細な設定ができる。<br>
+ここでは基礎的な説明にとどめ、有用でかつ Pyplot インターフェースでは実装できないものがあった際に追記することにする。<br>
+また、両者を混同させて記述することも可能であるため、Pyplot インターフェースをベースとし必要箇所のみオブジェクト指向インターフェースで記述することにする。<br>
 インターネット上ではオブジェクト指向インターフェースで書かれた解説ページも多いため様式を理解しておくと良いかもしれない。<br>
 <br><br>
 </p>
@@ -1257,7 +1253,7 @@ matplotlib でグラフを作る際には2つの方式がある。<br>
   ax = fig.add_subplot(111)
   </code>
   </pre>
-  とすればよい。台紙を fig, グラフ領域を ax としている。<br>
+  とすればよい。台紙を fig、グラフ領域を ax としている。<br>
   グラフ要素を ax.~ で加えていく。<br>
   基本的には Pyplotインターフェースにおける plt が ax に置き換わるだけだが、一部例外がある。<br>
   (plt.xlim() →　ax.set_xlim(),  plt.title() →　ax.set_title() など)<br>
@@ -1324,7 +1320,7 @@ matplotlib でグラフを作る際には2つの方式がある。<br>
     sns.set()
     
     fig = plt.figure(figsize=(8,6),facecolor="pink",edgecolor="red",linewidth=10,tight_layout=True)
-    # 左から図の大きさ、「台紙」の色、縁の色・幅、配置の自動調整を on
+    # 左から図の大きさ、「台紙」の色、縁の色・幅、配置の自動調整を True
     ax = fig.add_subplot(111,facecolor="mistyrose")
     # Axes の色
     
@@ -1353,8 +1349,8 @@ matplotlib でグラフを作る際には2つの方式がある。<br>
 
   <p>
   <br><br>
-  上述の通り、Pyplotインターフェースとオブジェクト指向インターフェースは混在しても問題ない。<br>
-  Figure, Axes のセットだけしておいて、基本的には Pyplotインターフェースで記述、<br>
+  上述の通り、Pyplot インターフェースとオブジェクト指向インターフェースは混在しても問題ない。<br>
+  Figure, Axes のセットだけしておいて、基本的には Pyplot インターフェースで記述、<br>
   必要な時のみオブジェクト指向インターフェースを持ち込めばよい。
   </p>
    
@@ -1405,8 +1401,8 @@ matplotlib でグラフを作る際には2つの方式がある。<br>
     </code>
     </pre>
 　の括弧内の数字を変えることである。<br>
-  この数字はi段、j列のうち左上からk番目を(ijk)で表している。<br>
-  （コンマで区切って(i,j,k)としても良い。かえってその方が正確である。）<br>
+  この数字は  i段、j 列のうち左上から k 番目を (ijk) で表している。<br>
+  （コンマで区切って (i, j, k) としても良い。かえってその方が正確である。）<br>
   また、i×j 個の Axes を用意する必要はなく、虫食いでも良い。<br>
 </p>
 
@@ -1525,13 +1521,13 @@ width, height についてこの数字は Figure の幅、高さを1とする値
   fig = plt.figure(edgecolor="black",linewidth=1)
 
   ax1 = fig.add_axes((0.1,0.6,0.8,0.3),facecolor="lavender")
-  # 横:0.1から0.9、縦:0.6から0.9
+  # 横:0.1から0.1+0.8、縦:0.6から0.6+0.3
 
   ax2 = fig.add_axes((0.1,0.1,0.4,0.3),facecolor="antiquewhite")
-  # 横:0.1から0.5、縦:0.1から0.4
+  # 横:0.1から0.1+0.4、縦:0.1から0.1+0.3
 
   ax3 = fig.add_axes((0.6,0.1,0.3,0.3),facecolor="mistyrose")
-  # 横:0.6から0.9、縦:0.1から0.4
+  # 横:0.6から0.6+0.3、縦:0.1から0.1+0.3
   
   x=np.linspace(-5,5,101)
   
@@ -1562,10 +1558,10 @@ width, height についてこの数字は Figure の幅、高さを1とする値
 <a id="otwin"><h4 class="ty">&#9679;2軸グラフ</h4></a>
 
 <p>
-  Pyplot インターフェースでは（多分）実装できないものとして2軸グラフを挙げられる。<br>
+  Pyplot インターフェースでは（多分）実装できないものとして2軸グラフが挙げられる。<br>
 以下のように、図の上下に横軸が2つあるような図を作る場合には、グラフ領域 ax1 を作ったあと、<br>
 ax2 = ax1.twiny() で ax1 の横軸と同期された ax2 を作るのが良い。<br>
-twiny()はy軸を共有する上下の横軸、という意味になる。縦軸が2つならtwinx()を使い、新たな縦軸を定義する。<br>
+twiny() はy軸を共有する上下の横軸、という意味になる。縦軸が2つなら twinx() を使い、新たな縦軸を定義する。<br>
 </p>
 
 <img border="0" src="Python-figs\py_Figure_23.png" width="700"><br>
@@ -1874,7 +1870,7 @@ Python でフィッティングを行う方法の1つに Scipy の optimize.curv
   </table>
   <br><br><br>
 
-  type()を使用してデータ型を取得できる。
+  type() を使用してデータ型を取得できる。
  </p>
  
  <pre>
@@ -1988,8 +1984,8 @@ Python でフィッティングを行う方法の1つに Scipy の optimize.curv
     このとき、反復する範囲（回数）を指定するときによく使われるのが range() 関数である。<br>
     range() 自体は range 型のオブジェクトを作る関数で、中身は等差数列だと考えてよい。<br>
     range(start,stop,step) の形で最大 3 個の引数が渡せる。<br>
-    1つ省略して2つ引数を与えると range(start,stop,1)、2つ省略して1つ引数を与えると range(0,stop,1)と認識される。<br>
-    以下に例を示す。（range 型の性質上、ただprint()しても中身が表示されないため、リスト化している。）<br>
+    1つ省略して2つ引数を与えると range(start,stop,1)、2つ省略して1つ引数を与えると range(0,stop,1) と認識される。<br>
+    以下に例を示す。（range 型の性質上、ただ print() しても中身が表示されないため、リスト化している。）<br>
   　
   </p>
   
@@ -2252,9 +2248,9 @@ range 関数を使った for 文で反復処理をする。 <br>
 
   <p>
     format() を使って数値を文字列に組み込むことができる。<br>
-    "文字列、挿入させたいところに{}".format(挿入させる数値) の形で使う<br>
+    "文字列、挿入させたいところに{}".format(挿入させる数値) の形で使う。<br>
     {} 内で表示させる桁数を指定できる。例えば {:.3f} で小数以下3桁。<br>
-    for 文でグラフを複数描くときのラベル指定、フィッティングで決定したパラメータを図中で表示させる際</a> などに有用である。<br>
+    for 文でグラフを複数描くときのラベル指定、フィッティングで決定したパラメータを図中で表示させる際などに有用である。<br>
     <a href="#fit">フィッティングでの使用例</a> 1つの文字列に2ヵ所挿入もできる。<br>
   </p>
 
@@ -2328,7 +2324,7 @@ range 関数を使った for 文で反復処理をする。 <br>
   <hr>
 
  <h3><a id="install" class="tt">インストール</a></h3>
-<p>スクショを交えて追記する予定</p>
+<p>スクリーンショットを交えて追記する予定</p>
 <!-- 
 <ul>
 <li><a href="https://cran.r-project.org/bin/macosx/" target="_blank" class="ty">R for Mac OS X</a></li>
