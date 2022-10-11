@@ -25,7 +25,7 @@
 このページの目的は、ひとまず動作する雛形を提供することなので、説明はざっくりです。<br>
 基本的には、スクリプトを .py ファイルに保存してコンソールから実行すれば動きます。
 </p>
- <h4 align="right" class="td">2021/10/03 Updated</h4>
+ <h4 align="right" class="td">2022/10/11 Updated</h4>
 
 
 <!-- <h3 class="ty">実践</h3> -->
@@ -891,7 +891,7 @@ plt.subplots_adjust(left=0.125, right=0.9, bottom=0.2, top=0.9)
 plt.title("図.1 2020 年の月別平均気温", x=0.5, y=-0.25, fontsize=16, fontname="MS Gothic")
 # x, y で位置を設定。数字はグラフの左下を (0,0), 右上を (1,1) としたときの数字。
 
-plt.legend(fontsize=10,  prop = {"family" : "MS Gothic"})
+plt.legend(prop = {"family" : "MS Gothic","size" : 10})
 plt.show()
 
 </code></pre>
@@ -920,7 +920,7 @@ plt.show()
   plt.plot(x,y,c="black",label="$y = -x^{3} + 3x - 1$")
   # 凡例なども含め、文字の表示において $$ で囲むとその中はイタリックで表示できる。
   # さらに $$ の中で ^{} を使うと括弧内を上付き文字、
-  # 　　　    　　　 _{} を使うと括弧内を下付き文字にできる。
+  #                 _{} を使うと括弧内を下付き文字にできる。
   
   
   plt.axis('scaled')
@@ -1924,6 +1924,7 @@ Python でフィッティングを行う方法の1つに Scipy の optimize.curv
     print(e,type(e))
     
     # 一発で int にはできないらしい。
+    # float に変換後 int に変換
     f=int(float(d))
     print(f,type(f))
 
@@ -1986,7 +1987,7 @@ Python でフィッティングを行う方法の1つに Scipy の optimize.curv
     range(start,stop,step) の形で最大 3 個の引数が渡せる。<br>
     1つ省略して2つ引数を与えると range(start,stop,1)、2つ省略して1つ引数を与えると range(0,stop,1) と認識される。<br>
     以下に例を示す。（range 型の性質上、ただ print() しても中身が表示されないため、リスト化している。）<br>
-  　
+   
   </p>
   
   <pre><code class="python ty"> 
@@ -2033,7 +2034,7 @@ range 関数を使った for 文で反復処理をする。 <br>
         y=2**i
         print(y)
 
-　　print("finish")
+    print("finish")
   </code></pre>
 
   <p>出力</p>
