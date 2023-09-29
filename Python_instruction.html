@@ -19,20 +19,34 @@
 <div id="page_top"><a href="#"></a></div> 
  <a id="top"><h1>&nbsp;Python入門</h1></a>
  
-<p>Python を使ってグラフを書いたり、データ解析・統計処理をする Tips をまとめます。<br>
-スクリプトで図を描くと、グラフの書き直し、データの差し替え等の手間が省けます。<br>
-また、データに施した処理が見えやすいのでミスが減り、記録に残るので振り返りやすくなります。<br>
+<p>Python を使ってグラフを描く、データ解析・統計処理をする Tips をまとめます。<br>
+スクリプトで図を描くことで、Excel 等に比べてデータの差し替え等の手間が省け、より詳細な設定も可能となります。<br>
 このページの目的は、ひとまず動作する雛形を提供することなので、説明はざっくりです。<br>
-基本的には、スクリプトを .py ファイルに保存してコンソールから実行すれば動きます。
 </p>
- <h4 align="right" class="td">2022/10/12 Updated</h4>
+ <h4 align="right" class="td">2023/10/01 Updated</h4>
 
 
 <!-- <h3 class="ty">実践</h3> -->
 <hr>
+
 <ul>
 <li><a href="#exe">スクリプトの実行</a></li>
 <li><a href="#library">ライブラリ</a></li>
+
+<li><a href="#program"> Python プログラミングの基礎 </a>
+  　<ul>
+    <li><a href="#basic">基本のき</a></li>
+    <li><a href="#type">データ型</a></li>
+    <li><a href="#math">四則演算</a></li>
+    <li><a href="#list">リストの編集・演算</a></li>
+    <li><a href="#for">for 文</a></li>
+    <li><a href="#if">if 文</a></li>
+  　</ul>
+</li>
+</ul>
+<hr>
+
+<ul>
 <li><a href="#graph">グラフを描く（基礎編）</a>
     <ul>
     <li><a href="#scatt">散布図</a></li>
@@ -51,6 +65,7 @@
     </li>
     <li><a href="#csv">csv ファイルを読み込んでグラフを描く</a></li>
     <li><a href="#err">エラーバーをつける</a></li>
+    <li><a href="#format">format による組み込み</a></li>
 
     </ul>
 </li>
@@ -63,25 +78,12 @@
 <li><a href="#fit">フィッティングする</a></li>
 </ul>
 
-<hr>
-<ul>
-<li><a href="#program"> Python プログラミングの基礎 </a>
-  　<ul>
-    <li><a href="#type">データ型</a></li>
-    <li><a href="#for">for 文</a></li>
-    <li><a href="#if">if 文</a></li>
-    <li><a href="#format">format による組み込み</a></li>
-  　</ul>
-</li>
-</ul>
+
 <hr>
  
 <ul>
 
  <li><a href="#install">インストール</a></li>
- <!-- <li><a href="#rdoc">関数の使い方に困ったら</a></li>
- <li><a href="#studio">R studioで使う</a></li>
- <li><a href="#terminal">Terminalで使う</a></li> --> 
  <li><a href="#colpt">色の指定</a></li>
 
 </ul>
@@ -89,38 +91,43 @@
 
  
  
-  <h3><a id="exe" class="tt">スクリプトの実行</a></h3>
-  <p>端末で自分の .py ファイルをコマンドによって呼び出す。そのファイルが存在するフォルダで実行すること。
-  </p>
-  
+<h3><a id="exe" class="tt">スクリプトの実行</a></h3>
+<p>Python ファイルの拡張子は .py。そのファイルが存在するフォルダで以下のように実行する。
+</p>
 
 <pre>
-<code class="shell ty"> $ python *****.py 
+<code class="shell"> $ python *****.py 
 </code>
 </pre>
 
+<p>環境によっては
+</p>
+
+<pre>
+<code class="shell"> $ python3 *****.py
+</code>
+</pre>
 <hr>
+
+
 
 <h3><a id="library" class="tt">ライブラリ</a></h3>
 <p>
-  Python の強みは充実したライブラリ群である。<br>
-  主に使うのは数値計算に便利な NumPy、様々な科学計算が可能な SciPy、プロットに便利な Matplotlib、データ解析に強いPandasなど。<br>
-  これらはデフォルトの Python では使えないので pip コマンドで別途インストールする必要がある。
+  Python の強みは充実したライブラリ群である（拡張ツールのようなもの、と理解すればよい）。<br>
+  主に使うのは数値計算に便利な NumPy、様々な科学計算が可能な SciPy、描画に便利な Matplotlib、データ解析に強いPandasなど。<br>
+  これらはデフォルトの Python では使えないので pip コマンドで別途インストールする必要がある（最初に1回やれば十分）。
  </p>
  <pre>
-   <code class="shell ty">$ pip install numpy scipy matplotlib pandas seaborn</code>
+   <code class="shell">$ pip install numpy scipy matplotlib pandas seaborn</code>
   </pre>
 <p>
   ライブラリを使うには.pyファイルの冒頭で宣言が必要。
 </p>
-<pre><code class="python ty">
-  import numpy as np
-  import pandas as pd
-  import matplotlib.pyplot as plt
-  import seaborn as sns
-  from scipy.optimize import minimize
-
-</code></pre>
+<pre><code class="python">import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from scipy.optimize import minimize</code></pre>
 <p>
   numpy, pandas, matplotlib.pyplot, seaborn は省略名として np, pd, plt, sns を使うことが慣例になっている。<br>
   scipy の中の optimize モジュールから minimize というオブジェクトのみを読み込む、といった使い方も可能。
@@ -130,58 +137,753 @@
 
 
 
+<h3><a id="program" class="tt">Python プログラミングの基礎 </a></h3>
 
+<a id="basic"><h4 class="ty">&#9679;基本のき </h4></a>
 
- <h3><a id="graph" class="tt">グラフを書く</a></h3>
-
- <p>
-　グラフを書くためのスクリプトと実際に出力されるグラフを示す。<br>
-　そのままコピペ（行頭にスペースが入らないように注意）して保存、実行すれば動くはず。<br>
-　また、Python において # から始まる行はコメント行として扱われ、実行の際には無視される。<br>
-　これを使用してスクリプト中にも解説を記しておく。<br>
+<p>
+以下、コード（黒背景）を示しながら解説していく。<br>
+そのままコピペ（行頭にスペースが入らないように注意）して保存、実行すれば動くはず。<br>
+まず、基本的なところから。<br><br>
+・print() で出力を行う。<br>
+・1行の中で # 以降は実行されない（普通は文頭に # を置いて丸々1行実行させない）。<br>
+　これを用いてコード内にコメントを残すことも可能。<br>
+　行を選択して ctrl + / のショートカットでコメント行の切り替えが可能。<br>
 </p>
+
+<pre>
+<code class="python">print("Hello World")
+# This is the simplest program.
+</code>
+</pre>
+
+<p>
+・変数名の大文字と小文字は区別される。<br>
+・Python において行頭のスペースは意味を持つ(基本的には文頭は空けずに始める)。<br>
+・変数の間にスペースを挟むのは問題ない（数も不問）<br>
+・改行はいくらしても問題ない。
+</p>
+  
+<pre>
+  <code class="python">a=2
+b = 3
+A=  4
+
+y=( a + b )*A
+
+print(y)
+</code>
+</pre>
+
+<p>出力</p>
+<pre>
+<code class="shell">20
+</code>
+</pre>
+
+ <a id="type"><h4 class="ty">&#9679;データ型 </h4></a>
+ <p>
+  Python では左辺で変数名をつけ、イコールで代入をしていく。<br>
+  このとき代入したものによって、変数がどのような性質のものか（データ型）が決まる。<br>
+  主なデータ型を表に示す。<br>
+  他にもタプル、辞書などがあるがここでは説明しない。<br>
+  </p>
+ 
+  <table>
+    <tr>
+      <th>データ型</th>
+      <th>名称</th>
+      <th>説明</th>
+      <th>変換</th>
+    </tr>
+
+    <tr>
+      <td>str</td>
+      <td>文字列</td>
+      <td>'シングルクォーテーション'または"ダブルクォーテーション"で囲んだオブジェクト</td>
+      <td>str()</td>
+    </tr>
+
+    <tr>
+      <td>int</td>
+      <td>整数</td>
+      <td>小数点を含まない数値</td>
+      <td>int()</td>
+    </tr>
+
+    <tr>
+      <td>float</td>
+      <td>浮動小数点</td>
+      <td>小数点を含む数値</td>
+      <td>float()</td>
+    </tr>
+
+    <tr>
+      <td>list</td>
+      <td>リスト</td>
+      <td>[]で囲まれたオブジェクト。複数の要素を,で区切って含む。</td>
+      <td>list()</td>
+    </tr>
+
+  </table>
+  <br>
+  type() を使用してデータ型を取得できる。
+ </p>
+ 
+ <pre>
+<code class="python">a="3.14"
+print(a,type(a))
+
+b=3
+print(b,type(b))
+
+c=3.14
+print(c,type(c))
+
+d=[3,1,4]
+print(d,type(d))</code>
+ </pre>
+
+  <p>出力</p>
+<pre>
+<code class="shell">3.14 &lt;class &#39;str&#39;&gt;
+3 &lt;class &#39;int&#39;&gt;
+3.14 &lt;class &#39;float&#39;&gt;
+[3, 1, 4] &lt;class &#39;list&#39;&gt; 
+</code>
+</pre>
+<br>
+<p>
+  型の変換は以下のように行う。<br>
+</p>
+ <pre>
+<code class="python">a=3.14
+print(a,type(a))
+
+# float to str
+b=str(a)
+print(b,type(b))
+
+# float to int
+c=int(a)
+print(c,type(c))
+
+
+d="2.71"
+print(d,type(d))
+
+# str to float （数字の文字列に限る）
+e=float(d)
+print(e,type(e))
+
+# str to int
+# 一発で int にはできないらしい。
+# float に変換後 int に変換
+f=int(float(d))
+print(f,type(f))
+</code>
+  </pre>
+ 
+   <p>出力</p>
+   <pre>
+<code class="shell">3.14 &lt;class &#39;float&#39;&gt;
+3.14 &lt;class &#39;str&#39;&gt;
+3 &lt;class &#39;int&#39;&gt;
+2.71 &lt;class &#39;str&#39;&gt;
+2.71 &lt;class &#39;float&#39;&gt;
+2 &lt;class &#39;int&#39;&gt;
+</code>
+   </pre>
+
+
+   <a id="math"><h4 class="ty">&#9679;四則演算 </h4></a>
+   <p>
+    int, float 型に対する主な演算子を表にまとめる。<br>
+    累乗が "^" ではなく "**" であり、やや癖がある。
+  </p>
+  <table>
+    <tr>
+      <th>演算子</th>
+      <th>意味</th>
+      <th>例</th>
+      <th>出力</th>
+    </tr>
+
+    <tr>
+      <td>+</td>
+      <td>和</td>
+      <td>1 + 2</td>
+      <td>3</td>
+    </tr>
+
+    <tr>
+      <td>-</td>
+      <td>差</td>
+      <td>4 - 3</td>
+      <td>1</td>
+    </tr>
+
+    <tr>
+      <td>*</td>
+      <td>積</td>
+      <td>2 * 3</td>
+      <td>6</td>
+    </tr>
+
+    <tr>
+      <td>/</td>
+      <td>商</td>
+      <td>8 / 4</td>
+      <td>2.0</td>
+    </tr>
+
+    <tr>
+      <td>%</td>
+      <td>余り</td>
+      <td>9 % 4</td>
+      <td>1</td>
+    </tr>
+
+    <tr>
+      <td>**</td>
+      <td>累乗</td>
+      <td>2 ** 3</td>
+      <td>8</td>
+    </tr>
+  </table>
+
+  <p>
+  整数の割り切れない割り算について、プログラミング言語によっては小数点以下切り捨てるものも存在するが
+  python では小数で表示される。
+  </p>
+
+  <pre>
+<code class="python">a=1
+b=4
+c=a/b
+print(c,type(c))
+</code>
+    </pre>
+
+    <p>出力。Fortran とかだと0（整数型）になる。</p>
+    <pre>
+<code class="shell">0.25 &lt;class &#39;float&#39;&gt;
+</code>
+    </pre>
+
+  <a id="list"><h4 class="ty">&#9679;リストの編集・演算 </h4></a>
+
+<p>
+  データ解析を行う上で重要性の高いリスト型について詳しい説明をしておく。<br><br>
+
+  リストは要素の集合であるが、インデックスを用いて各要素を取り出すことができる。<br>
+  番号は左から 0, 1, 2 ...　　　<font color="red">：Pythonは0始まり、重要</font>    <br>
+  右から -1, -2, -3 ...<br>
+  また len() でリストの要素数（長さ）を取得できる。
+  <br>
+</p>
+
+  <pre>
+<code class="python">color=["red","orange","yellow","green","blue","indigo","purple"]
+
+print(color[0],color[2])
+print(color[-1],color[-3])
+print(color[3],color[-4])
+print(len(color))
+</code>
+  </pre>
+  
+    <p>出力</p>
+    <pre>
+<code class="shell">red yellow
+purple blue
+green green
+7
+</code>
+    </pre>
+
+<p>
+リストに要素を加える、削除する場合を説明する。<br>
+追加は "append", 削除は要素名からなら "remove", インデックスからなら "pop" で行う。<br>
+特に "append" はよく使う。
+</p>
+
+<pre>
+<code class="python">color=["red","orange","yellow","green","blue","indigo","purple"]
+
+color.append("black")
+print(color)
+
+color.remove("green")
+print(color)
+
+color.pop(1)
+print(color)
+</code>
+</pre>
+
+<pre><code class="shell">['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'purple', 'black']
+['red', 'orange', 'yellow', 'blue', 'indigo', 'purple', 'black']
+['red', 'yellow', 'blue', 'indigo', 'purple', 'black']
+</code></pre>
+
+<p>
+また、スライス機能でリストを編集する方法を例示する。<br>
+ピークフィッティングなどで使う場合があるかも。
+</p>
+
+<pre>
+<code class="python">color=["red","orange","yellow","green","blue","indigo","purple"]
+
+c1=color[1:6:2]
+print(c1)
+# start=1(orange), stop=6(purple), step=2
+# つまり orange から purple の前まで2個に1個（1個飛ばし）
+
+c2=color[2:5]
+print(c2)
+# step 省略。step=1を入力した場合と同じ挙動
+
+c3=color[2:]
+print(c3)
+# startのみ。最後まで
+
+c4=color[:5]
+print(c4)
+# stopのみ。最初から
+
+c5=color[::3]
+print(c5)
+# stepのみ。最初から最後まで
+</code>
+</pre>
+
+<pre><code class="shell">['orange', 'green', 'indigo']
+['yellow', 'green', 'blue']
+['yellow', 'green', 'blue', 'indigo', 'purple']
+['red', 'orange', 'yellow', 'green', 'blue']
+['red', 'green', 'purple']
+</code></pre>
+<br>
+<p>
+最後にリストと類似オブジェクトの演算について説明する。<br>
+まず、リストに対して int, float 型の足し算、引き算、割り算はできない。
+</p>
+
+<pre><code class="python">a1=[0,1,2,3]
+
+b1=a1+2
+print(b1)
+</code></pre>
+
+<p>
+以下のようなエラーが出るはず。
+</p>
+<pre><code class="shell">TypeError: can only concatenate list (not "int") to list
+</code></pre>
+
+<br>
+<p>
+リスト×整数の掛け算だけは通るが、要素が掛ける数分コピーされる。<br>
+要素の値が変化するわけではない。
+</p>
+<pre><code class="python">a1=[0,1,2,3]
+
+c1=a1*2
+print(c1)
+</code></pre>
+
+<pre><code class="shell">[0, 1, 2, 3, 0, 1, 2, 3]
+</code></pre>
+
+<p>
+リストとリストの演算の場合は足し算のみが通る。<br>
+要素同士が足されるのではなく、リストが統合される。
+</p>
+<pre><code class="python">a1=[0,1,2,3]
+
+d1=[4,5,6,7]
+e1=a1+d1
+print(e1)
+</code></pre>
+
+<pre><code class="shell">[0, 1, 2, 3, 4, 5, 6, 7]
+</code></pre>
+
+<p>
+このように、リスト型で演算を行うのは不便である。<br>
+演算を行う場合には np の array オブジェクトに変換するのが良い。<br>
+（pd.Series()への変換でも同様の結果を与える。）
+</p>
+<pre><code class="python">import numpy as np
+
+a1=[0,1,2,3]
+b1=[4,5,6,7]
+
+a2=np.array(a1)
+b2=np.array(b1)
+
+print(a2*2)
+print(a2**2)
+print(a2+b2)
+print(a2*b2)
+</code></pre>
+
+<pre><code class="shell">[0 2 4 6]
+[0 1 4 9]
+[ 4  6  8 10]
+[ 0  5 12 21]
+</code></pre>
+
+<!-- <p>
+リストとリストの演算の場合は足し算のみが通る。<br>
+要素同士が足されるのではなく、リストが統合される。
+</p>
+<pre><code class="python"> 
+
+</code></pre>
+
+<pre><code class="shell"> 
+
+</code></pre> -->
+<br>
+
+<a id="for"><h4 class="ty">&#9679; for 文と range 関数</h4></a>
+
+
+<p>
+  for 文を使って反復処理を行う。<br>
+  このとき、反復する範囲（回数）を指定するときによく使われるのが range() である。<br>
+  range() 自体は range 型のオブジェクトを生成するもので、中身は等差数列だと考えてよい。<br>
+  range(start,stop,step) の形で最大 3 個の引数が渡せる。<br>
+  以下に例を示す。（range 型の性質上、ただ print() しても中身が表示されないため、リスト化している）<br>
+  
+</p>
+
+<pre><code class="python">r1=range(2,11,3)
+print(list(r1))
+# 2から10まで3刻み
+
+r2=range(2,11)
+print(list(r2))
+# step を省略。step=1 を入力した場合と同じ挙動
+
+r3=range(10)
+print(list(r3))
+# start も省略。start=0 を入力した場合と同じ挙動
+</code></pre>
+
+<p>出力。stop は含まれない（start ≤ i &lt; stop である）</p>
+<pre><code class="shell">[2, 5, 8]
+[2, 3, 4, 5, 6, 7, 8, 9, 10]
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+</code></pre>
+
+<p>
+  1番使うのは r3 の stop だけ指定する形式なはず。<br>
+  Python は0スタートであるため、0から始めて10個(10は含まない)と覚えておけばよい。<br>
+  <br>
+range 関数を使った for 文で反復処理をする。 <br>
+  Python では字下げをしている範囲内が for 文の範囲内として扱われる。<br>
+  （Pythonでは字下げが意味を持つため、勝手なところから書き始めてはならない）
+</p>
+
+<pre><code class="python">for i in range(11):
+    y=2**i
+    print(y)
+
+print("finish")
+</code></pre>
+
+<p>出力</p>
+<pre><code class="shell">1
+2
+4
+8
+16
+32
+64
+128
+256
+512
+1024
+finish
+</code></pre>
+
+<p>
+  <br>
+  range でなく、リストを使っても for 文の記述ができる。<br>
+  このとき、ループカウンタ(i)には数字ではなくリストの要素が代入されている。<br>
+  後述するが、range を使ってループカウンタを数字で回しにいった方が汎用性がある。
+</p>
+
+<pre><code class="python">letters=["How","I","want","a","drink","alcoholic","of","course","after", \
+    "the","heavy","chapters","involving","quamtum","mechanics"]
+# 1行が長く、読みにくいときは \ を挟んで改行すると同じ行として扱われる。
+
+pi=[]
+
+for i in letters:
+  print(i)
+
+  # リストpiにiの長さ（文字数）をappendする
+  pi.append(len(i))
+
+print(pi)
+</code></pre>
+
+<p>出力</p>
+<pre><code class="shell">How
+I
+want
+a
+drink
+alcoholic
+of
+course
+after
+the
+heavy
+chapters
+involving
+quamtum
+mechanics
+[3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8, 9, 7, 9]
+</code></pre>
+
+<p>
+  ループカウンタ（j）を数字で回して同じ pi を与えるコードを書いてみよう。ポイントは<br>
+  ・ループの回数=lettersの要素数(15)を取得して range でループを回す<br>
+  ・ループカウンタは0から14で回るため、letters のインデックスで呼び出して操作する<br>
+</p>
+
+<pre><code class="python">letters=["How","I","want","a","drink","alcoholic","of","course","after", \
+    "the","heavy","chapters","involving","quamtum","mechanics"]
+
+pi=[]
+
+for j in range(len(letters)):
+  print(j,letters[j])
+  pi.append(len(letters[j]))
+
+print(pi)
+</code></pre>
+
+  
+
+
+
+  <a id="if"><h4 class="ty">&#9679; if 文</h4></a>
+
+  <p>
+    if 文で条件分岐ができる。<br>
+    if 文でも字下げをしている行がその範囲内として扱われる。
+    使用できる比較演算子を表に示す。<br>
+    
+  <table>
+    <tr>
+      <th>比較演算子</th>
+      <th>意味</th>
+
+    </tr>
+
+    <tr>
+      <td>x &lt; y</td>
+      <td>x が y より小さい</td>
+    </tr>
+
+    <tr>
+      <td>x &lt;= y</td>
+      <td>x が y 以下</td>
+    </tr>
+
+    <tr>
+      <td>x &gt; y</td>
+      <td>x が y より大きい</td>
+    </tr>
+
+    <tr>
+      <td>x &gt;= y</td>
+      <td>x が y 以上</td>
+    </tr>
+
+    <tr>
+      <td>x == y</td>
+      <td>x が y と等しい</td>
+    </tr>
+
+    <tr>
+      <td>x != y</td>
+      <td>x が y と異なる</td>
+    </tr>
+ 
+
+  </table>
+  <br></p>
+
+  <p>1から30の整数で2で割り切れる数を選ぶ。</p>
+<pre>
+<code class="python">list=[]
+
+for i in range(1,31):
+    if i%2==0:
+        list.append(i)
+
+print(list)
+</code>
+</pre>
+   
+<p>出力</p>
+<pre>
+<code class="shell">[2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30]
+</code>
+</pre>
+
+
+  <p>
+    論理積（AかつB）の場合は "&" を用いる。<br>
+    & 記号の代わりに and と書いても良いが、pandasを使うときに & のみ可、and 不可、という場合があるので
+    記号で書くのに慣れておこう。<br>
+    論理和（AまたはB）は "|" (or)。
+  </p>
+<pre>
+<code class="python">list=[]
+
+for i in range(1,31):
+    if((i%2==0)&(i &lt; 20)):
+        list.append(i)
+
+print(list)
+</code>
+</pre>
+
+<p>出力</p>
+<pre>
+<code class="shell">[2, 4, 6, 8, 10, 12, 14, 16, 18]
+</code>
+</pre>
+
+  <p>
+    <br><br>
+    条件式が偽であるものに対して追加の処理を行う際、else を使う。<br>
+
+  </p>
+
+<pre>
+<code class="python">even=[]
+odd=[]
+
+for i in range(1,13):
+    if(i%2==0):
+        even.append(i)
+    else:
+        odd.append(i)
+
+print(even)
+print(odd)
+</code>
+</pre>
+   
+<p>出力</p>
+<pre>
+<code class="shell">[2, 4, 6, 8, 10, 12]
+[1, 3, 5, 7, 9, 11]
+</code>
+</pre>
+
+     
+  <p>
+    <br>
+    複数回条件分けする際、elif を使う。
+  </p>
+
+<pre>
+<code class="python">series1=[]
+series2=[]
+series3=[]
+series4=[]
+
+
+for i in range(1,25):
+    if(i%4==1):
+        series1.append(i)
+    elif(i%4==2):
+        series2.append(i)
+    elif(i%4==3):
+        series3.append(i)
+    else:
+        series4.append(i)
+
+print(series1)
+print(series2)
+print(series3)
+print(series4)
+</code>
+</pre>
+   
+<p>出力</p>
+<pre>
+<code class="shell">[1, 5, 9, 13, 17, 21]
+[2, 6, 10, 14, 18, 22]
+[3, 7, 11, 15, 19, 23]
+[4, 8, 12, 16, 20, 24]
+</code>
+</pre>
+
+
+<br><br><br>
+
+  <hr>
+
+
+
+
+ <h3><a id="graph" class="tt">グラフを書く（基礎編）</a></h3>
+
 
  <a id="scatt"><h4 class="ty">&#9679;散布図</h4></a>
 
- <img border="0" src="Python-figs\py_Figure_1.png" width="700"><br>
 
- <p>上図を描くスクリプトを示す。<br>
- ライブラリ(それぞれ様々な機能を持つもの)を導入し、省略名をつける。<br>
- ここでは、グラフを書くための matplotlib.pyplot を plt として導入している。<br>
- plt.scatter() で、散布図を描く。二つの座標の他、マーカーの色や形を変えられる。<br>
+
+ <p>下図を描くコードを示す。<br>
+ グラフを書くためのライブラリとして matplotlib.pyplot を導入する(pltと略)。<br>
+ plt.scatter() で、散布図を描く。二つの座標を引数として渡す。<br>
+ オプション（書かなくても良い）でマーカーの色や形を変えられる。<br>
  色の指定については<a href="#colpt">こちら</a><br>
  最後に plt.show() でグラフを表示させる。<br>
  </p>
  
+ <img border="0" src="Python-figs\py_Figure_1.png" width="700"><br>
+
 <pre>
 <!-- <code class="ty"> -->
- <code class="python ty"> 
-  import matplotlib.pyplot as plt
-  # ここで matplotlib.pyplot を導入。
-  # plt と名づけ、以下 plt で呼び出す。
-  
-  # 散布図を書くときは plt.scatter(), ()内に変数
-  plt.scatter(1, 2, c="blue", marker="o", s=20, alpha=0.5)
-  # 左からx座標、y座標
-  # 以下は任意で c: 色、 marker: 形状、s: サイズ、alpha: 透明度(0~1)
+ <code class="python">import matplotlib.pyplot as plt
+# matplotlib.pyplot を導入。
+# plt と名づけ、以下 plt で呼び出す。
 
-  plt.scatter(2,  4, c="orange",    marker =".")
-  plt.scatter(3,  6, c="green",     marker ="v")
-  plt.scatter(4,  8, c="red",       marker ="^")
-  plt.scatter(5, 10, c="purple",    marker ="s")
-  plt.scatter(1,  5, c="brown",     marker ="p")
-  plt.scatter(2,  7, c="pink",      marker ="*")
-  plt.scatter(3,  9, c="gray",      marker ="h")
-  plt.scatter(4, 11, c="olive",     marker ="+")
-  plt.scatter(5, 13, c="cyan",      marker ="x")
-  plt.scatter(1,  8, c="coral",     marker ="X")
-  plt.scatter(2, 10, c="gold",      marker ="D")
-  plt.scatter(3, 12, c="skyblue",   marker ="d")
-  plt.scatter(4, 14, c="magenta",   marker ="1")
-  plt.scatter(5, 16, c="indianred", marker ="2")
- 
-  plt.show()
-  # グラフを表示する。
+# 散布図を書くときは plt.scatter(), ()内に引数
+
+plt.scatter(1, 2, c="blue", marker="o", s=20, alpha=0.5)
+# 左からx座標、y座標
+# 以下は任意で c: 色、 marker: 形状、s: サイズ、alpha: 透明度(0~1)
+
+plt.scatter(2,  4, c="orange",    marker =".")
+plt.scatter(3,  6, c="green",     marker ="v")
+plt.scatter(4,  8, c="red",       marker ="^")
+plt.scatter(5, 10, c="purple",    marker ="s")
+plt.scatter(1,  5, c="brown",     marker ="p")
+plt.scatter(2,  7, c="pink",      marker ="*")
+plt.scatter(3,  9, c="gray",      marker ="h")
+plt.scatter(4, 11, c="olive",     marker ="+")
+plt.scatter(5, 13, c="cyan",      marker ="x")
+plt.scatter(1,  8, c="coral",     marker ="X")
+plt.scatter(2, 10, c="gold",      marker ="D")
+plt.scatter(3, 12, c="skyblue",   marker ="d")
+plt.scatter(4, 14, c="magenta",   marker ="1")
+plt.scatter(5, 16, c="indianred", marker ="2")
+
+plt.show()
+# グラフを表示
 </code>
 </pre>
    
@@ -194,86 +896,76 @@
 
 
 <pre>
-<code class="python ty"> 
-  import matplotlib.pyplot as plt
+<code class="python">import matplotlib.pyplot as plt
 
-  x_list=[1,  1, 3, 3, 5, 7, 7, 9,  9]
-  y_list=[2, 10, 4, 8, 6, 4, 8, 2, 10]
-  
-  plt.scatter(x_list, y_list, c="red", marker ="o", edgecolors="black")
-  # edgecolors で縁の色を指定。
+x_list=[1,  1, 3, 3, 5, 7, 7, 9,  9]
+y_list=[2, 10, 4, 8, 6, 4, 8, 2, 10]
+# 2つのリストの要素数を同じにする必要がある
 
-  plt.show()
+plt.scatter(x_list, y_list, c="red", marker ="o", edgecolors="black")
+# edgecolors で縁の色を指定。
 
+plt.show()
 </code>
 </pre>
 
-<img border="0" src="Python-figs\py_Figure_1'.png" width="700"><br>
+<img border="0" src="Python-figs\py_Figure_1'.png" width="700"><br><br><br><br>
 
 
 
 <a id="plot"><h4 class="ty">&#9679;折れ線グラフ</h4></a>
-
-<img border="0" src="Python-figs\py_Figure_2.png" width="700"><br>
-
+<img border="0" src="Python-figs\py_Figure_2.png" width="700">
 <p>
-<br>
 plt.plot() で、折れ線グラフを描く。横軸、縦軸の系列をリストで指定してみる。
 </p>
 
 <pre>
 <!-- <code class="ty"> -->
-<code class="python ty"> 
-  import matplotlib.pyplot as plt
+<code class="python">import matplotlib.pyplot as plt
 
-　# プロットする横軸の座標のリスト
-  x_list=[ 2, 4, 6, 8, 10, 12, 14]
-　# プロットする縦軸の座標のリスト
-  y_list=[10, 1, 7, 4,  6,  2,  9]
-  # 2つのリストの要素数を同じにする必要がある
-  
-  # 折れ線グラフを書くときは plt.plot(), ()に変数
-  plt.plot(x_list, y_list, c="blue", ls="-", lw=2, alpha=0.8)
-  # 左から x 座標のリスト、y 座標のリスト
-  # 以下は任意で c: 色、ls: 線のスタイル、lw: 線の太さ、alpha: 透明度(0~1)
+# プロットする横軸の座標のリスト
+x_list=[ 2, 4, 6, 8, 10, 12, 14]
+# プロットする縦軸の座標のリスト
+y_list=[10, 1, 7, 4,  6,  2,  9]
+# 2つのリストの要素数を同じにする必要がある
 
-  plt.show()
+# 折れ線グラフを書くときは plt.plot(), ()に変数
+plt.plot(x_list, y_list, c="blue", ls="-", lw=2, alpha=0.8)
+# 左から x 座標のリスト、y 座標のリスト
+# 以下は任意で c: 色、ls: 線のスタイル、lw: 線の太さ、alpha: 透明度(0~1)
+
+plt.show()
 </code>
 </pre>
   
 <p>
-  <br>
   <br>
   折れ線グラフでも marker の指定ができる。
 </p>
 
 
 <pre>
-<code class="python ty"> 
+<code class="python">import matplotlib.pyplot as plt
 
-  import matplotlib.pyplot as plt
+x_list =[ 1,  4,  7]
+y1_list=[10, 12, 10]
+y2_list=[ 7,  9,  7]
+y3_list=[ 4,  6,  4]
+y4_list=[ 1,  3,  1]
 
-  x_list =[ 1,  4,  7]
-  y1_list=[10, 12, 10]
-  y2_list=[ 7,  9,  7]
-  y3_list=[ 4,  6,  4]
-  y4_list=[ 1,  3,  1]
-  
-  # marker: 形状、ms: マーカーの大きさ、mfc: マーカー内部の色、mec: マーカーの縁の色
-  plt.plot(x_list, y1_list, c="blue",   ls="-",  marker="o", ms=10, mfc="white", mec="cyan")
+# marker: 形状、ms: マーカーの大きさ、mfc: マーカー内部の色、mec: マーカーの縁の色
+plt.plot(x_list, y1_list, c="blue",   ls="-",  marker="o", ms=10, mfc="white", mec="cyan")
 
-  #　mfc, mecは省略した場合、それぞれ線と同じ色になる。
-  plt.plot(x_list, y2_list, c="orange", ls="--", marker="^")
-  plt.plot(x_list, y3_list, c="green",  ls=":",  marker="s")
-  plt.plot(x_list, y4_list, c="red",    ls="-.", marker="d")
-  
-  
-  plt.show()  
+# mfc, mecは省略した場合、それぞれ線と同じ色になる。
+plt.plot(x_list, y2_list, c="orange", ls="--", marker="^")
+plt.plot(x_list, y3_list, c="green",  ls=":",  marker="s")
+plt.plot(x_list, y4_list, c="red",    ls="-.", marker="d")
 
+plt.show()  
 </code>
 </pre>
 
-<img border="0" src="Python-figs\py_Figure_3.png" width="700"><br>
+<img border="0" src="Python-figs\py_Figure_3.png" width="700"><br><br><br>
 
 
 
@@ -283,26 +975,24 @@ plt.plot() で、折れ線グラフを描く。横軸、縦軸の系列をリス
 
 <p>
 <br>
-ply.bar() で、棒グラフを描く。横軸の位置、縦軸の高さの系列をリストで指定してみる。<br>
+plt.bar() で、棒グラフを描く。横軸の位置、縦軸の高さの系列をリストで指定してみる。<br>
 </p>
 
 <pre>
 <!-- <code class="ty"> -->
-<code class="python ty"> 
-  import matplotlib.pyplot as plt
+<code class="python">import matplotlib.pyplot as plt
 
-  # 横軸位置のリスト
-  x_list=[ 1, 2, 3, 4, 5, 6]
-  # 縦軸高さのリスト
-  height=[ 2, 3, 7, 9, 6, 3]
-  
-  plt.bar(x_list, height, width=1.0, align="center", color="blue", edgecolor="cyan", lw=2, alpha=0.8)
-  # 左から x 座標、y 座標
-  # 以下は任意で 棒グラフの幅, x 座標の指定する位置 ("edge" にすると棒グラフの左端が指定した数字に来る)
-  # 棒グラフの色、縁の色と幅、棒グラフの透明度
+# 横軸位置のリスト
+x_list=[ 1, 2, 3, 4, 5, 6]
+# 縦軸高さのリスト
+height=[ 2, 3, 7, 9, 6, 3]
 
-  plt.show()
-  
+plt.bar(x_list, height, width=1.0, align="center", color="blue", edgecolor="cyan", lw=2, alpha=0.8)
+# 左から x 座標、y 座標
+# 以下は任意で 棒グラフの幅, x 座標の指定する位置 ("edge" にすると棒グラフの左端が指定した数字に来る)
+# 棒グラフの色、縁の色と幅、棒グラフの透明度
+
+plt.show()
 </code>
 </pre>
   
@@ -313,23 +1003,17 @@ ply.bar() で、棒グラフを描く。横軸の位置、縦軸の高さの系�
 </p>
 
 <pre>
-<code class="python ty"> 
+<code class="python">import matplotlib.pyplot as plt
 
-  import matplotlib.pyplot as plt
+x_list=[ 1, 2, 3, 4, 5, 6]
+height1=[ 2, 3, 7, 9, 6, 3]
+height2=[ 8, 7, 3, 1, 4, 7]
 
-  x_list=[ 1, 2, 3, 4, 5, 6]
-  height1=[ 2, 3, 7, 9, 6, 3]
-  height2=[ 8, 7, 3, 1, 4, 7]
-  
-  
-  plt.bar(x_list, height1, width=0.6, align="center", color="blue")
-  plt.bar(x_list, height2, width=0.6, align="center", color="orange",bottom=height1)
-  # bottom = height1 にしたことで 1段目の上端の値が 2段目の下端になる
-  
-  
-  plt.show()
-  
+plt.bar(x_list, height1, width=0.6, align="center", color="blue")
+plt.bar(x_list, height2, width=0.6, align="center", color="orange",bottom=height1)
+# bottom = height1 にしたことで 1段目の上端の値が 2段目の下端になる
 
+plt.show()
 </code>
 </pre>
 
@@ -341,65 +1025,85 @@ ply.bar() で、棒グラフを描く。横軸の位置、縦軸の高さの系�
  
 <p>
   numpy の数学関数を用いて関数のグラフを書くことができる。<br>
-  np.linspace() を使って定義域を決め、この範囲で関数をプロットする。<br>
-  括弧内は，（最小値、最大値、計算点の数）で指定する。<br>
-  計算点の数は省略可（グラフを描いてみて滑らかでないときに指定すればよい）。<br>
-  まずは数学関数を使用しない多項式関数を書いてみる。<br>
+  が、数学関数を使用しない多項式関数から説明する。<br>
+  基本的には plot, つまり折れ線グラフとして書く。<br>
+  この後様々説明していくが、根本は x, y のリスト様オブジェクトを渡しての折れ線グラフだと理解してほしい。
 </p>
 
-
-<pre><code class="python ty">
-import numpy as np
+<pre><code class="python">import numpy as np
 import matplotlib.pyplot as plt
-# numpy を導入。以下 np で呼び出す。
-  
-# 定義域を0から5、この間に51点とる。
-x=np.linspace(0,5,51)
 
-y1=x
-plt.plot(x,y1,c="blue")
 
-# 累乗は**で表す。 例：2**3 = 8 
-y2=x**2
-plt.plot(x,y2,c="orange")
+x1=np.array([0,1,2,3,4,5])
+# リスト型のままでは演算に不向き。np array にしておく。
+
+# x1=np.array(range(6))
+# と書いた方がスマート。復習しておこう。
+
+y1=2*x1+3
+print(y1)
+plt.plot(x1, y1, c="blue")
+
+y2=x1**2
+print(y2)
+plt.plot(x1, y2, c="orange")
 
 plt.show()
 </code></pre>
 
-<img border="0" src="Python-figs\py_Figure_4'.png" width="700"><br>
+<p>出力</p>
+<pre>
+<code class="shell">[ 3  5  7  9 11 13]
+[ 0  1  4  9 16 25]
+</code>
+</pre>
+
+<img border="0" src="Python-figs\py_Figure_41.png" width="700"><br>
 
 
 <p>
-  　上の x, y1, y2 はいずれも numpy.ndarray という型のオブジェクトである。<br>
-  これはリストのようなもので、要素数51個のリストを np.linspace() で作り、その1点ごとに値を求めて y1 に格納している。<br>
-  これを plt.plot() で折れ線グラフとして描いている。<br>
-  上の例で x, y1, y2 に格納されている最初の2点の値を見てみると、
-
-  <table>
-    <tr>
-      <th>x</th>
-      <th>y1</th>
-      <th>y2</th>
-    </tr>
-    <tr>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-    </tr>
-    <tr>
-      <td>0.1</td>
-      <td>0.1</td>
-      <td>0.01</td>
-    </tr>
-  </table>
-  <br><br><br>
-
-
+  y1, y2 を print しているが、x1 に対して計算したものが格納されていることを確認してほしい。<br><br>
+  また、直線の一次関数は良いが、二次関数は折れ線グラフで書くとガタつく。<br>
+  上のコードではリストのベタ打ち（または range）で x を決めているが、もっと細かくとれば滑らかになる。<br>
+  残念ながら range は整数専用なので他のジェネレータ np.linspace() を利用する。<br>
+  括弧内は，（最小値、最大値、計算点の数）で指定する。<br>
+  計算点の数は省略可（グラフを描いてみて滑らかでないときに指定すればよい）。<br>
 
 </p>
 
+
+<pre><code class="python">import numpy as np
+import matplotlib.pyplot as plt
+
+x1=np.linspace(0,5)
+print(len(x1))
+print(x1)
+
+y1=x1**2
+# print(y2)
+plt.plot(x1, y1, c="blue")
+
+
+x2=np.linspace(0,5,5)
+y2=x2**2
+# print(y2)
+plt.plot(x2, y2, c="orange")
+
+plt.show()
+</code></pre>
+
+<img border="0" src="Python-figs\py_Figure_42.png" width="700"><br>
+
+
 <p>
-  numpy の数学関数を使ってみる。
+  計算点の数を省略した x1 について要素数を確認すると50となっていることを確認してほしい。<br>
+  x1 を print して最小値から最大値まで等差数列が作られてることも確認してほしい。<br>
+  また、上の x1, x2, y1, y2 は type() して型を確認すると、numpy.ndarray というオブジェクトである。<br>
+  <br>
+</p>
+
+<p>
+  それでは、numpy の数学関数を使ってみる。<br>
   使用できる数学関数については <a href="https://numpy.org/doc/stable/reference/routines.math.html" target="_blank" class="ty">こちら</a>
   を参照。<br>
   主要な関数および呼び出せる定数を表にしておく。<br>
@@ -476,30 +1180,28 @@ plt.show()
 </p>
 
  
-<pre><code class="python ty">
-  import matplotlib.pyplot as plt
-  import numpy as np
-  # numpyを導入。以下npで呼び出す。
-  
-  # 定義域を0から10、この間に101点とる。
-  x=np.linspace(0,10,101)
+<pre><code class="python">import matplotlib.pyplot as plt
+import numpy as np
 
-  # sin関数
-  y1=np.sin(x)
-  plt.plot(x,y1,c="blue")
-  
-  # cos関数
-  y2=np.cos(x)
-  plt.plot(x,y2,c="orange")
-  
-  plt.show()
+# 定義域を0から10、この間に101点とる。
+x=np.linspace(0,10,101)
 
+# sin関数
+y1=np.sin(x)
+plt.plot(x,y1,c="blue")
+
+# cos関数
+y2=np.cos(x)
+plt.plot(x,y2,c="orange")
+
+plt.show()
 </code></pre>
 
 <img border="0" src="Python-figs\py_Figure_4.png" width="700"><br>
 
 
 <p>
+  根本はリスト様オブジェクト x, y のプロットである、ということを念押ししておく。<br>
   上の例で x, y1, y2 の最初の2点の値を見てみると、
 
   <table>
@@ -535,9 +1237,7 @@ plt.show()
   </p>
 
 
-<pre><code class="python ty">
-
-import numpy as np
+<pre><code class="python">import numpy as np
 import matplotlib.pyplot as plt
 
 x=np.linspace(-10,10,100)
@@ -557,7 +1257,6 @@ plt.xlim(-2,10)
 plt.ylim(0,15)
 
 plt.show()
-
 </code></pre>
 
 <img border="0" src="Python-figs\py_Figure_5.png" width="700"><br>
@@ -570,39 +1269,36 @@ plt.show()
   ここではデフォルトスタイルのみ使用することとし、詳細設定は省く。<br>
   seaborn によって背景とグリッド線を入れることができる。<br>
   <br>
-  また、
+  ついでに、
 </p>
-<pre><code class="python ty">  plt.axis("scaled")</code></pre>
+<pre><code class="python">plt.axis("scaled")</code></pre>
 <p>
-  によって、x軸、y軸の長さが等しくなるように設定できる。
+  でx軸、y軸の間隔が等しくなるように設定できる。
 
 </p>
 
-<pre><code class="python ty">
-  import numpy as np
-  import matplotlib.pyplot as plt
+<pre><code class="python">import numpy as np
+import matplotlib.pyplot as plt
+# seaborn を導入。 sns で呼び出す。
+import seaborn as sns
 
-  # seaborn を導入。 sns で呼び出す。
-  import seaborn as sns
-  
-  # seaborn をセット。()内で詳細設定ができるが割愛。
-  sns.set()
-  
-  x=np.linspace(-3,3)
-  y1=x
-  plt.plot(x,y1,c="blue")
-  
-  y2=x**2
-  plt.plot(x,y2,c="orange")
-  
-  # x軸、y軸を等間隔にする。
-  plt.axis("scaled")
+# seaborn をセット。()内で詳細設定ができるが割愛。
+sns.set()
 
-  plt.xlim(-2,2)
-  plt.ylim(-2,4)
-  
-  plt.show()
- 
+x=np.linspace(-3,3)
+y1=x
+plt.plot(x,y1,c="blue")
+
+y2=x**2
+plt.plot(x,y2,c="orange")
+
+# x軸、y軸を等間隔にする。
+plt.axis("scaled")
+
+plt.xlim(-2,2)
+plt.ylim(-2,4)
+
+plt.show()
 </code></pre>
 
 <img border="0" src="Python-figs\py_Figure_6.png" width="700"><br>
@@ -611,30 +1307,28 @@ plt.show()
   軸の設定により、片対数グラフを描くことができる。
 </p>
 
-<pre><code class="python ty">
-  import numpy as np
-  import matplotlib.pyplot as plt
-  import seaborn as sns
-  
-  sns.set()
-  
-  x=np.linspace(-3,3)
-  
-  y1=10**x
-  plt.plot(x,y1,c="blue")
-  
-  y2=10**(x**2)
-  plt.plot(x,y2,c="orange")
-  
-  # y軸を対数軸に設定
-  plt.yscale("log")
-  
-  plt.axis('scaled')
-  plt.xlim(-3,3)
-  plt.ylim(10**-4,10**10)
-  
-  plt.show()
- 
+<pre><code class="python">import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+sns.set()
+
+x=np.linspace(-3,3)
+
+y1=10**x
+plt.plot(x,y1,c="blue")
+
+y2=10**(x**2)
+plt.plot(x,y2,c="orange")
+
+# y軸を対数軸に設定
+plt.yscale("log")
+
+plt.axis('scaled')
+plt.xlim(-3,3)
+plt.ylim(10**-4,10**10)
+
+plt.show()
 </code></pre>
 
 <img border="0" src="Python-figs\py_Figure_7.png" width="700"><br>
@@ -645,25 +1339,23 @@ plt.show()
   軸のラベルは plt.xlabel(), plt.ylabel() で設定できる。
 </p>
 
-<pre><code class="python ty">
-  import matplotlib.pyplot as plt
-  import seaborn as sns
-  
-  sns.set()
-  
-  x_list=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-  y_list=[7.1, 8.3, 10.7, 12.8, 19.5, 23.2, 24.3, 29.1, 24.2, 17.5, 14.0, 7.7]
-  
-  plt.plot(x_list, y_list, c="blue",marker=".")
-  
-  # 横軸のラベル
-  plt.xlabel("month") 
+<pre><code class="python">import matplotlib.pyplot as plt
+import seaborn as sns
 
-  # 縦軸のラベル
-  plt.ylabel("temperature (°C)")
-  
-  plt.show()
-  
+sns.set()
+
+x_list=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+y_list=[7.1, 8.3, 10.7, 12.8, 19.5, 23.2, 24.3, 29.1, 24.2, 17.5, 14.0, 7.7]
+
+plt.plot(x_list, y_list, c="blue",marker=".")
+
+# 横軸のラベル
+plt.xlabel("month") 
+
+# 縦軸のラベル
+plt.ylabel("temperature (°C)")
+
+plt.show()
 </code></pre>
 
 <img border="0" src="Python-figs\py_Figure_8.png" width="700"><br>
@@ -676,12 +1368,12 @@ plt.show()
   日本語に対応しているフォントを指定すれば日本語も表示できる。
 </p>
 
-<pre><code class="python ty">
-  # 横軸のラベル
-  plt.xlabel("月", fontsize=16, fontname="MS Gothic")
+<pre><code class="python">
+# 横軸のラベル
+plt.xlabel("月", fontsize=16, fontname="MS Gothic")
 
-  # 縦軸のラベル
-  plt.ylabel("気温 (℃)", fontsize=16, fontname="MS Gothic")
+# 縦軸のラベル
+plt.ylabel("気温 (℃)", fontsize=16, fontname="MS Gothic")
 
 </code></pre>
 
@@ -695,7 +1387,7 @@ plt.show()
   表示させたい数字のリストを渡せばよい。
 </p>
 
-<pre><code class="python ty">
+<pre><code class="python">
   import numpy as np
   import matplotlib.pyplot as plt
   import seaborn as sns
@@ -731,34 +1423,31 @@ plt.show()
   表示させる位置のリスト、表示させる文字列のリストの2つを渡せばよい
 </p>
 
-<pre><code class="python ty">
-  import numpy as np
-  import matplotlib.pyplot as plt
-  import seaborn as sns
-  
-  sns.set()
-  
-  
-  x=np.linspace(0,10,101)
-  
-  y1=np.sin(x)
-  plt.plot(x,y1,c="blue")
-  
-  y2=np.cos(x)
-  plt.plot(x,y2,c="orange")
-  
-  # 円周率を p にしておく
-  p=np.pi
+<pre><code class="python">import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 
-  # 位置のリスト
-  x_pos=[0,p,2*p,3*p]
-  # 文字列のリスト
-  x_tick=["0","π","2π","3π"]
+sns.set()
 
-  plt.xticks(x_pos,x_tick)
-  
-  plt.show()
-    
+x=np.linspace(0,10,101)
+
+y1=np.sin(x)
+plt.plot(x,y1,c="blue")
+
+y2=np.cos(x)
+plt.plot(x,y2,c="orange")
+
+# 円周率を p にしておく。何度も打つのが面倒なので
+p=np.pi
+
+# 位置のリスト
+x_pos=[0,p,2*p,3*p]
+# 文字列のリスト
+x_tick=["0","π","2π","3π"]
+
+plt.xticks(x_pos,x_tick)
+
+plt.show()
 </code></pre>
 
 <img border="0" src="Python-figs\py_Figure_7_2.png" width="700"><br>
@@ -772,35 +1461,33 @@ plt.show()
 
 </p>
 
-<pre><code class="python ty">
-  import numpy as np
-  import matplotlib.pyplot as plt
-  import seaborn as sns
-  
-  sns.set()
-  
-  x=np.linspace(-1.5,1.5,100)
-  
-  y1=np.tan(x)
-  # 凡例を y = tan (x) に指定
-  plt.plot(x,y1,c="blue",label=" y = tan (x)")
-  
-  y2=np.arctan(x)
-  # 凡例を y = arctan (x) に指定
-  plt.plot(x,y2,c="orange",label=" y = arctan (x)")
-  
-  y3=x
-  # 凡例を y = x に指定
-  plt.plot(x,y3,c="gray",label=" y = x ")
-  
-  plt.axis('scaled')
-  plt.xlim(-1.5,1.5)
-  plt.ylim(-1.5,1.5)
-  
-  # 凡例の表示
-  plt.legend()
-  plt.show()  
+<pre><code class="python">import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 
+sns.set()
+
+x=np.linspace(-1.5,1.5,100)
+
+y1=np.tan(x)
+# 凡例を y = tan (x) に指定
+plt.plot(x,y1,c="blue",label=" y = tan (x)")
+
+y2=np.arctan(x)
+# 凡例を y = arctan (x) に指定
+plt.plot(x,y2,c="orange",label=" y = arctan (x)")
+
+y3=x
+# 凡例を y = x に指定
+plt.plot(x,y3,c="gray",label=" y = x ")
+
+plt.axis('scaled')
+plt.xlim(-1.5,1.5)
+plt.ylim(-1.5,1.5)
+
+# 凡例の表示
+plt.legend()
+plt.show()  
 </code></pre>
 
 <img border="0" src="Python-figs\py_Figure_9.png" width="700"><br>
@@ -811,7 +1498,7 @@ plt.show()
  plt.legend() 内で凡例ボックスの詳細設定ができる。
 </p>
 
-<pre><code class="python ty">
+<pre><code class="python">
 plt.legend(bbox_to_anchor=(1.02, 1.0), framealpha=0.5, facecolor="lightblue", edgecolor="blue", fontsize=12)
   # bbox_to_anchor で凡例ボックスの位置 (x,y) を設定。数字はグラフの左下を (0,0), 右上を (1,1) としたときの数字。
   # framealpha はボックスの透過度。グラフとボックスが重なる際に有用かもしれない。
@@ -830,9 +1517,7 @@ plt.legend(bbox_to_anchor=(1.02, 1.0), framealpha=0.5, facecolor="lightblue", ed
  （prop でフォント名を指定しつつ、 fontsize で大きさを指定、のような併用はできないらしい？）
 </p>
 
-<pre><code class="python ty">
-
-import matplotlib.pyplot as plt
+<pre><code class="python">import matplotlib.pyplot as plt
 import seaborn as sns
 
 sns.set()
@@ -853,7 +1538,6 @@ plt.ylabel("気温 (℃)", fontsize=12, fontname="MS Gothic")
 # フォントの設定
 plt.legend(prop = {"family" : "MS Gothic","size" : 12})
 plt.show()
-
 </code></pre>
 
 <img border="0" src="Python-figs\py_Figure_8''.png" width="700"><br>
@@ -865,9 +1549,7 @@ plt.show()
   plt.title() でタイトルを表示できる。
 </p>
 
-<pre><code class="python ty">
-
-import matplotlib.pyplot as plt
+<pre><code class="python">import matplotlib.pyplot as plt
 import seaborn as sns
 
 sns.set()
@@ -893,7 +1575,6 @@ plt.title("図.1 2020 年の月別平均気温", x=0.5, y=-0.25, fontsize=16, fo
 
 plt.legend(prop = {"family" : "MS Gothic","size" : 10})
 plt.show()
-
 </code></pre>
 
 <img border="0" src="Python-figs\py_Figure_8'''.png" width="700"><br>
@@ -907,33 +1588,31 @@ plt.show()
   plt.annotate() で図中に文字列を挿入できる。
 </p>
 
-<pre><code class="python ty">
-  import numpy as np
-  import matplotlib.pyplot as plt
-  import seaborn as sns
-  
-  sns.set()
-  
-  x=np.linspace(-3,3,100)
-  
-  y=-x**3+3*x-1
-  plt.plot(x,y,c="black",label="$y = -x^{3} + 3x - 1$")
-  # 凡例なども含め、文字の表示において $$ で囲むとその中はイタリックで表示できる。
-  # さらに $$ の中で ^{} を使うと括弧内を上付き文字、
-  #                 _{} を使うと括弧内を下付き文字にできる。
-  
-  
-  plt.axis('scaled')
-  plt.xlim(-3,3)
-  plt.ylim(-4,4)
-  
-  plt.annotate("min (-1, -3)", xy=(-1.7,-3.5), c="blue",fontsize=14,fontname="Times New Roman")
-  plt.annotate("max (1, 1)", xy=(0.3,1.2), c="red",fontsize=14,fontname="Times New Roman")
-  # 左から文字列、xy で表示する位置、文字の色、文字の大きさ、フォント名
-  
-  plt.legend(fontsize=12)
-  plt.show()  
+<pre><code class="python">import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 
+sns.set()
+
+x=np.linspace(-3,3,100)
+
+y=-x**3+3*x-1
+plt.plot(x,y,c="black",label="$y = -x^{3} + 3x - 1$")
+# 凡例なども含め、文字の表示において $$ で囲むとその中はイタリックで表示できる。
+# さらに $$ の中で ^{} を使うと括弧内を上付き文字、
+#                 _{} を使うと括弧内を下付き文字にできる。
+
+
+plt.axis('scaled')
+plt.xlim(-3,3)
+plt.ylim(-4,4)
+
+plt.annotate("min (-1, -3)", xy=(-1.7,-3.5), c="blue",fontsize=14,fontname="Times New Roman")
+plt.annotate("max (1, 1)", xy=(0.3,1.2), c="red",fontsize=14,fontname="Times New Roman")
+# 左から文字列、xy で表示する位置、文字の色、文字の大きさ、フォント名
+
+plt.legend(fontsize=12)
+plt.show()  
 </code></pre>
 
 <img border="0" src="Python-figs\py_Figure_10.png" width="700"><br>
@@ -942,12 +1621,10 @@ plt.show()
 <a id="multi"><h4 class="ty">6. 複数の図</h4></a>
 
 <p>
-  plt.subplot() を使うことで1つの台紙に複数の図を描画することができる。
+plt.subplot() を使うことで1つの台紙に複数の図を描画することができる。
 </p>
 
-<pre><code class="python ty">
-  plt.subplot(2,3,1)
-
+<pre><code class="python">plt.subplot(2,3,1)
 </code></pre>
 
 <p>
@@ -955,8 +1632,7 @@ plt.show()
   最後に1を指定することで図.1に書きこみがされる。
 </p>
 
-<pre><code class="python ty">
-import numpy as np
+<pre><code class="python">import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -1058,14 +1734,11 @@ plt.xlim(-1,3)
 plt.ylim(-1,3)
 plt.title("図.6", x=0.5, y=-0.35, fontname="MS Gothic")
 
-
-
 plt.tight_layout()
 # オブジェクトの間隔を自動で調整してくれる。
 # 無いと重なって見にくいかも
 
 plt.show()
-
 </code></pre>
 
 <img border="0" src="Python-figs\py_Figure_11.png" width="700"><br>
@@ -1081,70 +1754,68 @@ plt.show()
  pandas を利用し、csv ファイルを読み込む方法を説明する。<br>
  csv ファイル、table1.csv を df と名前をつけて読み込む。<br><br>
  
- <a href="table1.csv" download="table1.csv">table1.csv</a>　　
+ <a href="table1.csv" download="table1.csv">table1.csv</a>
  (環境によっては .xls でダウンロードされるらしい？)
 
 </p> 
  
-<pre><code class="python ty"> df = pd.read_csv('table1.csv')
+<pre><code class="python">df = pd.read_csv('table1.csv')
 </code></pre>
 
 <p>
   グラフを描くために任意の列だけ抜き出そう。csv ファイル内で x という名前の列は
 </p>
-<pre><code class="python ty">x=df["x"]</code></pre>
+<pre><code class="python">x=df["x"]</code></pre>
 <p>
   で抜き出せる。<br>
   条件式を使うこともできる。条件式については<a href="#if">こちら</a><br>
   y という列の値が 0 より大きい場合のみxを取り出すとすれば
 </p> 
-<pre><code class="python ty">x=df[df["y"]>0]["x"]</code></pre>
+<pre><code class="python">x=df[df["y"]>0]["x"]</code></pre>
 
 <p>
   任意の列を抽出し、グラフを描く。<br>
 </p> 
-<pre><code class="python ty">
-  import matplotlib.pyplot as plt
-  import seaborn as sns
-  
-  # pandas を導入。 pd で呼び出す。
-  import pandas as pd
-    
-  sns.set()
-    
-  # table1.csv を読み込み、df と名前を付ける。
-  df = pd.read_csv("table1.csv")
-  
-  plt.subplot(1,3,1)
-  # x の列を抜き出す。
-  x=df["x"]
-  # y の列を抜き出す。
-  y=df["y"]
-  plt.scatter(x,y,c="blue",marker=".",s=20)
-  plt.xlim(0,6)
-  plt.ylim(-100,200)
-    
+<pre><code class="python">import matplotlib.pyplot as plt
+import seaborn as sns
 
-  plt.subplot(1,3,2)
-  # 条件付きで抜き出す。
-  x=df[df["y"]>0]["x"]
-  y=df[df["y"]>0]["y"]
-  plt.scatter(x,y,c="orange",marker="d",s=20)
-  plt.xlim(0,6)
-  plt.ylim(-100,200)
-    
+# pandas を導入。 pd で呼び出す。
+import pandas as pd
   
-  plt.subplot(1,3,3)
-  # 複数の条件は () & () のように & でつなげる。
-  x=df[(df["y"]>0)&(df["x"]>2.5)]["x"]
-  y=df[(df["y"]>0)&(df["x"]>2.5)]["y"]
-  plt.scatter(x,y,c="red",marker="^",s=20)
-  plt.xlim(0,6)
-  plt.ylim(-100,200)
+sns.set()
   
-  plt.tight_layout()
-  plt.show()
-    
+# table1.csv を読み込み、df と名前を付ける。
+df = pd.read_csv("table1.csv")
+
+plt.subplot(1,3,1)
+# x の列を抜き出す。
+x=df["x"]
+# y の列を抜き出す。
+y=df["y"]
+plt.scatter(x,y,c="blue",marker=".",s=20)
+plt.xlim(0,6)
+plt.ylim(-100,200)
+  
+
+plt.subplot(1,3,2)
+# 条件付きで抜き出す。
+x=df[df["y"]>0]["x"]
+y=df[df["y"]>0]["y"]
+plt.scatter(x,y,c="orange",marker="d",s=20)
+plt.xlim(0,6)
+plt.ylim(-100,200)
+  
+
+plt.subplot(1,3,3)
+# 複数の条件は () & () のように & でつなげる。
+x=df[(df["y"]>0)&(df["x"]>2.5)]["x"]
+y=df[(df["y"]>0)&(df["x"]>2.5)]["y"]
+plt.scatter(x,y,c="red",marker="^",s=20)
+plt.xlim(0,6)
+plt.ylim(-100,200)
+
+plt.tight_layout()
+plt.show()
 </code></pre>
 <img border="0" src="Python-figs\py_Figure_12.png" width="700"><br>
 
@@ -1158,26 +1829,24 @@ plt.show()
   エラーバー付きのプロットは plt.errorbar() でできる。
 </p>
 
-<pre><code class="python ty">
-  import matplotlib.pyplot as plt
-  import seaborn as sns
-  
-  sns.set()
-  
-  plt.errorbar(3, 6, xerr = 1, yerr =2 , capsize=3, fmt='.', markersize=20, color="white", markeredgecolor="cyan", ecolor="blue")
-  # (x,y)=(3,6)　にプロット。xerr, yerr でエラーバーの長さ。x = 3 ± 1, y = 6 ± 2　の形になる。
-  #  以降は省略可能で、
-  #　capsize:xのエラーバーが ┣─○─┫ のように表示されるとき、縦線部の長さ（yだと横線部）
-  #　fmt, markersize: マーカーの形、大きさ
-  #　color, markeredgecolor, ecolor: マーカー、マーカーの縁、エラーバーの色
+<pre><code class="python">import matplotlib.pyplot as plt
+import seaborn as sns
+
+sns.set()
+
+plt.errorbar(3, 6, xerr = 1, yerr =2 , capsize=3, fmt='.', markersize=20, color="white", markeredgecolor="cyan", ecolor="blue")
+# (x,y)=(3,6) にプロット。xerr, yerr でエラーバーの長さ。x = 3 ± 1, y = 6 ± 2 の形になる。
+# 以降は省略可能で、
+# capsize:xのエラーバーが ┣─○─┫ のように表示されるとき、縦線部の長さ（yだと横線部）
+# fmt, markersize: マーカーの形、大きさ
+# color, markeredgecolor, ecolor: マーカー、マーカーの縁、エラーバーの色
 
 
-  plt.axis('scaled')
-  plt.xlim(0,10)
-  plt.ylim(0,10)
-  
-  plt.show()
-  
+plt.axis('scaled')
+plt.xlim(0,10)
+plt.ylim(0,10)
+
+plt.show()
 </code></pre>
 <img border="0" src="Python-figs\py_Figure_13.png" width="700"><br>
 
@@ -1186,29 +1855,101 @@ plt.show()
   <br><br>
   上の csv ファイルからグラフを書いてみる。
 </p>
-<pre><code class="python ty">
-  import matplotlib.pyplot as plt
-  import seaborn as sns
-  import pandas as pd
-    
-  sns.set()
-    
-  df = pd.read_csv("table1.csv")
+<pre><code class="python">import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
   
-  x=df["x"]
-  y=df["y"]
-  x_error=df["x_error"]
-  y_error=df["y_error"]
+sns.set()
   
-  plt.errorbar(x, y, xerr = x_error, yerr = y_error, capsize=3, fmt='.',markersize=10, color="white", markeredgecolor="cyan", ecolor="blue")
-  
-  plt.xlim(0,6)
-  plt.ylim(-100,200)
-  
-  plt.show()
-  
+df = pd.read_csv("table1.csv")
+
+x=df["x"]
+y=df["y"]
+x_error=df["x_error"]
+y_error=df["y_error"]
+
+plt.errorbar(x, y, xerr = x_error, yerr = y_error, capsize=3, fmt='.',markersize=10, color="white", markeredgecolor="cyan", ecolor="blue")
+
+plt.xlim(0,6)
+plt.ylim(-100,200)
+
+plt.show()
 </code></pre>
 <img border="0" src="Python-figs\py_Figure_14.png" width="700"><br>
+
+
+
+
+<a id="format"><h4 class="ty">&#9679; format による組み込み</h4></a>
+
+<p>
+  format() を使って数値を文字列に組み込むことができる。<br>
+  "文字列、挿入させたいところに{}".format(挿入させる数値) の形で使う。<br>
+  {} 内で表示させる桁数を指定できる。例えば {:.3f} で小数以下3桁。<br>
+  for 文でグラフを複数描くときのラベル指定、フィッティングで決定したパラメータを図中で表示させる際などに有用である。<br>
+  <a href="#fit">フィッティングでの使用例</a> 1つの文字列に2ヵ所挿入もできる。<br>
+</p>
+
+ <pre>
+<code class="python">import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+sns.set()
+
+# for 文中のグラフの色指定用。10 色以内なら自動で異なる色になるので色は指定しなくても良い。
+color_list=["blue","orange","red","green","purple"]
+
+x=np.linspace(0,33,1000)
+
+# for 文でグラフを一気に複数描く
+for i in range(5):
+    alpha=0.2*(i+1)
+    y=np.sin(alpha*x)
+
+    # ラベルの指定。{:.1f} で小数点以下1桁。
+    text="$y = $sin $ ({:.1f}  x)$".format(alpha)
+    plt.plot(x,y,c=color_list[i],label=text)
+
+
+plt.xlim(-0.5,32)
+plt.ylim(-1.5,1.5)
+
+# 横軸ラベルをπの倍数 0 ~ 10π の範囲で指定させる。
+# for 文を使って用意する。
+# pi で呼び出す。
+pi=np.pi
+
+# ラベルの位置
+xpos=[]
+
+# 表示させる文字列。2π ~ 10πはformat()を使って準備。0, πはあらかじめ入れておく。
+xtick1 = ["0","π"]
+
+for i in range(11):
+  # 0,πの点は文字列は準備済み。位置だけ追加。
+    if(i&lt;2):
+        xpos.append(pi*i)
+    
+    # 2π以降は位置、文字列とも追加。
+    else:
+        xpos.append(pi*i)
+        text2 = "{:.0f}π".format(i)
+        xtick1.append(text2)
+
+
+plt.xticks(xpos,xtick1)
+
+plt.legend(bbox_to_anchor=(1.02, 1.0))
+plt.subplots_adjust(right=0.75)
+plt.show()
+</code>
+  </pre>
+ 
+
+  <img border="0" src="Python-figs\py_Figure_26.png" width="700"><br> 
+
+
 
 
 
@@ -1247,12 +1988,11 @@ matplotlib でグラフを作る際には2つの方式がある。<br>
 
 <p>
 　グラフ領域を1つのみ作る場合には
-  <pre>
-  <code class="python ty"> 
-  fig = plt.figure()
-  ax = fig.add_subplot(111)
-  </code>
-  </pre>
+<pre>
+<code class="python">fig = plt.figure()
+ax = fig.add_subplot(111)
+</code>
+</pre>
   とすればよい。台紙を fig、グラフ領域を ax としている。<br>
   グラフ要素を ax.~ で加えていく。<br>
   基本的には Pyplotインターフェースにおける plt が ax に置き換わるだけだが、一部例外がある。<br>
@@ -1261,37 +2001,35 @@ matplotlib でグラフを作る際には2つの方式がある。<br>
 
 <pre>
 
-<code class="python ty"> 
-  import numpy as np
-  import matplotlib.pyplot as plt
-  import seaborn as sns
-  
-  sns.set()
-  
-  # Figure のセット
-  fig = plt.figure()
-  # Axes のセット、括弧内は1×1の1番目の意。複数描くときに重要。
-  ax = fig.add_subplot(111)
-  
-  x=np.linspace(-5,5,101)
-  
-  y1=np.sin(x)*3
-  ax.plot(x,y1,c="blue",label="y = 3sin(x)")
-  
-  y2=(x-2)**2-2
-  ax.plot(x,y2,c="orange",label="y = (x-2)$^2$-2")
-  ax.annotate("min (2, -2)", xy=(1.4,-2.5), c="black")
-  
-  ax.axis('scaled')
-  ax.set_xlim(-5,5)
-  ax.set_ylim(-4,6)
-  
-  ax.legend(framealpha=1.0)
-  ax.set_title("Title", x=0.5, y=-0.2)
-  
-  plt.tight_layout()
-  plt.show()
-    
+<code class="python">import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+sns.set()
+
+# Figure のセット
+fig = plt.figure()
+# Axes のセット、括弧内は1×1の1番目の意。複数描くときに重要。
+ax = fig.add_subplot(111)
+
+x=np.linspace(-5,5,101)
+
+y1=np.sin(x)*3
+ax.plot(x,y1,c="blue",label="y = 3sin(x)")
+
+y2=(x-2)**2-2
+ax.plot(x,y2,c="orange",label="y = (x-2)$^2$-2")
+ax.annotate("min (2, -2)", xy=(1.4,-2.5), c="black")
+
+ax.axis('scaled')
+ax.set_xlim(-5,5)
+ax.set_ylim(-4,6)
+
+ax.legend(framealpha=1.0)
+ax.set_title("Title", x=0.5, y=-0.2)
+
+plt.tight_layout()
+plt.show()
 </code>
 </pre>
   
@@ -1302,9 +2040,8 @@ matplotlib でグラフを作る際には2つの方式がある。<br>
   plt.figure() の段階で図の大きさ、背景色が決定できる。<br>
   また、上では
   <pre>
-  <code class="python ty"> 
-  plt.tight_layout()
-　</code>
+<code class="python">plt.tight_layout()
+</code>
   </pre>
   で配置の調整をさせたが、この設定もこの中でできる。<br>
   （fig.add_subplot(111) の段階であらかじめタイトル等の設定もできるが使い勝手が悪いので省略）
@@ -1312,37 +2049,35 @@ matplotlib でグラフを作る際には2つの方式がある。<br>
   
   <pre>
   
-  <code class="python ty"> 
-    import numpy as np
-    import matplotlib.pyplot as plt
-    import seaborn as sns
-    
-    sns.set()
-    
-    fig = plt.figure(figsize=(8,6),facecolor="pink",edgecolor="red",linewidth=10,tight_layout=True)
-    # 左から図の大きさ、「台紙」の色、縁の色・幅、配置の自動調整を True
-    ax = fig.add_subplot(111,facecolor="mistyrose")
-    # Axes の色
-    
-    x=np.linspace(-5,5,101)
-    
-    y1=np.sin(x)*3
-    ax.plot(x,y1,c="blue",label="y = 3sin(x)")
-    
-    y2=(x-2)**2-2
-    ax.plot(x,y2,c="orange",label="y = (x-2)$^2$-2")
-    ax.annotate("min (2, -2)", xy=(1.4,-2.5), c="black")
-    
-    ax.axis('scaled')
-    ax.set_xlim(-5,5)
-    ax.set_ylim(-4,6)
-    
-    ax.legend(framealpha=1.0)
-    ax.set_title("Title", x=0.5, y=-0.2)
-    
-    plt.show()
-          
-  </code>
+  <code class="python">import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+sns.set()
+
+fig = plt.figure(figsize=(8,6),facecolor="pink",edgecolor="red",linewidth=10,tight_layout=True)
+# 左から図の大きさ、「台紙」の色、縁の色・幅、配置の自動調整を True
+ax = fig.add_subplot(111,facecolor="mistyrose")
+# Axes の色
+
+x=np.linspace(-5,5,101)
+
+y1=np.sin(x)*3
+ax.plot(x,y1,c="blue",label="y = 3sin(x)")
+
+y2=(x-2)**2-2
+ax.plot(x,y2,c="orange",label="y = (x-2)$^2$-2")
+ax.annotate("min (2, -2)", xy=(1.4,-2.5), c="black")
+
+ax.axis('scaled')
+ax.set_xlim(-5,5)
+ax.set_ylim(-4,6)
+
+ax.legend(framealpha=1.0)
+ax.set_title("Title", x=0.5, y=-0.2)
+
+plt.show()
+</code>
   </pre>
     
   <img border="0" src="Python-figs\py_Figure_18.png" width="700"><br>
@@ -1354,38 +2089,36 @@ matplotlib でグラフを作る際には2つの方式がある。<br>
   必要な時のみオブジェクト指向インターフェースを持ち込めばよい。
   </p>
    
-  <pre>
-  <code class="python ty"> 
-    import numpy as np
-    import matplotlib.pyplot as plt
-    import seaborn as sns
-    
-    sns.set()
-    
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
-    
-    x=np.linspace(-5,5,101)
-    
-    y1=np.sin(x)*3
-    plt.plot(x,y1,c="blue",label="y = 3sin(x)")
-    
-    y2=(x-2)**2-2
-    plt.plot(x,y2,c="orange",label="y = (x-2)$^2$-2")
-    plt.annotate("min (2, -2)", xy=(1.4,-2.5), c="black")
-    
-    plt.axis('scaled')
-    plt.xlim(-5,5)
-    plt.ylim(-4,6)
-    
-    plt.legend(framealpha=1.0)
-    plt.title("Title", x=0.5, y=-0.2)
-    
-    plt.tight_layout()
-    plt.show()
-    
-  </code>
-  </pre>
+<pre>
+<code class="python">import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+sns.set()
+
+fig = plt.figure()
+ax = fig.add_subplot(111)
+
+x=np.linspace(-5,5,101)
+
+y1=np.sin(x)*3
+plt.plot(x,y1,c="blue",label="y = 3sin(x)")
+
+y2=(x-2)**2-2
+plt.plot(x,y2,c="orange",label="y = (x-2)$^2$-2")
+plt.annotate("min (2, -2)", xy=(1.4,-2.5), c="black")
+
+plt.axis('scaled')
+plt.xlim(-5,5)
+plt.ylim(-4,6)
+
+plt.legend(framealpha=1.0)
+plt.title("Title", x=0.5, y=-0.2)
+
+plt.tight_layout()
+plt.show()
+</code>
+</pre>
     
   <img border="0" src="Python-figs\py_Figure_19.png" width="700"><br>
 
@@ -1395,11 +2128,10 @@ matplotlib でグラフを作る際には2つの方式がある。<br>
 
 <p>
   最初の方法は1つの Axes における、
-  <pre>
-    <code class="python ty"> 
-    ax = fig.add_subplot(111)
-    </code>
-    </pre>
+<pre>
+<code class="python">ax = fig.add_subplot(111)
+</code>
+</pre>
 　の括弧内の数字を変えることである。<br>
   この数字は  i段、j 列のうち左上から k 番目を (ijk) で表している。<br>
   （コンマで区切って (i, j, k) としても良い。かえってその方が正確である。）<br>
@@ -1407,47 +2139,45 @@ matplotlib でグラフを作る際には2つの方式がある。<br>
 </p>
 
 <pre>
-<code class="python ty"> 
-  import numpy as np
-  import matplotlib.pyplot as plt
-  import seaborn as sns
-  
-  sns.set()
-  
-  fig = plt.figure(edgecolor="black",linewidth=1)
+<code class="python">import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 
-  ax1 = fig.add_subplot(2,3,1)
-  # 2段3列の1番目
+sns.set()
 
-  ax2 = fig.add_subplot(2,3,3)
-  # 2段3列の3番目
+fig = plt.figure(edgecolor="black",linewidth=1)
 
-  ax3 = fig.add_subplot(2,3,5)
-  # 2段3列の5番目
-  
-  x=np.linspace(-5,5,101)
-  
-  y1=x
-  ax1.plot(x,y1,c="blue")
-  ax1.axis('scaled')
-  ax1.set_xlim(-5,5)
-  ax1.set_ylim(-5,5)
-  
-  y2=x**2
-  ax2.plot(x,y2,c="orange")
-  ax2.axis('scaled')
-  ax2.set_xlim(-5,5)
-  ax2.set_ylim(-1,9)
-  
-  y3=x**3
-  ax3.plot(x,y3,c="red")
-  ax3.axis('scaled')
-  ax3.set_xlim(-5,5)
-  ax3.set_ylim(-5,5)
-  
-  plt.tight_layout()
-  plt.show()  
-    
+ax1 = fig.add_subplot(2,3,1)
+# 2段3列の1番目
+
+ax2 = fig.add_subplot(2,3,3)
+# 2段3列の3番目
+
+ax3 = fig.add_subplot(2,3,5)
+# 2段3列の5番目
+
+x=np.linspace(-5,5,101)
+
+y1=x
+ax1.plot(x,y1,c="blue")
+ax1.axis('scaled')
+ax1.set_xlim(-5,5)
+ax1.set_ylim(-5,5)
+
+y2=x**2
+ax2.plot(x,y2,c="orange")
+ax2.axis('scaled')
+ax2.set_xlim(-5,5)
+ax2.set_ylim(-1,9)
+
+y3=x**3
+ax3.plot(x,y3,c="red")
+ax3.axis('scaled')
+ax3.set_xlim(-5,5)
+ax3.set_ylim(-5,5)
+
+plt.tight_layout()
+plt.show() 
 </code>
 </pre>
   
@@ -1461,41 +2191,39 @@ matplotlib でグラフを作る際には2つの方式がある。<br>
 </p>
 
 <pre>
-<code class="python ty"> 
-  import numpy as np
-  import matplotlib.pyplot as plt
-  import seaborn as sns
-  
-  sns.set()
-  
-  fig = plt.figure(edgecolor="black",linewidth=1)
-  ax1 = fig.add_subplot(231)
-  ax2 = fig.add_subplot(235)
-  ax3 = fig.add_subplot(133)
-  
-  x=np.linspace(-5,5,101)
-  
-  y1=x
-  ax1.plot(x,y1,c="blue")
-  ax1.axis('scaled')
-  ax1.set_xlim(-5,5)
-  ax1.set_ylim(-5,5)
-  
-  y2=x**2
-  ax2.plot(x,y2,c="orange")
-  ax2.axis('scaled')
-  ax2.set_xlim(-5,5)
-  ax2.set_ylim(-1,9)
-  
-  y3=x**3
-  ax3.plot(x,y3,c="red")
-  ax3.axis('scaled')
-  ax3.set_xlim(-5,5)
-  ax3.set_ylim(-15,15)
-  
-  plt.tight_layout()
-  plt.show()
-      
+<code class="python">import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+sns.set()
+
+fig = plt.figure(edgecolor="black",linewidth=1)
+ax1 = fig.add_subplot(231)
+ax2 = fig.add_subplot(235)
+ax3 = fig.add_subplot(133)
+
+x=np.linspace(-5,5,101)
+
+y1=x
+ax1.plot(x,y1,c="blue")
+ax1.axis('scaled')
+ax1.set_xlim(-5,5)
+ax1.set_ylim(-5,5)
+
+y2=x**2
+ax2.plot(x,y2,c="orange")
+ax2.axis('scaled')
+ax2.set_xlim(-5,5)
+ax2.set_ylim(-1,9)
+
+y3=x**3
+ax3.plot(x,y3,c="red")
+ax3.axis('scaled')
+ax3.set_xlim(-5,5)
+ax3.set_ylim(-15,15)
+
+plt.tight_layout()
+plt.show()
 </code>
 </pre>
   
@@ -1511,43 +2239,41 @@ width, height についてこの数字は Figure の幅、高さを1とする値
 </p>
 
 <pre>
-<code class="python ty"> 
-  import numpy as np
-  import matplotlib.pyplot as plt
-  import seaborn as sns
-  
-  sns.set()
-  
-  fig = plt.figure(edgecolor="black",linewidth=1)
+<code class="python">import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 
-  ax1 = fig.add_axes((0.1,0.6,0.8,0.3),facecolor="lavender")
-  # 横:0.1から0.1+0.8、縦:0.6から0.6+0.3
+sns.set()
 
-  ax2 = fig.add_axes((0.1,0.1,0.4,0.3),facecolor="antiquewhite")
-  # 横:0.1から0.1+0.4、縦:0.1から0.1+0.3
+fig = plt.figure(edgecolor="black",linewidth=1)
 
-  ax3 = fig.add_axes((0.6,0.1,0.3,0.3),facecolor="mistyrose")
-  # 横:0.6から0.6+0.3、縦:0.1から0.1+0.3
-  
-  x=np.linspace(-5,5,101)
-  
-  y1=x
-  ax1.plot(x,y1,c="blue")
-  ax1.set_xlim(-5,5)
-  ax1.set_ylim(-5,5)
-  
-  y2=x**2
-  ax2.plot(x,y2,c="orange")
-  ax2.set_xlim(-5,5)
-  ax2.set_ylim(-1,9)
-  
-  y3=x**3
-  ax3.plot(x,y3,c="red")
-  ax3.set_xlim(-5,5)
-  ax3.set_ylim(-15,15)
-  
-  plt.show()  
-    
+ax1 = fig.add_axes((0.1,0.6,0.8,0.3),facecolor="lavender")
+# 横:0.1から0.1+0.8、縦:0.6から0.6+0.3
+
+ax2 = fig.add_axes((0.1,0.1,0.4,0.3),facecolor="antiquewhite")
+# 横:0.1から0.1+0.4、縦:0.1から0.1+0.3
+
+ax3 = fig.add_axes((0.6,0.1,0.3,0.3),facecolor="mistyrose")
+# 横:0.6から0.6+0.3、縦:0.1から0.1+0.3
+
+x=np.linspace(-5,5,101)
+
+y1=x
+ax1.plot(x,y1,c="blue")
+ax1.set_xlim(-5,5)
+ax1.set_ylim(-5,5)
+
+y2=x**2
+ax2.plot(x,y2,c="orange")
+ax2.set_xlim(-5,5)
+ax2.set_ylim(-1,9)
+
+y3=x**3
+ax3.plot(x,y3,c="red")
+ax3.set_xlim(-5,5)
+ax3.set_ylim(-15,15)
+
+plt.show()
 </code>
 </pre>
   
@@ -1575,62 +2301,60 @@ twiny() はy軸を共有する上下の横軸、という意味になる。縦�
 </p>
 
 <pre>
-<code class="python ty"> 
-  import numpy as np
-  import matplotlib.pyplot as plt
-  import seaborn as sns
-  
-  sns.set()
-  
-  fig = plt.figure()
-  ax1 = fig.add_subplot(111)
-  
-  p=np.linspace(2,5)
-  q1=p*0-0.5
-  q2=p*0-0.125
-  plt.plot(q1,p,c="blue")
-  plt.plot(q2,p,c="orange")
-  plt.annotate("$n = 1$ ($-0.5$ a.u.)",xy=(-0.5, 1.8),fontsize=10,c="k")
-  plt.annotate("$n = 2$ ($-0.125$ a.u.)",xy=(-0.125, 1.8),fontsize=10,c="k")
+<code class="python">import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 
-  # ax1 横軸の範囲指定
-  plt.xlim(-1,0.2)
+sns.set()
 
-  plt.ylim(1,6)
-  plt.xlabel("Energy (a.u)",fontsize=16,fontname="Times New Roman")
+fig = plt.figure()
+ax1 = fig.add_subplot(111)
 
-  # この図ではy軸は意味を持たないので空リストを渡して目盛りを消してしまおう。
-  plt.yticks([])
-  
+p=np.linspace(2,5)
+q1=p*0-0.5
+q2=p*0-0.125
+plt.plot(q1,p,c="blue")
+plt.plot(q2,p,c="orange")
+plt.annotate("$n = 1$ ($-0.5$ a.u.)",xy=(-0.5, 1.8),fontsize=10,c="k")
+plt.annotate("$n = 2$ ($-0.125$ a.u.)",xy=(-0.125, 1.8),fontsize=10,c="k")
 
-  # ax2 を定義するまでの plt は ax1 の軸で行われる（混乱を避けるため ax1.~ で書いても良い）。
-  # ax2 を定義した後の plt は ax2 の軸で行われる。
+# ax1 横軸の範囲指定
+plt.xlim(-1,0.2)
+
+plt.ylim(1,6)
+plt.xlabel("Energy (a.u)",fontsize=16,fontname="Times New Roman")
+
+# この図ではy軸は意味を持たないので空リストを渡して目盛りを消してしまおう。
+plt.yticks([])
 
 
-  # ax2 の定義
-  ax2 = ax1.twiny()
+# ax2 を定義するまでの plt は ax1 の軸で行われる（混乱を避けるため ax1.~ で書いても良い）。
+# ax2 を定義した後の plt は ax2 の軸で行われる。
 
-  # エネルギーの換算係数を定義しておく。
-  hartree=27.211
 
-  # ax2 横軸を ax1横軸と対応させる
-  plt.xlim(-1*hartree,0.2*hartree)
+# ax2 の定義
+ax2 = ax1.twiny()
 
-  # ax2 軸での記述のため xy に与える数字は ax2 の軸に応じた値である
-  # -13.6 = 0.5*hartree, -3.4 = 0.125*hartree である。
-  plt.annotate("$n = 1$ ($-13.6$ eV)",xy=(-13.6, 5.2),fontsize=10,c="k")
-  plt.annotate("$n = 2$ ($-3.4$ eV)",xy=(-3.4, 5.2),fontsize=10,c="k")
+# エネルギーの換算係数を定義しておく。
+hartree=27.211
 
-  plt.xlabel("Energy (eV)",fontsize=16,fontname="Times New Roman")
+# ax2 横軸を ax1横軸と対応させる
+plt.xlim(-1*hartree,0.2*hartree)
 
-  plt.grid(False)
-  # True にすると ax2 軸でキリのいいところにグリッド線が入る。
-  # 何も書かないと ax1 と ax2 で両方グリッド線が入るため片方はFalseにするとよい。
-  
-  
-  plt.tight_layout()
-  plt.show()
-    
+# ax2 軸での記述のため xy に与える数字は ax2 の軸に応じた値である
+# -13.6 = 0.5*hartree, -3.4 = 0.125*hartree である。
+plt.annotate("$n = 1$ ($-13.6$ eV)",xy=(-13.6, 5.2),fontsize=10,c="k")
+plt.annotate("$n = 2$ ($-3.4$ eV)",xy=(-3.4, 5.2),fontsize=10,c="k")
+
+plt.xlabel("Energy (eV)",fontsize=16,fontname="Times New Roman")
+
+plt.grid(False)
+# True にすると ax2 軸でキリのいいところにグリッド線が入る。
+# 何も書かないと ax1 と ax2 で両方グリッド線が入るため片方はFalseにするとよい。
+
+
+plt.tight_layout()
+plt.show()
 </code>
 </pre>
   
@@ -1641,66 +2365,64 @@ twiny() はy軸を共有する上下の横軸、という意味になる。縦�
 
 <pre>
 
-<code class="python ty"> 
-  import matplotlib.pyplot as plt
+<code class="python">import matplotlib.pyplot as plt
 
-  fig = plt.figure()
-  ax1 = fig.add_subplot(111)
-  
-  x_list=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-  y_list1=[7.1, 8.3, 10.7, 12.8, 19.5, 23.2, 24.3, 29.1, 24.2, 17.5, 14.0, 7.7]
-  y_list2=[135.0,15.0,131.0,296.5,118.0,212.5,270.5,61.5,117.5,205.0,14.5,13.0]
-  
-  month1=[1,2,3,4,5,6,7,8,9,10,11,12]
-  month2=["Jan.","Feb.","Mar.","Apr.","May.","Jun.","Jul.","Aug.","Sep.","Oct.","Nov.","dec."]
-  
-  # --ここからax1--
-  plt.plot(x_list, y_list1, c="orange",marker=".",label="気温")
-  plt.xlim(0,13)
-  plt.ylim(0,35)
-  plt.xlabel("月", fontsize=12, fontname="MS Gothic")
-  plt.ylabel("気温 (℃)", fontsize=12, fontname="MS Gothic")
-  plt.xticks(month1)
-  plt.grid(False)
-  # --ここまでax1--
-  
-  # --ここからax2--
-  ax2 = ax1.twiny()
-  plt.xlim(0,13)
-  plt.xlabel("Month", fontsize=12, fontname="Times New Roman")
-  plt.xticks(month1,month2)
-  # --ここまでax2--
-  
-  
-  # --ここからax3--
-  ax3 = ax1.twinx()
-  plt.ylim(0,350)
-  plt.bar(x_list, y_list2, color="skyblue",width=1.0,label="降水量",alpha=0.8)
-  plt.ylabel("降水量 (mm)", fontsize=12, fontname="MS Gothic")
-  # --ここまでax3--
+fig = plt.figure()
+ax1 = fig.add_subplot(111)
 
-  # --ここからややこしい設定の皆さん--
+x_list=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+y_list1=[7.1, 8.3, 10.7, 12.8, 19.5, 23.2, 24.3, 29.1, 24.2, 17.5, 14.0, 7.7]
+y_list2=[135.0,15.0,131.0,296.5,118.0,212.5,270.5,61.5,117.5,205.0,14.5,13.0]
 
-  # デフォルトでは後から描いたものが上に来る。折れ線グラフの上に棒グラフだと隠れるので逆にする。
-  # zorder の数字が大きい方が上に来る。
-  ax1.set_zorder(2)
-  ax3.set_zorder(1)
+month1=[1,2,3,4,5,6,7,8,9,10,11,12]
+month2=["Jan.","Feb.","Mar.","Apr.","May.","Jun.","Jul.","Aug.","Sep.","Oct.","Nov.","dec."]
 
-  # ax1 の背景を透明にするコマンド
-  # ax1 を上に持ってきた以上、背景があると ax3 が消える。
-  ax1.patch.set_alpha(0)
+# --ここからax1--
+plt.plot(x_list, y_list1, c="orange",marker=".",label="気温")
+plt.xlim(0,13)
+plt.ylim(0,35)
+plt.xlabel("月", fontsize=12, fontname="MS Gothic")
+plt.ylabel("気温 (℃)", fontsize=12, fontname="MS Gothic")
+plt.xticks(month1)
+plt.grid(False)
+# --ここまでax1--
 
-  # 凡例周りの設定
-  # ただの plt.legend() だと ax3 の方しか表示されないらしい。
-  h1, l1 = ax1.get_legend_handles_labels()
-  h2, l2 = ax3.get_legend_handles_labels()
-  plt.legend(h1 + h2, l1 + l2,prop = {"family" : "MS Gothic","size" : 12})
-  
-  
-  plt.title("図1 2020 年の月別平均気温と降水量", x=0.5, y=-0.25, fontsize=16, fontname="MS Gothic")
-  plt.subplots_adjust(left=0.125, right=0.9, bottom=0.2, top=0.9)
-  plt.show()
-  
+# --ここからax2--
+ax2 = ax1.twiny()
+plt.xlim(0,13)
+plt.xlabel("Month", fontsize=12, fontname="Times New Roman")
+plt.xticks(month1,month2)
+# --ここまでax2--
+
+
+# --ここからax3--
+ax3 = ax1.twinx()
+plt.ylim(0,350)
+plt.bar(x_list, y_list2, color="skyblue",width=1.0,label="降水量",alpha=0.8)
+plt.ylabel("降水量 (mm)", fontsize=12, fontname="MS Gothic")
+# --ここまでax3--
+
+# --ここからややこしい設定の皆さん--
+
+# デフォルトでは後から描いたものが上に来る。折れ線グラフの上に棒グラフだと隠れるので逆にする。
+# zorder の数字が大きい方が上に来る。
+ax1.set_zorder(2)
+ax3.set_zorder(1)
+
+# ax1 の背景を透明にするコマンド
+# ax1 を上に持ってきた以上、背景があると ax3 が消える。
+ax1.patch.set_alpha(0)
+
+# 凡例周りの設定
+# ただの plt.legend() だと ax3 の方しか表示されないらしい。
+h1, l1 = ax1.get_legend_handles_labels()
+h2, l2 = ax3.get_legend_handles_labels()
+plt.legend(h1 + h2, l1 + l2,prop = {"family" : "MS Gothic","size" : 12})
+
+
+plt.title("図1 2020 年の月別平均気温と降水量", x=0.5, y=-0.25, fontsize=16, fontname="MS Gothic")
+plt.subplots_adjust(left=0.125, right=0.9, bottom=0.2, top=0.9)
+plt.show()
 </code>
 </pre>
   
@@ -1716,7 +2438,7 @@ twiny() はy軸を共有する上下の横軸、という意味になる。縦�
 
 <pre>
 
-<code class="python ty"> 
+<code class="python"> 
 
 </code>
 </pre>
@@ -1747,63 +2469,59 @@ Python でフィッティングを行う方法の1つに Scipy の optimize.curv
 </p>
 
 <pre>
-<code class="python ty"> 
-  import numpy as np
-  import matplotlib.pyplot as plt
-  import seaborn as sns
-  import pandas as pd
-  
-  # curve_fit の導入
-  from scipy.optimize import curve_fit
-  
-  sns.set()
-    
-  df = pd.read_csv("table1.csv")
-  
-  x=df["x"]
-  
-  # フィッテイングした関数のグラフを表示させるときのために x の最大値、最小値を求めておく
-  xmax = max(x)
-  xmin = min(x)
-  
-  y=df["y"]
-  
-  plt.scatter(x,y,c="red",marker="d")
-  
-  # ここからフィッティング
-  
-  # フィッティングする関数形を決める。
-  # X,Y は入力するデータ、a,b が出力されるフィッティングパラメータになる。
-  def func(X, a, b):
-      Y = a*X+b
-      return Y
-  
-  # curve_fit によるフィッティング
-  # 括弧内では上で定義した関数 func に pandas で csv から抜き出したデータ x,y を渡している。  
-  # popt はリスト(正確にはnumpy.ndarray)で、最適化されたパラメータが順に収納されている。pcov には共分散が収納されている。
-  popt, pcov = curve_fit(func, x, y )
-  
-  a = popt[0]
-  b = popt[1]
-  
-  print(a,b)
-  
-  # フィッティングで最適化された関数のグラフを描く
-  # 元データ x の最小値、最大値により定義域を決める
-  p = np.linspace(xmin,xmax)
-  q = a*p+b
-  plt.plot(p,q,c="orange")
-  
-  # おまけ。annotate で数式も書き込む。
-  # format() については後述
-  text="$y = {:.1f} x + {:.1f} $".format(a,b)
-  plt.annotate(text, xy=(2,150), c="black",fontsize=12,fontname="Times New Roman")
-  
-  plt.xlim(0,6)
-  plt.ylim(-100,200)
-  plt.show()
-  
+<code class="python">import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
 
+# curve_fit の導入
+from scipy.optimize import curve_fit
+
+sns.set()
+  
+df = pd.read_csv("table1.csv")
+
+x=df["x"]
+
+# フィッテイングした関数のグラフを表示させるときのために x の最大値、最小値を求めておく
+xmax = max(x)
+xmin = min(x)
+
+y=df["y"]
+
+plt.scatter(x,y,c="red",marker="d")
+
+# ここからフィッティング
+
+# フィッティングする関数形を決める。
+# X,Y は入力するデータ、a,b が出力されるフィッティングパラメータになる。
+def func(X, a, b):
+    Y = a*X+b
+    return Y
+
+# curve_fit によるフィッティング
+# 括弧内では上で定義した関数 func に pandas で csv から抜き出したデータ x,y を渡している。  
+# popt はリスト(正確にはnumpy.ndarray)で、最適化されたパラメータが順に収納されている。pcov には共分散が収納されている。
+popt, pcov = curve_fit(func, x, y )
+
+a = popt[0]
+b = popt[1]
+
+print(a,b)
+
+# フィッティングで最適化された関数のグラフを描く
+# 元データ x の最小値、最大値により定義域を決める
+p = np.linspace(xmin,xmax)
+q = a*p+b
+plt.plot(p,q,c="orange")
+
+# おまけ。annotate で数式も書き込む。
+text="$y = {:.1f} x + {:.1f} $".format(a,b)
+plt.annotate(text, xy=(2,150), c="black",fontsize=12,fontname="Times New Roman")
+
+plt.xlim(0,6)
+plt.ylim(-100,200)
+plt.show()
 </code>
 </pre>
   
@@ -1819,510 +2537,6 @@ Python でフィッティングを行う方法の1つに Scipy の optimize.curv
  <hr>
 
 
-
-<h3><a id="program" class="tt">Python プログラミングの基礎 </a></h3>
-
-
-
- <a id="type"><h4 class="ty">&#9679;データ型 </h4></a>
-
-
- <p>
-  Python における主なデータ型を表に示す。<br>
-  他にもタプル、辞書などがあるがあまり使われない。<br>
- 
-  <table>
-    <tr>
-      <th>データ型</th>
-      <th>名称</th>
-      <th>説明</th>
-      <th>変換</th>
-    </tr>
-
-    <tr>
-      <td>str</td>
-      <td>文字列</td>
-      <td>'シングルクォーテーション'または"ダブルクォーテーション"で囲んだオブジェクト</td>
-      <td>str()</td>
-    </tr>
-
-    <tr>
-      <td>int</td>
-      <td>整数</td>
-      <td>小数点を含まない数値</td>
-      <td>int()</td>
-    </tr>
-
-    <tr>
-      <td>float</td>
-      <td>浮動小数点</td>
-      <td>小数点を含む数値</td>
-      <td>float()</td>
-    </tr>
-
-    <tr>
-      <td>list</td>
-      <td>リスト</td>
-      <td>[]で囲まれたオブジェクト。複数の要素を,で区切って含む。</td>
-      <td>list()</td>
-    </tr>
-
-  </table>
-  <br><br><br>
-
-  type() を使用してデータ型を取得できる。
- </p>
- 
- <pre>
- <code class="python ty"> 
-  a="3.14"
-  print(a,type(a))
-  
-  b=3
-  print(b,type(b))
-  
-  c=3.14
-  print(c,type(c))
-  
-  d=[3,1,4]
-  print(d,type(d))  
- </code>
- </pre>
-
-  <p>出力</p>
-  <pre>
-  <code class="shell ty"> 
-  3.14 &lt;class &#39;str&#39;&gt;
-  3 &lt;class &#39;int&#39;&gt;
-  3.14 &lt;class &#39;float&#39;&gt;
-  [3, 1, 4] &lt;class &#39;list&#39;&gt; 
-  </code>
-  </pre>
-
-<p>
-  <br>
-  型変換も可能。<br>
-  <br>
-</p>
- <pre>
-  <code class="python ty"> 
-
-    a=3.14
-    print(a,type(a))
-    
-    b=str(a)
-    print(b,type(b))
-    
-    c=int(a)
-    print(c,type(c))
-    
-    
-    d="2.71"
-    print(d,type(d))
-    
-    e=float(d)
-    print(e,type(e))
-    
-    # 一発で int にはできないらしい。
-    # float に変換後 int に変換
-    f=int(float(d))
-    print(f,type(f))
-
-
-  </code>
-  </pre>
- 
-   <p>出力</p>
-   <pre>
-   <code class="shell ty"> 
-    3.14 &lt;class &#39;float&#39;&gt;
-    3.14 &lt;class &#39;str&#39;&gt;
-    3 &lt;class &#39;int&#39;&gt;
-    2.71 &lt;class &#39;str&#39;&gt;
-    2.71 &lt;class &#39;float&#39;&gt;
-    2 &lt;class &#39;int&#39;&gt;
-      
-   </code>
-   </pre>
-
-
-   <p>
-    <br>
-    インデックスを用いて、リストの要素を取り出すことができる。<br>
-    番号は左から 0, 1, 2 ...<br>
-    右から -1, -2, -3 ...<br>
-    <br>
-  </p>
-
-   <pre>
-    <code class="python ty"> 
-      color=["red","orange","yellow","green","blue","indigo","purple"]
-
-      print(color[0],color[2])
-      print(color[-1],color[-3])
-      print(color[3],color[-4])
-    </code>
-    </pre>
-   
-     <p>出力</p>
-     <pre>
-     <code class="shell ty"> 
-      red yellow
-      purple blue
-      green green
-        
-     </code>
-     </pre>
-
-
-
-
-  <a id="for"><h4 class="ty">&#9679; for 文と range 関数</h4></a>
-  
-
-  <p>
-    for 文を使って反復処理を行う。<br>
-    このとき、反復する範囲（回数）を指定するときによく使われるのが range() 関数である。<br>
-    range() 自体は range 型のオブジェクトを作る関数で、中身は等差数列だと考えてよい。<br>
-    range(start,stop,step) の形で最大 3 個の引数が渡せる。<br>
-    1つ省略して2つ引数を与えると range(start,stop,1)、2つ省略して1つ引数を与えると range(0,stop,1) と認識される。<br>
-    以下に例を示す。（range 型の性質上、ただ print() しても中身が表示されないため、リスト化している。）<br>
-   
-  </p>
-  
-  <pre><code class="python ty"> 
-    r1=range(2,11,3)
-    print(list(r1))
-  </code></pre>
-
-  <p>出力。stop は含まれない（start ≤ i &lt; stop である）</p>
-  <pre><code class="shell ty"> 
-    [2, 5, 8]
-  </code></pre>
-  <br><br><br>
-    
-  <pre><code class="python ty"> 
-    r2=range(2,11)
-    print(list(r2))
-  </code></pre>
-
-  <p>出力</p>
-  <pre><code class="shell ty"> 
-    [2, 3, 4, 5, 6, 7, 8, 9, 10]
-  </code></pre>
-
-  <br><br><br>
-
-  <pre><code class="python ty"> 
-    r3=range(11)
-    print(list(r3))
-  </code></pre>
-  <p>出力</p>
-  <pre><code class="shell ty"> 
-    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-  </code></pre>
-
-  <br><br><br>
-
-  <p>
-range 関数を使った for 文で反復処理をする。 <br>
-    Python では字下げをしている範囲内が for 文の範囲内として扱われる。<br>
-  </p>
-
-  <pre><code class="python ty"> 
-    for i in range(11):
-        y=2**i
-        print(y)
-
-    print("finish")
-  </code></pre>
-
-  <p>出力</p>
-  <pre><code class="shell ty"> 
-    1
-    2
-    4
-    8
-    16
-    32
-    64
-    128
-    256
-    512
-    1024
-    finish
-  </code></pre>
-
-  <p>
-    <br><br>
-    range 関数でなく、リストを使っても for 文の記述ができる。<br>
-
-  </p>
-
-  <pre><code class="python ty"> 
-  letters=["How","I","want","a","drink","alcoholic","of","course","after", \
-  "the","heavy","chapters","involving","quamtum","mechanics"]
-
-  pi=[]
-
-  # リスト:letters の要素で反復
-  for let in letters:
-    print(let,len(let))
-
-    # append で既に定義したリスト pi に要素を追加
-    pi.append(len(let))
-
-  print(pi)
-
-  </code></pre>
-
-  
-  <p>出力</p>
-  <pre><code class="shell ty"> 
-    How 3
-    I 1
-    want 4
-    a 1
-    drink 5
-    alcoholic 9
-    of 2
-    course 6
-    after 5
-    the 3
-    heavy 5
-    chapters 8
-    involving 9
-    quamtum 7
-    mechanics 9
-    [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8, 9, 7, 9]
-  </code></pre>
-
-
-
-
-  <a id="if"><h4 class="ty">&#9679; if 文</h4></a>
-
-  <p>
-    if 文で条件分岐ができる。<br>
-    if 文でも字下げをしている行がその範囲内として扱われる。
-    使用できる比較演算子を表に示す。<br>
-    
-  <table>
-    <tr>
-      <th>比較演算子</th>
-      <th>意味</th>
-
-    </tr>
-
-    <tr>
-      <td>x &lt; y</td>
-      <td>x が y より小さい</td>
-    </tr>
-
-    <tr>
-      <td>x &lt;= y</td>
-      <td>x が y 以下</td>
-    </tr>
-
-    <tr>
-      <td>x &gt; y</td>
-      <td>x が y より大きい</td>
-    </tr>
-
-    <tr>
-      <td>x &gt;= y</td>
-      <td>x が y 以上</td>
-    </tr>
-
-    <tr>
-      <td>x == y</td>
-      <td>x が y と等しい</td>
-    </tr>
-
-    <tr>
-      <td>x != y</td>
-      <td>x が y と異なる</td>
-    </tr>
- 
-
-  </table>
-  <br><br>
-  
-  </p>
-  <pre>
-    <code class="python ty"> 
-      list=[]
-
-      for i in range(1,31):
-          # 複数の条件式は and で並列。or も使える。
-          if((i &gt;= 10)and(i &lt; 20)):
-              list.append(i)
-      
-      print(list)
-           
-    </code>
-    </pre>
-   
-     <p>出力</p>
-     <pre>
-     <code class="shell ty"> 
-      [10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
-     </code>
-     </pre>
-
-  <p>
-    <br><br>
-    条件式が偽であるものに対して処理を行う際、else を使う。<br>
-
-  </p>
-
-   <pre>
-    <code class="python ty"> 
-      even=[]
-      odd=[]
-      
-      for i in range(1,13):
-          # % で余りを返す。例: 8%3=2
-          if(i%2==0):
-              even.append(i)
-          else:
-              odd.append(i)
-      
-      print(even)
-      print(odd)
-    </code>
-    </pre>
-   
-     <p>出力</p>
-     <pre>
-     <code class="shell ty"> 
-      [2, 4, 6, 8, 10, 12]
-      [1, 3, 5, 7, 9, 11]
-        
-     </code>
-     </pre>
-
-     
-  <p>
-    <br><br>
-    複数回条件分けする際、elif を使う。<br>
-  </p>
-
-   <pre>
-    <code class="python ty"> 
-      series1=[]
-      series2=[]
-      series3=[]
-      series4=[]
-      
-      
-      for i in range(1,25):
-          if(i%4==1):
-              series1.append(i)
-          elif(i%4==2):
-              series2.append(i)
-          elif(i%4==3):
-              series3.append(i)
-          else:
-              series4.append(i)
-      
-      print(series1)
-      print(series2)
-      print(series3)
-      print(series4)
-    </code>
-    </pre>
-   
-     <p>出力</p>
-     <pre>
-     <code class="shell ty"> 
-      [1, 5, 9, 13, 17, 21]
-      [2, 6, 10, 14, 18, 22]
-      [3, 7, 11, 15, 19, 23]
-      [4, 8, 12, 16, 20, 24]
-     </code>
-     </pre>
-
-
-
-  <a id="format"><h4 class="ty">&#9679; format による組み込み</h4></a>
-
-  <p>
-    format() を使って数値を文字列に組み込むことができる。<br>
-    "文字列、挿入させたいところに{}".format(挿入させる数値) の形で使う。<br>
-    {} 内で表示させる桁数を指定できる。例えば {:.3f} で小数以下3桁。<br>
-    for 文でグラフを複数描くときのラベル指定、フィッティングで決定したパラメータを図中で表示させる際などに有用である。<br>
-    <a href="#fit">フィッティングでの使用例</a> 1つの文字列に2ヵ所挿入もできる。<br>
-  </p>
-
-   <pre>
-    <code class="python ty"> 
-      import numpy as np
-      import matplotlib.pyplot as plt
-      import seaborn as sns
-      
-      sns.set()
-      
-      # for 文中のグラフの色指定用。10 色以内なら自動で異なる色になるので色は指定しなくても良い。
-      color_list=["blue","orange","red","green","purple"]
-      
-      x=np.linspace(0,33,1000)
-
-      # for 文でグラフを一気に複数描く
-      for i in range(5):
-          alpha=0.2*(i+1)
-          y=np.sin(alpha*x)
-
-          # ラベルの指定。{:.1f} で小数点以下1桁。
-          text="$y = $sin $ ({:.1f}  x)$".format(alpha)
-          plt.plot(x,y,c=color_list[i],label=text)
-      
-      
-      plt.xlim(-0.5,32)
-      plt.ylim(-1.5,1.5)
-      
-      # 横軸ラベルをπの倍数 0 ~ 10π の範囲で指定させる。
-      # for 文を使って用意する。
-      # pi で呼び出す。
-      pi=np.pi
-
-      # ラベルの位置
-      xpos=[]
-
-      # 表示させる文字列。2π ~ 10πはformat()を使って準備。0, πはあらかじめ入れておく。
-      xtick1 = ["0","π"]
-
-      for i in range(11):
-      　　# 0,πの点は文字列は準備済み。位置だけ追加。
-          if(i&lt;2):
-              xpos.append(pi*i)
-          
-          # 2π以降は位置、文字列とも追加。
-          else:
-              xpos.append(pi*i)
-              text2 = "{:.0f}π".format(i)
-              xtick1.append(text2)
-      
-      
-      plt.xticks(xpos,xtick1)
-      
-      plt.legend(bbox_to_anchor=(1.02, 1.0))
-      plt.subplots_adjust(right=0.75)
-      plt.show()
-      
-    </code>
-    </pre>
-   
-
-    <img border="0" src="Python-figs\py_Figure_26.png" width="700"><br> 
-
-
-
-
-
-
-
-  <hr>
 
  <h3><a id="install" class="tt">インストール</a></h3>
 <p>スクリーンショットを交えて追記する予定</p>

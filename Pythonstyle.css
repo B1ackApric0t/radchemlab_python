@@ -19,7 +19,8 @@ p{color:#372359;font-family:"ヒラギノ角ゴ Pro","ヒラギノ丸ゴ ProN","
 font-family:"ヒラギノ角ゴ Pro","ヒラギノ丸ゴ ProN","メイリオ",Meiryo;
 }
 
- code.ty{font-family:"Inconsolata","Consolas","Courier New","Osaka",monospace;}
+ code.python{font-family:"Inconsolata","Consolas","Courier New","Osaka",monospace;}
+ code.shell{font-family:"Inconsolata","Consolas","Courier New","Osaka",monospace;background-color: #000066;}
 
 
   div.lf{float:left;
